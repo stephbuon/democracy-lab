@@ -1,7 +1,7 @@
 library(tidyverse)
 library(ngram)
 
-setwd("~/triples_in_hansard")
+setwd("/scratch/group/pract-txt-mine")
 
 hansard <- read_csv("hansard_c19_triples_debate_text_02022021.csv")
 
