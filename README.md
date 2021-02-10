@@ -11,7 +11,7 @@ ALSO INCLUDE THE CODE FROM MY COOK BOOK
 
 ## Running Code
 
-Several R scripts source other R scripts. The directories referenced by these scripts correspond with the file hierarchy of the present GitHub repository. Therefore, code should be run in the `digital-history` cloned repository.
+Several R scripts source other R scripts. The directories referenced by these scripts correspond with the file hierarchy of the present GitHub repository. Therefore, code should be run in the cloned **digital-history** repository.
 
 Code example in R: 
 
