@@ -12,8 +12,41 @@ ALSO INCLUDE THE CODE FROM MY COOK BOOK
 
 ### Accessing data on Box: 
 
+Data can be accessed on Box in three ways: 1) by manually downloading files from Box; 2) by setting up [BoxSync](https://support.box.com/hc/en-us/articles/360043697194-Installing-Box-Sync), a client that enables users to mirror files on Box on a local computer; and 3) by setting up a Box app that communicates directly with Box's API. 
 
-Data can be accessed on Box with the following (enter): 
+### Manually Downloading Files from Box 
+
+This one is pretty straightforward. You can access files on Box, manually download them, and place them in your local projects folder. 
+
+### Using BoxSync to Access Files 
+
+BoxSync requires
+
+For an entire script to access
+
+Warning: There is a LOT of data on Box. It is highly advised to JUST sync the folders you want to access. You can (enter). 
+
+Code example in Python: 
+
+Code example in R: 
+
+```
+dir.create(file.path(paste0("~/Box Sync/#learningtocode/data/hansard_data/",description))) # define file path
+    assign("workingfolder", paste0("~/Box Sync/#learningtocode/data/hansard_data/", description), envir = .GlobalEnv) # assign a variable name to a folder
+```
+You can also remove files this way.
+
+```
+file.remove(paste0("all_terms_wordcount_", description, ".csv"))
+  filename <- paste0(description, "_collocates_", firstyear, "-", lastyear, ".csv")
+  file.remove(filename)
+```
+
+
+The following instructions will 
+
+
+with the following (enter): 
 
 1. [Go to the Box dev console](https://smu.app.box.com/developers/console)
 2. Click "create new app"
