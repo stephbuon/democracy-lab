@@ -23,7 +23,6 @@ Code example in R:
 
 ```
 setwd("democracy-lab")
-
 ```
 
 Code example in Python: 
@@ -32,7 +31,6 @@ Code example in Python:
 ```
 import os
 os.chdir('democracy-lab')
-
 ```
 
 
