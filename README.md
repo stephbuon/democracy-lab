@@ -11,26 +11,18 @@ ALSO INCLUDE THE CODE FROM MY COOK BOOK
 
 ## Running Code
 
-The code has directories 
-
-these directories correspond with the file hierarchy of the present GitHub repository. 
-
-to 
-
-Set the working directory to the cloned repository. 
+Several R scripts source other R scripts. The directories referenced by these scripts correspond with the file hierarchy of the present GitHub repository. Therefore, code should be run in the `digital-history` cloned repository.
 
 Code example in R: 
 
 ```
-setwd("democracy-lab")
+setwd("democracy-lab") # set working directory to democracy-lab. Add path if needed. 
 ```
-
 Code example in Python: 
 
-
 ```
-import os
-os.chdir('democracy-lab')
+import os # import the os module
+os.chdir('democracy-lab') # set working directory to democracy-lab. Add path if needed. 
 ```
 
 
