@@ -51,7 +51,7 @@ BoxSync requires
 
 For an entire script to access
 
-> Warning: There is a LOT of data on Box. It is highly advised to JUST sync the folders you want to access. You can (enter). 
+> Warning: a lot of data lives on Box. It is highly advised to JUST sync the folders you want to access. You can (enter). 
 
 Code example in Python: 
 
