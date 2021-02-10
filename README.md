@@ -3,6 +3,10 @@
 The purpose of this repository is to (enter) for Democracy Lab's research assistants. 
 
 
+REMEMBER TO GET LIST OF CODE JO WANTS TO HOST
+
+ALSO INCLUDE THE CODE FROM MY COOK BOOK
+
 
 
 
