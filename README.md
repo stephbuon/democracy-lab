@@ -9,6 +9,32 @@ ALSO INCLUDE THE CODE FROM MY COOK BOOK
 
 
 
+### Running Code
+
+The code has directories 
+
+these directories correspond with the file hierarchy of the present GitHub repository. 
+
+to 
+
+Set the working directory to the cloned repository. 
+
+Code example in R: 
+
+```
+setwd("democracy-lab")
+
+```
+
+Code example in Python: 
+
+
+```
+import os
+os.chdir('democracy-lab')
+
+```
+
 
 ### Accessing data on Box: 
 
