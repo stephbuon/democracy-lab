@@ -34,7 +34,7 @@ os.chdir('democracy-lab')
 ```
 
 
-### Accessing data on Box: 
+### Accessing Data from Box: 
 
 Data can be accessed on Box in three ways: 1) by manually downloading files from Box; 2) by setting up [BoxSync](https://support.box.com/hc/en-us/articles/360043697194-Installing-Box-Sync), a client that enables users to mirror files on Box on a local computer; and 3) by setting up a Box app that communicates directly with Box's API. 
 
@@ -42,7 +42,7 @@ Data can be accessed on Box in three ways: 1) by manually downloading files from
 
 This one is pretty straightforward. You can access files on Box, manually download them, and place them in your local projects folder. 
 
-### Using BoxSync to Access Files 
+#### Using BoxSync to Access Files 
 
 BoxSync requires
 
