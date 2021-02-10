@@ -34,7 +34,7 @@ Data can be accessed on Box in three ways: 1) by manually downloading files from
 
 This one is pretty straightforward. You can access files on Box, manually download them, and place them in your local projects folder. 
 
-#### Using BoxSync to Access Files 
+### Using BoxSync to Access Files 
 
 BoxSync requires
 
@@ -58,6 +58,7 @@ file.remove(paste0("all_terms_wordcount_", description, ".csv"))
   file.remove(filename)
 ```
 
+### Using Box's API to Download Files Programmatically 
 
 The following instructions will 
 
