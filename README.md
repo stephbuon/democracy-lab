@@ -11,7 +11,7 @@ ALSO INCLUDE THE CODE FROM MY COOK BOOK
 
 If this is your first time accessing this repository you should run **first-time-set-up.R** or **first-time-set-up.py** (located in the repository's root directory). 
 
-first-time-set-up constructs folders that are not already part of this respositiory, such as the folders **data** and **visualizations**. These folders are included on the **.gitignore** to avoid uploading several gigabytes of data 
+first-time-set-up constructs folders that are not already part of this respositiory, such as the folders **data** and **visualizations**. These folders are included on the **.gitignore** to avoid uploading several gigabytes of non-code related data 
 
 Some scripts, for example, generate several visualizations and save them to the visualizations folder. 
 
