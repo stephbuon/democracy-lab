@@ -142,16 +142,14 @@ df.columns = df.columns.astype(str)
 
 ### Data on M2
 
-Democracy-lab keeps some data sets on ManeFrame 2 (M2), SMU's super computer. 
+Democracy-lab keeps some data sets on ManeFrame 2 (M2), SMU's super computer, located at: `/scratch/group/pract-txt-mine`. For first-time access to these data sets, please seek permissions to the `pract-txt-mine` folder by contacting (enter). 
 
-For data sets located at `/scratch/group/pract-txt-mine`, make sure you have permissions from (enter). 
+`pract-txt-mine` holds the following clean versions of the C19 Hansard data: 
+(enter)
 
-Origina versions of the Hansard data set produced by the data team can be accessed at: `/scratch/group/pract-txt-mine/data_sets/hansard/`
-
-clean versions of the Hansard data set produced by Steph Buongiorno can be accessed at: `/scratch/group/pract-txt-mine/`
-
-These clean versions include: 
-
+Early pipeline versions of the Hansard data--that is, versions scraped from the XML files which have not undergone extra cleaning for text mining purposes, can be accessed at: `/scratch/group/pract-txt-mine/data_sets/hansard/`.
+These early pipeline versions include 
+the C19 and C20 
 
 
 
