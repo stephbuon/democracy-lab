@@ -36,7 +36,9 @@ import os # import the os module
 os.chdir('democracy-lab') # set working directory to democracy-lab. Add path if needed. 
 ```
 
-## Accessing Data from Box
+## Accessing Data
+
+### Data From Box
 
 Data can be accessed on Box in three ways: 
 
@@ -138,5 +140,26 @@ df.columns = df.columns.astype(str)
 
 ```
 
+### Data on M2
 
-Example R Code: 
+Democracy-lab keeps some data sets on ManeFrame 2 (M2), SMU's super computer. 
+
+For data sets located at `/scratch/group/pract-txt-mine`, make sure you have permissions from (enter). 
+
+Origina versions of the Hansard data set produced by the data team can be accessed at: `/scratch/group/pract-txt-mine/data_sets/hansard/`
+
+clean versions of the Hansard data set produced by Steph Buongiorno can be accessed at: `/scratch/group/pract-txt-mine/`
+
+These clean versions include: 
+
+
+
+
+
+to work with TextPair
+
+
+
+
+
+
