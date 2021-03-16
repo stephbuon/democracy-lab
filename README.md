@@ -22,12 +22,12 @@ Instead, research assistants should manually upload generated visualizations or 
 
 ## Running Code
 
-Several R scripts source other R scripts. The directories referenced by these scripts correspond with the file hierarchy of the present GitHub repository. Therefore, code should be run in the cloned **digital-history** repository.
+Several R scripts source other R scripts. The directories referenced by these scripts correspond with the file hierarchy of the present GitHub repository. Therefore, by default code should be run in the (cloned) **digital-history** root folder.
 
 Code example in R: 
 
 ```
-setwd("democracy-lab") # set working directory to democracy-lab. Add path if needed. 
+setwd("democracy-lab") # set working directory to democracy-lab. Add add path if needed. 
 ```
 Code example in Python: 
 
@@ -36,10 +36,13 @@ import os # import the os module
 os.chdir('democracy-lab') # set working directory to democracy-lab. Add path if needed. 
 ```
 
-
 ## Accessing Data from Box
 
-Data can be accessed on Box in three ways: 1) by manually downloading files from Box; 2) by setting up [BoxSync](https://support.box.com/hc/en-us/articles/360043697194-Installing-Box-Sync), a client that enables users to mirror files on Box on a local computer; and 3) by setting up a Box app that communicates directly with Box's API. 
+Data can be accessed on Box in three ways: 
+
+1) by manually downloading files from Box; 
+2) 2) by setting up [BoxSync](https://support.box.com/hc/en-us/articles/360043697194-Installing-Box-Sync), a client that enables users to mirror files on Box on a local computer;
+3) by setting up a Box app that communicates directly with Box's API. 
 
 ### Manually Downloading Files
 
