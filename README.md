@@ -20,6 +20,20 @@ Instead, research assistants should manually upload generated visualizations or 
 
 
 
+Democracy Lab encourages research assistants to 
+
+consistent coding practices 
+
+[tidyverse](https://www.tidyverse.org/) minus the times in which paradigms like quanteda are used.  
+
+
+
+write code using Hadley Wickham's [tidyverse style guide](https://style.tidyverse.org/) 
+
+
+
+
+
 ## Running Code
 
 Several R scripts source other R scripts. The directories referenced by these scripts correspond with the file hierarchy of the present GitHub repository. Therefore, by default code should be run in the (cloned) **digital-history** root folder.
