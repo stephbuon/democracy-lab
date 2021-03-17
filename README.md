@@ -2,14 +2,6 @@
 
 The purpose of this repository is to provide code and data to Democracy Lab's research assistants. We reccomend reading this entire **README.md** file before starting work. 
 
-
-
-
-
-REMEMBER TO GET LIST OF CODE JO WANTS TO HOST
-
-ALSO INCLUDE THE CODE FROM MY COOK BOOK
-
 # First Time Set Up 
 
 ### Initial Clone 
