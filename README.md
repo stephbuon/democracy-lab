@@ -12,7 +12,7 @@ REMEMBER TO GET LIST OF CODE JO WANTS TO HOST
 
 ALSO INCLUDE THE CODE FROM MY COOK BOOK
 
-## First Time Set Up 
+# First Time Set Up 
 
 ### Initial Clone 
 
@@ -27,7 +27,7 @@ This code makes folders that are not part of this repository, such as the folder
 
 
 
-## Work Flow
+# Work Flow
 
 ### Running Code
 
