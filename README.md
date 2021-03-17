@@ -27,19 +27,9 @@ This code makes folders that are not part of this repository, such as the folder
 
 
 
-## Producing and Saving Visualizations 
+## Work Flow
 
-Research assistants should upload the generated visualizations to Box or hand them to Professor Guldi. 
-
-## Reccomended Coding Practices
-
-Democracy Lab encourages research assistants to practice clean and consistent coding practices. Research assistants are expected to employ [**tidyverse**](https://www.tidyverse.org/) functions and follow Hadley Wickham's [tidyverse style guide](https://style.tidyverse.org/). In the event that a **tidyverse** solution is not readily evident but a solution in base R has been found, research assistants may use base R. Again, however, this is not reccomended as 
-
-efficent and transferable among multiple lab mates and future lab mates. 
-
-
-
-## Running Code
+### Running Code
 
 Several R scripts source other R scripts. The directories referenced by these scripts correspond with the file hierarchy of the present GitHub repository. Therefore, by default code should be run in the (cloned) **digital-history** root folder.
 
@@ -54,6 +44,17 @@ Code example in Python:
 import os # import the os module
 os.chdir('democracy-lab') # set working directory to democracy-lab. Add path if needed. 
 ```
+
+### Producing and Saving Visualizations 
+
+Research assistants should upload the generated visualizations to Box or hand them to Professor Guldi. 
+
+## Reccomended Coding Practices
+
+Democracy Lab encourages research assistants to practice clean and consistent coding practices. Research assistants are expected to employ [**tidyverse**](https://www.tidyverse.org/) functions and follow Hadley Wickham's [tidyverse style guide](https://style.tidyverse.org/). In the event that a **tidyverse** solution is not readily evident but a solution in base R has been found, research assistants may use base R. Again, however, this is not reccomended as 
+
+efficent and transferable among multiple lab mates and future lab mates. 
+
 
 ## Accessing Data
 
