@@ -1,36 +1,36 @@
 # democracy-lab
 
-The purpose of this repository is to (enter) for Democracy Lab's research assistants. 
+The purpose of this repository is to provide code and data to Democracy Lab's research assistants.
+
+The code includes enter 
+
+
+
 
 
 REMEMBER TO GET LIST OF CODE JO WANTS TO HOST
 
 ALSO INCLUDE THE CODE FROM MY COOK BOOK
 
+## Initial Clone 
+
+`git clone https://github.com/stephbuon/democracy-lab.git --recursive`
+
 ## First Time Set Up 
 
-If this is your first time accessing this repository you should run **first-time-set-up.R** or **first-time-set-up.py** (located in the repository's root directory). 
+If this is your first time in this repository, run **first-time-set-up.R** or **first-time-set-up.py** (located in the repository's root directory). 
 
-first-time-set-up constructs folders that are not already part of this respositiory, such as the folders **data** and **visualizations**. These folders are included on the **.gitignore** to avoid uploading several gigabytes of non-code related data 
+This code makes folders that are not part of this repository, such as the folders **data** and **visualizations**. Depending on the script, these folders might be called numerous times for operations like saving plots. However, these folders are ignored (check the **.gitignore**) to prevent uploading extensive amounts of non-code related data. 
 
-Some scripts, for example, generate several visualizations and save them to the visualizations folder. 
+## Producing and Saving Visualizations 
 
+Research assistants should upload the generated visualizations to Box or hand them to Professor Guldi. 
 
-Instead, research assistants should manually upload generated visualizations or data to Box, or give them to Professor Guldi. 
+## Reccomended Coding Practices
 
+Democracy Lab encourages research assistants to practice clean and consistent coding practices. Research assistants are expected to employ [**tidyverse**](https://www.tidyverse.org/) functions and follow Hadley Wickham's [tidyverse style guide](https://style.tidyverse.org/). In the event that a **tidyverse** solution is not readily evident but a solution in base R has been found, research assistants may use base R. Again, however, this is not reccomended as 
 
-
-Democracy Lab encourages research assistants to 
-
-consistent coding practices 
-
-[tidyverse](https://www.tidyverse.org/) minus the times in which paradigms like quanteda are used.  
-
-
-
-write code using Hadley Wickham's [tidyverse style guide](https://style.tidyverse.org/) 
-
-
+efficent and transferable among multiple lab mates and future lab mates. 
 
 
 
