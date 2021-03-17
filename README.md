@@ -12,15 +12,19 @@ REMEMBER TO GET LIST OF CODE JO WANTS TO HOST
 
 ALSO INCLUDE THE CODE FROM MY COOK BOOK
 
-## Initial Clone 
+## First Time Set Up 
+
+### Initial Clone 
 
 `git clone https://github.com/stephbuon/democracy-lab.git --recursive`
 
-## First Time Set Up 
 
 If this is your first time in this repository, run **first-time-set-up.R** or **first-time-set-up.py** (located in the repository's root directory). 
 
 This code makes folders that are not part of this repository, such as the folders **data** and **visualizations**. Depending on the script, these folders might be called numerous times for operations like saving plots. However, these folders are ignored (check the **.gitignore**) to prevent uploading extensive amounts of non-code related data. 
+
+
+
 
 ## Producing and Saving Visualizations 
 
