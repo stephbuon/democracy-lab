@@ -2,6 +2,8 @@
 
 The purpose of this repository is to provide code and data to Democracy Lab's research assistants. We reccomend reading this entire **README.md** file before starting work. 
 
+Remember to include https://github.com/stephbuon/cookbook/tree/master/R/for-jo
+
 # First Time Set Up 
 
 ### Initial Clone 
@@ -37,11 +39,11 @@ os.chdir('democracy-lab') # set working directory to democracy-lab. Add path if 
 
 ### Producing and Saving Visualizations 
 
-Research assistants should upload the generated visualizations to Box or hand them to Professor Guldi. 
+Research assistants should upload the generated visualizations to Box or hand them to Professor Guldi over email or Slack. 
 
 ## Reccomended Coding Practices
 
-Democracy Lab encourages research assistants to practice clean and consistent coding practices. Research assistants are expected to employ [**tidyverse**](https://www.tidyverse.org/) functions and follow Hadley Wickham's [tidyverse style guide](https://style.tidyverse.org/). In the event that a **tidyverse** solution is not readily evident but a solution in base R has been found, research assistants may use base R. Again, however, this is not reccomended as 
+Democracy Lab encourages research assistants to practice clean and consistent coding practices. Research assistants are expected to employ [**tidyverse**](https://www.tidyverse.org/) functions and follow Hadley Wickham's [tidyverse style guide](https://style.tidyverse.org/). In the event that a **tidyverse** solution is not readily evident but a solution in base R has been found, research assistants may use base R. Again, this is not reccomended as 
 
 efficent and transferable among multiple lab mates and future lab mates. 
 
@@ -112,11 +114,10 @@ oauth = OAuth2(
 client = Client(oauth)
 root_folder = client.folder(folder_id='52383780601')
 
-f2018_files = ['735621623640', '743987279654', '754392803835']
-cycle = 0
+file_ids = ['735621623640', '743987279654', '754392803835'] # can be found in the URL bar 
 df = pd.DataFrame()
 
-for file_id in f2018_files:
+for file_id in file_ids:
     file_content = client.file(file_id=file_id).content()
     
     pr_data = pd.read_csv(io.StringIO(file_content.decode('utf-8')), sep=',(?=")', quoting=csv.QUOTE_ALL, error_bad_lines=False, header=None, 
@@ -125,28 +126,6 @@ for file_id in f2018_files:
     new_header = pr_data.iloc[0] 
     pr_data = pr_data[1:] 
     pr_data.columns = new_header 
-    
-    pr_data = pr_data.rename(columns = {'X' : 'open_response'})
-    pr_data['open_response'] = pr_data['open_response'].apply(str)
-
-    avg_self = pr_data[['AVG_Self']].copy()
-
-    cycle = cycle + 1
-
-    avg_self.rename(columns={"AVG_Self": cycle}, inplace = True)
-
-    #avg_self['cycle'] = cycle
-
-    print(avg_self)
-
-    if not df.empty:
-        #df.merge(avg_self, how = 'left', left_index = True, right_index = True)
-        #df.join(avg_self)
-        continue
-    if df.empty:
-        df = avg_self
-
-df.columns = df.columns.astype(str)
 
 ```
 
