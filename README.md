@@ -18,6 +18,7 @@ ALSO INCLUDE THE CODE FROM MY COOK BOOK
 
 `git clone https://github.com/stephbuon/democracy-lab.git --recursive`
 
+### Directory Set Up 
 
 If this is your first time in this repository, run **first-time-set-up.R** or **first-time-set-up.py** (located in the repository's root directory). 
 
