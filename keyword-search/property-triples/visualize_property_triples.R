@@ -5,6 +5,9 @@ property_triples <- read_csv("hansard_c19_property_triples_03232021.csv")
 
 property_triples$triple <- str_remove(property_triples$triple, "^-")
 
+property_triples <- property_triples %>%
+  filter(str_detect(triple, "\\b-land-\\b", negate = T))
+
 interval <- 10
 
 property_triples <- property_triples %>%
@@ -33,3 +36,4 @@ ggplot(data = top_property_triples) +
   scale_x_reordered() +
   facet_wrap(~ decade, scales = "free") +
   coord_flip()
+
