@@ -3,7 +3,7 @@ library(tidytext)
 
 property_triples <- read_csv("hansard_c19_property_triples_03232021.csv")
 
-# remember to clean triples by trimming off the - starting a triple
+property_triples$triple <- str_remove(property_triples$triple, "^-")
 
 interval <- 10
 
