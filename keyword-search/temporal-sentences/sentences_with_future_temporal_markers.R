@@ -21,4 +21,4 @@ for(i in 1:length(keywords_value)) {
   
   temporal_sentences <- bind_rows(temporal_sentences, filtered_hansard) }
 
-write.csv(temporal_sentences, "hansard_c19_sentences_with_future_tense_temporal_markers_03232021.csv")
+write.csv(temporal_sentences, "hansard_c19_sentences_with_future_temporal_markers_03232021.csv")
