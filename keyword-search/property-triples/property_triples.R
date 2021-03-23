@@ -1,6 +1,5 @@
 
 library(tidyverse)
-library(ngram)
 
 setwd("~/triples_in_hansard")
 
