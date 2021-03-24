@@ -3,7 +3,11 @@ library(tidytext)
 
 future_tense_triples <- read_csv("hansard_c19_future_tense_triples_debate_text_03232021.csv")
 
+future_tense_triples <- future_tense_triples %>%
+  select(triple, year)
+
 future_tense_triples$triple <- str_remove(future_tense_triples$triple, "^-")
+future_tense_triples$triple <- str_remove(future_tense_triples$triple, "\"")
 
 interval <- 10
 
@@ -16,9 +20,9 @@ future_tense_triples <- future_tense_triples %>%
 
 top_future_tense_triples <- future_tense_triples %>%
   group_by(decade) %>%
-  #arrange(desc(n)) %>%
-  #slice(seq_len(15)) %>%
-  top_n(10) %>%
+  arrange(desc(n)) %>%
+  slice(seq_len(20)) %>%
+  #top_n(10) %>%
   ungroup()
 
 ggplot(data = top_future_tense_triples) +
@@ -33,3 +37,4 @@ ggplot(data = top_future_tense_triples) +
   scale_x_reordered() +
   facet_wrap(~ decade, scales = "free") +
   coord_flip()
+
