@@ -1,12 +1,12 @@
 library(tidyverse)
 library(tidytext)
 
-property_triples <- read_csv("hansard_c19_property_triples_03232021.csv")
+property_triples <- read_csv("hansard_c19_property_triples_debate_text_03232021.csv")
 
 property_triples$triple <- str_remove(property_triples$triple, "^-")
 
-property_triples <- property_triples %>%
-  filter(str_detect(triple, "\\b-land-\\b", negate = T))
+#property_triples <- property_triples %>%
+#  filter(str_detect(triple, "\\b-land-\\b", negate = T))
 
 interval <- 10
 
