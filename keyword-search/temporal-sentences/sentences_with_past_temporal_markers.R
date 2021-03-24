@@ -17,7 +17,7 @@ for(i in 1:length(keywords_value)) {
   keyword <- keywords_value[i]
   
   filtered_hansard <- hansard %>%
-    filter(str_detect(text, fixed(keyword, ignore_case = TRUE)))
+    filter(str_detect(text, regex(keyword, ignore_case = TRUE)))
   
   temporal_sentences <- bind_rows(temporal_sentences, filtered_hansard) }
 
