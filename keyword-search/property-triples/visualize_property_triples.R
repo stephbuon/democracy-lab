@@ -5,6 +5,9 @@ property_triples <- read_csv("hansard_c19_property_triples_debate_text_03232021.
 
 property_triples$triple <- str_remove(property_triples$triple, "^-")
 
+property_triples <- property_triples %>%
+  select(triple, n, year)
+
 #property_triples <- property_triples %>%
 #  filter(str_detect(triple, "\\b-land-\\b", negate = T))
 
@@ -36,4 +39,3 @@ ggplot(data = top_property_triples) +
   scale_x_reordered() +
   facet_wrap(~ decade, scales = "free") +
   coord_flip()
-
