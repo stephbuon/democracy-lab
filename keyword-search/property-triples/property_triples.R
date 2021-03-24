@@ -23,4 +23,4 @@ for(i in 1:length(keywords_value)) {
   
   property_triples <- bind_rows(property_triples, filtered_hansard) }
 
-write.csv(property_triples, "hansard_c19_property_triples_debate_text.csv")
+write.csv(property_triples, "hansard_c19_property_triples_debate_text_03232021.csv")
