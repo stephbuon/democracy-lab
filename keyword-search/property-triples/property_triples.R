@@ -19,7 +19,7 @@ for(i in 1:length(keywords_value)) {
   keyword <- keywords_value[i]
   
   filtered_hansard <- hansard %>%
-    filter(str_detect(triple, fixed(keyword, ignore_case = TRUE)))
+    filter(str_detect(triple, regex(keyword, ignore_case = TRUE)))
   
   property_triples <- bind_rows(property_triples, filtered_hansard) }
 
