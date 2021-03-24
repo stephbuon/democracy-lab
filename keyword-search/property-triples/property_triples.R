@@ -3,7 +3,7 @@ library(tidyverse)
 
 setwd("~/triples_in_hansard")
 
-hansard <- read_csv("hansard_c19_triples_debate_text_02022021.csv")
+hansard <- read_csv("hansard_c19_triples_debate_text_03232021.csv")
 
 hansard$triple <- hansard$triple %>%
 tolower()
