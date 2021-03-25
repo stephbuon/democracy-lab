@@ -19,13 +19,23 @@ filter_out <- c("i-", "-allow-", "opinion", "-attention", "-agree-", "-impossibl
                 "-in-course", "which-", "-be-easy", "-be-good", "consider", "convenience", "-report", "-state-amount", "-give-assurance",
                 "-be-ready", "it-will-", "-bill", "-copy", "-mean", "-lay-", "-what", "-state-name", "-forgive-me", "-use-influence",
                 "-give-information", "-tell-me", "-forgive-me", "-on-paper", "-appoint-committee", "-direction", "-have-objection",
-                "-excuse-me", "-inform-you", "act-will-", "-to-division", "he-will-be-prepared") 
+                "-excuse-me", "-inform-you", "act-will-", "-to-division", "he-will-be-prepared", "-which", "do-to-justice", 
+                "-present-to-parliament", "-to-appointment", "-take-care", "-do-good", "member-will", "-have-goodness", "-be-in-hand",
+                "-accept-ammendment", "-give-name", "-make-statement", "-will-be-prepared", "-make-statement", "-state-rate", "-state-for-year",
+                "bill-", "-bill", "-question", "-amendment", "pardon-me", "-give-return", "-into-case", "-in-order", "-take-action",
+                "-be-surprised", "that-", "-that", "give-reading", "forgive-for-me", "-facility", "-give-number", "-be-great",
+                "state-to-reason", "-take-measure", "-continue-same", "give-figure", "give-notice", "get-return", "in-return", 
+                "-commend-itself", "order-will", "into-circumstance", "committee-will-be-glad", "-into-matter", "-term", "-opportunity",
+                "-matter", "-state-nature", "-legislation", "-available", "-do-", "-be-kind", "bear-me", "in-matter", "be-prepare", "be-willing",
+                "state-gound", "bear-in-mind", "make-representation", "give-for-year", "-will-correct-me", "-motion", "-be-willing", "-state-cause",
+                "fix-day", "be-liable", "be-aware", "be-of-advantage", "have-right", "give-answer", "take-course", "communicate-with-me",
+                "tell-you", "take-by-", "have-power", "take-trouble", "-be-glad", "-board", "find-it", "-have-nothing", "-state-date", 
+                "per-hour", "issue-to-owner", "state-ground", "in-case", "for-it", "make-arrangment",) 
 
 future_tense_triples <- future_tense_triples %>% 
-  filter(!(str_detect(triple, paste(filter_out, collapse = '|'))))
-
-future_tense_triples <- future_tense_triples %>% 
-  filter(!(str_detect(triple, regex("[[:digit:]]-"))))
+  filter(!(str_detect(triple, paste(filter_out, collapse = '|')))) %>%
+  filter(!(str_detect(triple, regex("[[:digit:]]-")))) %>%
+  filter(!(str_detect(triple, regex("-[[:digit:]]"))))
 
 
 interval <- 10
