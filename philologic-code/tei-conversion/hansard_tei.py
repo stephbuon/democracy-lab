@@ -12,4 +12,6 @@ hansard = pd.read_csv(f, sep='\t')
 
 os.chdir('/scratch/group/pract-txt-mine')
 
-hansard.to_html('hansard_c19_12192019.html', index=False)
+hansard = hansard.to_html('hansard_c19_12192019.html', index=False)
+
+hansard_tei = trafilatura.extract(hansard, tei_output=True, tei_validation=True)
