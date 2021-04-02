@@ -113,9 +113,10 @@ df = pd.read_csv(io.StringIO(file_content.decode('utf-8')), sep=',(?=")', quotin
 
 Some data is kept on M2 in the shared folder: `/scratch/group/pract-txt-mine`. Permission will need to be granted to first time users by SMU's admins. 
 
+## Versions of the Hansard Data
 
-
-
-
+Early pipeline versions of the Hansard data--that is, versions scraped from the XML files which have not undergone extra cleaning for text mining purposes, can be accessed at: `/scratch/group/pract-txt-mine/data_sets/hansard/`.
+These early pipeline versions include 
+the C19 and C20 
 
 
