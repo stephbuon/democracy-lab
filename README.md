@@ -1,4 +1,4 @@
-# democracy-lab
+# Democracy Lab
 
 The purpose of this repository is to provide code and data to Democracy Lab's research assistants. We reccomend reading this entire **README.md** file before starting work. 
 
