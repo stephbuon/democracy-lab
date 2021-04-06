@@ -47,6 +47,11 @@ Research assistant are expected to employ (enter).
 
 Data can be found on Box and on M2. 
 
+**api_pull** code for 
+pulling the data from Box into the data folder used by the present project. 
+
+
+
 ### Data From Box
 Data can be accessed on Box by:
 
