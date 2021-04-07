@@ -1,21 +1,16 @@
-## Title 
+## About the quanteda-networks pipeline
 
+__quanteda-networks__ (formerly, quanteda-code-for-app-2), generates (enter).  
 
-REWRITE THIS TO INTRODUCE THE CONTROL FLOW 
+__quanteda-networks.R__ is memory intensive, and will likely need to be run on M2. For this reason, __quanteda-networks.R__ is designed to be submitted as an sbatch job, although it can run on a local machine. To comply with sbatch requirments, functions have been added to the start of the script (enter). 
 
+### Control Flow 
 
-This pipeline, __quanteda-networks__ (formerly, quanteda-code-for-app-2), generates (enter).  
+The __quanteda-networks__ control flow is separated into three major operations: 
+- applying quantedafy
+- generating graphs
+- generating semantic networks  
 
-__quanteda-networks__ is memory intensive, and will likely need to be run on M2. For this reason, the __quanteda-networks__ has been designed to be submitted as an sbatch job. Functions have been added to the start of the script (enter). 
+The control flow gives programmers the option to run the pipeline in its entirety, generating entirely new data and visualizations, or run desired sections independently. Programmers must specify boolean values for __do_quantedafy_hansard__, __do_generate_graphs__, and __do_generate_semantic_networks__ at the start of the script. 
 
-
-is broken into three major operations after loading functions: 
-1) quantedafy hansard
-2) generate graphs
-3) generate semantic networks 
-
-While (meant to run in its entirety), each section can be run independently. 
-
-Load the associated .RData files, which are exported at the end of each major section of __quanteda_networks.R__ . 
-- quantedafy_hansard.RData
-- Enter more if need be 
+__TRUE__ will run the operations belonging to the section, and __FALSE__ will skip the operations and instead import an __.RData__ file with data from the last run.
