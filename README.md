@@ -2,20 +2,20 @@
 
 The purpose of this repository is to provide code and data to Democracy Lab's research assistants. We reccomend reading this entire **README.md** file before starting work. 
 
-# First Time Set Up 
+## First Time Set Up 
 
-### Initial Clone 
+#### Initial Clone 
 `git clone https://github.com/stephbuon/democracy-lab.git --recursive`
 
-### Directory Set Up 
+#### Make Directories
 If this is your first time in this repository, run **first-time-set-up.R** or **first-time-set-up.py** (located in the repository's root directory). 
 
 The **first-time-set-up** script creates folders on your local machine (such as **data** and **visualizations**) that will not be uploaded to this repository. Deliverables will be exported to these folders to be sent to Professor Guldi or uploaded to Box. We do not reccomend uploading these exports to GitHub as they can be extensive and non-code related.  
 
-# Work Flow
+## Work Flow
 
-### Running Code
-Several R scripts source other R scripts. Referenced directories correspond with the file hierarchy of the present repository. Therefore, code should be run in the (cloned) **democracy-lab** root folder. 
+#### Running Code
+Several R scripts source other R scripts. File paths are absolute (i.e. directories are mapped to the file hierarchy of the present repository). Therefore, code should be run in the (cloned) **democracy-lab** root folder. 
 
 Set working directory to root in R: 
 ```
@@ -28,43 +28,39 @@ import os # import the os module
 os.chdir('democracy-lab') # set working directory to democracy-lab. Add path if needed. 
 ```
 
-### Producing and Saving Visualizations 
+#### Saving Visualizations 
 Research assistants should upload visualizations to Box or give them to Professor Guldi over email or Slack. 
 
 ## Reccomended Coding Practices
 Democracy Lab encourages research assistants to practice clean and consistent coding practices. 
 
-### Programming in R
-Research assistants are expected to employ [**tidyverse**](https://www.tidyverse.org/) functions and follow Hadley Wickham's [tidyverse style guide](https://style.tidyverse.org/). In the event that a **tidyverse** solution is not readily evident but a solution in base R has been found, research assistants may use base R. Again, this is not reccomended as we strive to produce code that is efficent, easy to read, and easily transferable among different (and future) lab mates. 
+#### Programming in R
+Research assistants are expected to use [**tidyverse**](https://www.tidyverse.org/) functions and follow Hadley Wickham's [tidyverse style guide](https://style.tidyverse.org/). In the event that a **tidyverse** solution is not readily evident, research assistants may use base R. Again, this is not reccomended as we strive to produce code that is efficent, easy to read, and easily transferable among different (and future) lab mates. 
 
-### Programming in Python
+#### Programming in Python
 Research assistant are expected to employ (enter). 
 
-### Programming in Other Languages 
+#### Programming in Other Languages 
 (enter). 
 
 ## Accessing Data
 
 Data can be found on Box and on M2. 
 
-**api_pull** code for 
-pulling the data from Box into the data folder used by the present project. 
+Most pipelines have accompanying **api_pull** code for pulling relevant data from the Box API. Pulled data will be stored in the corresponding __data__ folders. Data folders are included in the __.gitignore__, as data should be stored on Box. 
 
+#### Accessing Box Data
 
+If the pipeline does not have accompanying **api_pull** code, data on Box can be accessed by: 
 
-### Data From Box
-Data can be accessed on Box by:
+- manually downloading files from Box; 
+- setting up [BoxSync](https://support.box.com/hc/en-us/articles/360043697194-Installing-Box-Sync), a client that enables users to mirror cloud files on a local computer;
+- setting up a [Box dev app](https://smu.app.box.com/developers/console) that pulls data from Box's API.
 
-1) manually downloading files from Box; 
-2) setting up [BoxSync](https://support.box.com/hc/en-us/articles/360043697194-Installing-Box-Sync), a client that enables users to mirror cloud files on a local computer;
-3) setting up a [Box dev app](https://smu.app.box.com/developers/console) that pulls data from Box's API.
+1. Manually Downloading Data
+   - Download the data from Box and place them in the **data** folder created by **first_time_set_ip**.
 
-To cater to any prefered way of accessing data, most README files belonging to code will include the data name, the file path, and the file id (if the RA wishes to pull the file from box using a Box dev app). 
-
-#### Manually Downloading Data
-Download the data from Box and place them in the **data** folder created by **first_time_set_ip**.
-
-#### BoxSync
+2. BoxSync
 
 BoxSync requires (enter). 
 
@@ -81,8 +77,7 @@ file.remove(paste0("all_terms_wordcount_", description, ".csv"))
   filename <- paste0(description, "_collocates_", firstyear, "-", lastyear, ".csv")
   file.remove(filename)
 ```
-
-#### Box Dev App
+3. Box Dev App
 
 Individual files can be pulled from Box's API using a Box dev app. 
 
@@ -93,7 +88,7 @@ Individual files can be pulled from Box's API using a Box dev app.
 
 To pull data you will need: a) your developer token (also called an access token), b) your client ID, and c) your client secret.
 
-Example: 
+Pull from Box's API in Python: 
 ```
 from boxsdk import OAuth2, Client
 
@@ -104,19 +99,23 @@ oauth = OAuth2(
 )
 
 client = Client(oauth)
-root_folder = client.folder(folder_id='52383780601')
+root_folder = client.folder(folder_id='52383780601') # enter id of root folder 
 
-file_id = ['735621623640'] # can be found in the URL bar 
+file_id = ['735621623640'] # file id can be found in the URL bar 
 
 file_content = client.file(file_id=file_id).content()
 
-df = pd.read_csv(io.StringIO(file_content.decode('utf-8')), sep=',(?=")', quoting=csv.QUOTE_ALL, error_bad_lines=False, header=None)
-    
+df = pd.read_csv(io.StringIO(file_content.decode('utf-8')), sep=',(?=")', quoting=csv.QUOTE_ALL, error_bad_lines=False, header=None)   
 ```
 
-### Data on M2
+#### Accessing Data on M2
 
-Some data is kept on M2 in the shared folder: `/scratch/group/pract-txt-mine`. Permission will need to be granted to first time users by SMU's admins. 
+> Note: Permissions will neeed to be granted to first time users by SMU's admins. 
+
+We keep some large data sets on M2, and most importantly the Hansard data. 
+
+Some data is stored the shared folder: `/scratch/group/pract-txt-mine`.
+
 
 ## Versions of the Hansard Data
 
