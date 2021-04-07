@@ -1,5 +1,5 @@
-Two directories: 
+# TEI Conversion
 
-a copy of the code as it came from Philologic
+This folder contains directories for a) the original TSV to TEI conversion code written by PhiloLogic, and b) Democracy Lab's version of the TSV to TEI code written in Python. 
 
-our version of the code written in Python 
+We request that RA's use Democracy Lab's version because it has undergone more "stress testing." We are keeping the PhiloLogic version for reference-sake. 
