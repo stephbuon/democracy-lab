@@ -71,10 +71,10 @@ If the pipeline does not have accompanying **api_pull** code, data on Box can be
 - setting up [BoxSync](https://support.box.com/hc/en-us/articles/360043697194-Installing-Box-Sync), a client that enables users to mirror cloud files on a local computer;
 - setting up a [Box dev app](https://smu.app.box.com/developers/console) that pulls data from Box's API.
 
-1. Manually Downloading Data
-   - Download the data from Box and place them in the **data** folder created by **first_time_set_ip**.
+1.Manually Downloading Data
+This one is intuitive. Download the data from Box and place them in the **data** folder created by **first_time_set_ip**.
 
-2. BoxSync
+2.BoxSync
 
 BoxSync requires (enter). 
 
@@ -91,7 +91,7 @@ file.remove(paste0("all_terms_wordcount_", description, ".csv"))
   filename <- paste0(description, "_collocates_", firstyear, "-", lastyear, ".csv")
   file.remove(filename)
 ```
-3. Box Dev App
+3.Pull from BoX API using a Dev App
 
 Individual files can be pulled from Box's API using a Box dev app. 
 
