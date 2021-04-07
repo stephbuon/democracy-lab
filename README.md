@@ -10,7 +10,7 @@ The purpose of this repository is to provide code and data to Democracy Lab's re
 #### Make Directories
 If this is your first time in this repository, run **first-time-set-up.R** or **first-time-set-up.py** (located in the repository's root directory). 
 
-The **first-time-set-up** script creates folders on your local machine (such as **data** and **visualizations**) that will not be uploaded to this repository. Deliverables will be exported to these folders to be sent to Professor Guldi or uploaded to Box. We do not reccomend uploading these exports to GitHub as they can be extensive and non-code related.  
+The **first-time-set-up** script creates folders on your local machine (such as **data** and **visualizations**) that are not pushed to this repository. Deliverables will be exported to these folders and RAs will be expected to send them to Professor Guldi directly, or upload them to Box. 
 
 ## Work Flow
 
@@ -19,7 +19,7 @@ Several R scripts source other R scripts. File paths are absolute (i.e. director
 
 Set working directory to root in R: 
 ```
-setwd("democracy-lab") # set working directory to democracy-lab. Add add path if needed. 
+setwd("democracy-lab") # set working directory to democracy-lab. Add path if needed. 
 ```
 
 Set working directory to root in Python: 
@@ -35,7 +35,7 @@ Research assistants should upload visualizations to Box or give them to Professo
 Democracy Lab encourages research assistants to practice clean and consistent coding practices. 
 
 #### Programming in R
-Research assistants are expected to use [**tidyverse**](https://www.tidyverse.org/) functions and follow Hadley Wickham's [tidyverse style guide](https://style.tidyverse.org/). In the event that a **tidyverse** solution is not readily evident, research assistants may use base R. Again, this is not reccomended as we strive to produce code that is efficent, easy to read, and easily transferable among different (and future) lab mates. 
+Research assistants are asked to use [**tidyverse**](https://www.tidyverse.org/) functions and follow Hadley Wickham's [tidyverse style guide](https://style.tidyverse.org/). In the event that a **tidyverse** solution is not readily evident, research assistants may use base R. Again, this is not reccomended as we strive to produce code that is efficent, easy to read, and easily transferable among different (and future) lab mates. 
 
 #### Programming in Python
 Research assistant are expected to employ (enter). 
@@ -49,17 +49,17 @@ Data can be found on Box and on M2.
 
 #### Accessing Data on M2
 
-> Note: Permissions will neeed to be granted to first time users by SMU's admins. 
+> Note: Permissions will neeed to be granted to first time users by SMU's M2 admins. 
 
 We keep some large data sets on M2, and most importantly the TSV and CSV versions of the Hansard data. 
 
-Early pipeline versions of the Hansard data--that is, versions scraped from the original XML files and which have not undergone extra cleaning, are located at: `/scratch/group/pract-txt-mine/data_sets/hansard/`. These versions include TSV files for all of Hansard (1803-2004). 
-
-Other important data sets are stored the shared folder: `/scratch/group/pract-txt-mine`.
+Current data sets are located at: `/scratch/group/pract-txt-mine`.
 
 These include: 
 - **hansard_c19_04152021.tsv**, a TSV file of the C19 Hansard debates
 - **hansard_c20_tokenized.csv**, a tokenized version of the C20 Hansard debates
+
+Early pipeline versions of the Hansard data--that is, versions scraped from the original XML files and which have not undergone extra cleaning, are located at: `/scratch/group/pract-txt-mine/data_sets/hansard/`. These versions include TSV files for all of Hansard (1803-2004), and are mostly kept for documentation purposes. 
 
 #### Accessing Box Data
 
