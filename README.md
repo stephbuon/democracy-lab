@@ -65,7 +65,7 @@ Early pipeline versions of the Hansard data--that is, versions scraped from the 
 
 Most pipelines have accompanying **api_pull** code for pulling relevant data from the Box API. Pulled data will be stored in the corresponding __data__ folders. Data folders are included in the __.gitignore__, as data should be stored on Box. 
 
-If the pipeline does not have accompanying **api_pull** code, data on Box can be accessed by: 
+If the pipeline does not have accompanying **api_pull** code, data on Box can be accessed by three different ways:
 
 - manually downloading files from Box; 
 - setting up [BoxSync](https://support.box.com/hc/en-us/articles/360043697194-Installing-Box-Sync), a client that enables users to mirror cloud files on a local computer;
