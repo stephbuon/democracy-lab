@@ -1,6 +1,6 @@
 # Democracy Lab
 
-The purpose of this repository is to provide code and data to Democracy Lab's research assistants. We reccomend reading this entire **README.md** file before starting work. 
+The purpose of this repository is to provide code and data to Democracy Lab's research assistants. Most code is designed to run out-of-the-box and calls directories specific to this repository's file system. For this reason, and to ensure consistent coding and organization practices, we reccomend reading this entire **README.md** file before starting work. 
 
 ## First Time Set Up 
 
