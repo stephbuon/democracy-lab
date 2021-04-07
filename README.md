@@ -47,9 +47,23 @@ Research assistant are expected to employ (enter).
 
 Data can be found on Box and on M2. 
 
-Most pipelines have accompanying **api_pull** code for pulling relevant data from the Box API. Pulled data will be stored in the corresponding __data__ folders. Data folders are included in the __.gitignore__, as data should be stored on Box. 
+#### Accessing Data on M2
+
+> Note: Permissions will neeed to be granted to first time users by SMU's admins. 
+
+We keep some large data sets on M2, and most importantly the TSV and CSV versions of the Hansard data. 
+
+Early pipeline versions of the Hansard data--that is, versions scraped from the original XML files and which have not undergone extra cleaning, are located at: `/scratch/group/pract-txt-mine/data_sets/hansard/`. These versions include TSV files for all of Hansard (1803-2004). 
+
+Other important data sets are stored the shared folder: `/scratch/group/pract-txt-mine`.
+
+These include: 
+- **hansard_c19_04152021.tsv**, a TSV file of the C19 Hansard debates
+- **hansard_c20_tokenized.csv**, a tokenized version of the C20 Hansard debates
 
 #### Accessing Box Data
+
+Most pipelines have accompanying **api_pull** code for pulling relevant data from the Box API. Pulled data will be stored in the corresponding __data__ folders. Data folders are included in the __.gitignore__, as data should be stored on Box. 
 
 If the pipeline does not have accompanying **api_pull** code, data on Box can be accessed by: 
 
@@ -107,20 +121,3 @@ file_content = client.file(file_id=file_id).content()
 
 df = pd.read_csv(io.StringIO(file_content.decode('utf-8')), sep=',(?=")', quoting=csv.QUOTE_ALL, error_bad_lines=False, header=None)   
 ```
-
-#### Accessing Data on M2
-
-> Note: Permissions will neeed to be granted to first time users by SMU's admins. 
-
-We keep some large data sets on M2, and most importantly the Hansard data. 
-
-Some data is stored the shared folder: `/scratch/group/pract-txt-mine`.
-
-
-## Versions of the Hansard Data
-
-Early pipeline versions of the Hansard data--that is, versions scraped from the XML files which have not undergone extra cleaning for text mining purposes, can be accessed at: `/scratch/group/pract-txt-mine/data_sets/hansard/`.
-These early pipeline versions include 
-the C19 and C20 
-
-
