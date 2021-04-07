@@ -1,4 +1,4 @@
-# Pandas to TEI XML Conversion
+# TSV to TEI XML Conversion
 
 This code is designed to be submitted as an sbatch job on M2.
 
