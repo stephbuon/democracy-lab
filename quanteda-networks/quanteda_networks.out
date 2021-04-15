@@ -1,0 +1,235 @@
+b097
+Loading required package: methods
+Package version: 1.5.1
+Parallel computing: 2 of 36 threads used.
+See https://quanteda.io for tutorials and examples.
+
+Attaching package: ‘quanteda’
+
+The following object is masked from ‘package:utils’:
+
+    View
+
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+✔ ggplot2 3.3.2     ✔ purrr   0.3.4
+✔ tibble  3.0.3     ✔ dplyr   0.8.3
+✔ tidyr   1.0.2     ✔ stringr 1.4.0
+✔ readr   1.3.1     ✔ forcats 0.5.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+Loading required package: NLP
+
+Attaching package: ‘NLP’
+
+The following object is masked from ‘package:ggplot2’:
+
+    annotate
+
+
+Attaching package: ‘tm’
+
+The following objects are masked from ‘package:quanteda’:
+
+    as.DocumentTermMatrix, stopwords
+
+Loading required package: koRpus.lang.en
+Loading required package: koRpus
+Loading required package: sylly
+For information on available language packages for 'koRpus', run
+
+  available.koRpus.lang()
+
+and see ?install.koRpus.lang()
+
+
+Attaching package: ‘koRpus’
+
+The following object is masked from ‘package:tm’:
+
+    readTagged
+
+The following object is masked from ‘package:readr’:
+
+    tokenize
+
+The following objects are masked from ‘package:quanteda’:
+
+    tokens, types
+
+
+Attaching package: ‘tidygraph’
+
+The following objects are masked from ‘package:quanteda’:
+
+    as.igraph, convert
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+
+Attaching package: ‘igraph’
+
+The following object is masked from ‘package:tidygraph’:
+
+    groups
+
+The following objects are masked from ‘package:dplyr’:
+
+    as_data_frame, groups, union
+
+The following objects are masked from ‘package:purrr’:
+
+    compose, simplify
+
+The following object is masked from ‘package:tidyr’:
+
+    crossing
+
+The following object is masked from ‘package:tibble’:
+
+    as_data_frame
+
+The following object is masked from ‘package:quanteda’:
+
+    as.igraph
+
+The following objects are masked from ‘package:stats’:
+
+    decompose, spectrum
+
+The following object is masked from ‘package:base’:
+
+    union
+
+
+Attaching package: ‘foreach’
+
+The following objects are masked from ‘package:purrr’:
+
+    accumulate, when
+
+
+Attaching package: ‘lubridate’
+
+The following objects are masked from ‘package:igraph’:
+
+    %--%, union
+
+The following objects are masked from ‘package:dplyr’:
+
+    intersect, setdiff, union
+
+The following objects are masked from ‘package:base’:
+
+    date, intersect, setdiff, union
+
+Loading required package: iterators
+Loading required package: parallel
+Parsed with column specification:
+cols(
+  level = col_double(),
+  word = col_character(),
+  relationshipToParent = col_character(),
+  cat = col_character(),
+  sentiment = col_character()
+)
+Parsed with column specification:
+cols(
+  level = col_double(),
+  word = col_character(),
+  relationshipToParent = col_character(),
+  cat = col_character(),
+  sentiment = col_character()
+)
+Parsed with column specification:
+cols(
+  .default = col_double(),
+  nation_out = col_character(),
+  Nations = col_character(),
+  Nation_Base = col_character(),
+  Correct_Spelling = col_character(),
+  Geography = col_character(),
+  Empire = col_character(),
+  Empire_Year = col_character(),
+  Italy_Year = col_character(),
+  Durrani_Empire_Year = col_logical(),
+  Merina_Kingdom = col_logical(),
+  Merina_Kingdom_Year = col_logical(),
+  Uzbek_Khanate_of_Kokand = col_logical(),
+  Uzbek_Khanate_of_Kokand_Year = col_logical(),
+  Russia_Year = col_logical(),
+  Swedish_Year = col_character(),
+  Buenos_Aires_Year = col_logical(),
+  Austria_Hungary_Year = col_logical(),
+  Ottoman_Empire_Year = col_logical(),
+  Sardinia_Year = col_logical(),
+  French_Empire_Year = col_character()
+  # ... with 21 more columns
+)
+See spec(...) for full column specifications.
+Warning: 24 parsing failures.
+ row            col           expected    actual                                                        file
+1545 Sovereign_Year 1/0/T/F/TRUE/FALSE 1835-1840 'quanteda-networks/quanteda-data/collaborative_nations.csv'
+1546 Sovereign_Year 1/0/T/F/TRUE/FALSE 1835-1840 'quanteda-networks/quanteda-data/collaborative_nations.csv'
+1547 Sovereign_Year 1/0/T/F/TRUE/FALSE 1835-1840 'quanteda-networks/quanteda-data/collaborative_nations.csv'
+1548 Sovereign_Year 1/0/T/F/TRUE/FALSE 1835-1840 'quanteda-networks/quanteda-data/collaborative_nations.csv'
+1549 Sovereign_Year 1/0/T/F/TRUE/FALSE 1835-1840 'quanteda-networks/quanteda-data/collaborative_nations.csv'
+.... .............. .................. ......... ...........................................................
+See problems(...) for more details.
+
+Parsed with column specification:
+cols(
+  .default = col_logical(),
+  Cities = col_character(),
+  City_Base = col_character(),
+  Questionable = col_double(),
+  Geography = col_character(),
+  Correct_Spelling = col_character(),
+  Empire = col_character(),
+  Durrani_Empire = col_double(),
+  Merina_Kingdom = col_character(),
+  Russia = col_double(),
+  Buenos_Aires = col_double(),
+  Ottoman_Empire = col_double(),
+  French_Empire = col_double(),
+  Germany = col_double(),
+  Spain = col_double(),
+  Denmark = col_double(),
+  British_Colony_Or_Protectorate = col_double(),
+  Sovereign = col_double(),
+  Mexican_Empire = col_double(),
+  British_Occupancy = col_double()
+)
+See spec(...) for full column specifications.
+Warning: 41 parsing failures.
+ row                            col expected  actual                                                       file
+1496 British_Colony_Or_Protectorate a double other   'quanteda-networks/quanteda-data/collaborative_cities.csv'
+1497 British_Colony_Or_Protectorate a double britain 'quanteda-networks/quanteda-data/collaborative_cities.csv'
+1498 British_Colony_Or_Protectorate a double person  'quanteda-networks/quanteda-data/collaborative_cities.csv'
+1499 British_Colony_Or_Protectorate a double object  'quanteda-networks/quanteda-data/collaborative_cities.csv'
+1500 British_Colony_Or_Protectorate a double other   'quanteda-networks/quanteda-data/collaborative_cities.csv'
+.... .............................. ........ ....... ..........................................................
+See problems(...) for more details.
+
+Parsed with column specification:
+cols(
+  X1 = col_double(),
+  concerns = col_character(),
+  `original spelling` = col_character()
+)
+Parsed with column specification:
+cols(
+  X1 = col_double(),
+  classes = col_character()
+)
+Parsed with column specification:
+cols(
+  X1 = col_double(),
+  offices = col_character()
+)
+Parsed with column specification:
+cols(
+  adscription = col_character()
+)

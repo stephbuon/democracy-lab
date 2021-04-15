@@ -1,13 +1,14 @@
 ## enter new read me 
 
+setwd ("~/democracy-lab")
 
 hansard_data <- "hansard_justnine_w_year.csv"
 
 subsection <- "c19_"
 
-do_quantedafy_hansard <- FALSE
+do_quantedafy_hansard <- TRUE
 do_generate_graphs <- TRUE
-do_generate_semantic_networks <- FALSE
+do_generate_semantic_networks <- TRUE
 
 stemmed <- TRUE
 
@@ -29,7 +30,6 @@ library(tidygraph)
 library(ggraph)
 library(igraph)
 library(foreach)
-library(readxl)
 library(lubridate)
 library(itertools)
 library(doParallel)
@@ -1347,10 +1347,10 @@ hansard <- read_csv(file.path(quanteda_data_path, hansard_data))
 quantedafy_hansard(hansard, stemmed) 
 # t1 <- st - Sys.time()
 # st2 <- Sys.time()
-save.image(file.path(quanteda_data_path, file = paste(subsection, "quantedafy_hansard.RData"))) # just added this -- does it work? 
+save.image(file.path(quanteda_data_path, file = paste0(subsection, "quantedafy_hansard.RData"))) # just added this -- does it work? 
 
 } else {
-  load(file.path(quanteda_data_path, paste(subsection, "quantedafy_hansard.RData"))) } # same
+  load(file.path(quanteda_data_path, paste0(subsection, "quantedafy_hansard.RData"))) } # same
 
 
 
@@ -1371,10 +1371,10 @@ if (do_generate_graphs == TRUE) {
   }
   
   t2 <- st2 - Sys.time() # see if i need this 
-  save.image(file.path(quanteda_data_path, file = paste(subsection, "generate_graphs.RData")))
+  save.image(file.path(quanteda_data_path, file = paste0(subsection, "generate_graphs.RData")))
   
   } else {
-    load(file.path(quanteda_data_path, paste(subsection, "generate_graphs.RData")))
+    load(file.path(quanteda_data_path, paste0(subsection, "generate_graphs.RData")))
 }
 
 
@@ -1392,9 +1392,9 @@ if (do_generate_semantic_networks == TRUE) {
     } 
   }
 
-  save.image(file.path(quanteda_data_path, file = paste(subsection, "generate_semantic_networks.RData")))
+  save.image(file.path(quanteda_data_path, file = paste0(subsection, "generate_semantic_networks.RData")))
 
   } else {
-    load(file.path(quanteda_data_path, paste(subsection, "generate_semantic_networks.RData"))) }
+    load(file.path(quanteda_data_path, paste0(subsection, "generate_semantic_networks.RData"))) }
 
 
