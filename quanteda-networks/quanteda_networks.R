@@ -1,9 +1,9 @@
 ## enter new read me 
 
 
-subsection <- "c19_"
 hansard_data <- "hansard_justnine_w_year.csv"
 
+subsection <- "c19_"
 
 do_quantedafy_hansard <- FALSE
 do_generate_graphs <- TRUE
