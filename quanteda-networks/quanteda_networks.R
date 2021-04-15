@@ -1,7 +1,9 @@
 ## enter new read me 
 
 
+subsection <- "c19_"
 hansard_data <- "hansard_justnine_w_year.csv"
+
 
 do_quantedafy_hansard <- FALSE
 do_generate_graphs <- TRUE
@@ -1345,10 +1347,10 @@ hansard <- read_csv(file.path(quanteda_data_path, hansard_data))
 quantedafy_hansard(hansard, stemmed) 
 # t1 <- st - Sys.time()
 # st2 <- Sys.time()
-save.image(file.path(quanteda_data_path, file = "quantedafy_hansard.RData"))
+save.image(file.path(quanteda_data_path, file = paste(subsection, "quantedafy_hansard.RData"))) # just added this -- does it work? 
 
 } else {
-  load(file.path(quanteda_data_path, "quantedafy_hansard.RData")) }
+  load(file.path(quanteda_data_path, paste(subsection, "quantedafy_hansard.RData"))) } # same
 
 
 
@@ -1369,10 +1371,10 @@ if (do_generate_graphs == TRUE) {
   }
   
   t2 <- st2 - Sys.time() # see if i need this 
-  save.image(file.path(quanteda_data_path, file = "generate_graphs.RData"))
+  save.image(file.path(quanteda_data_path, file = paste(subsection, "generate_graphs.RData")))
   
   } else {
-    load(file.path(quanteda_data_path, "generate_graphs.RData"))
+    load(file.path(quanteda_data_path, paste(subsection, "generate_graphs.RData")))
 }
 
 
@@ -1390,9 +1392,9 @@ if (do_generate_semantic_networks == TRUE) {
     } 
   }
 
-  save.image(file.path(quanteda_data_path, file = "generate_semantic_networks.RData"))
+  save.image(file.path(quanteda_data_path, file = paste(subsection, "generate_semantic_networks.RData")))
 
   } else {
-    load(file.path(quanteda_data_path, "generate_semantic_networks.RData")) }
+    load(file.path(quanteda_data_path, paste(subsection, "generate_semantic_networks.RData"))) }
 
 
