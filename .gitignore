@@ -1,4 +1,5 @@
 data/
 quanteda-networks/quanteda-data/
 quanteda-networks/quanteda-visualizations/
+quanteda-networks/*.out
 visualizations/
