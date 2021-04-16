@@ -19,4 +19,4 @@ __TRUE__ will run the operations belonging to the section, and __FALSE__ will sk
 
 To access data on M2, create a symlink by typing **ln -s /scratch/group/pract-txt-mine/quanteda-data** while in **democracy-lab/quanteda-networks**. 
 
-To run on a local computer, data can be pulled from Box using **api_pull_quanteda_networks.R**
+To run on a local computer data can be pulled from Box using **api_pull_quanteda_networks.R**
