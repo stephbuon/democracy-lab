@@ -19,6 +19,6 @@ __TRUE__ will run the operations belonging to the section, and __FALSE__ will sk
 
 Data can be pulled from Box using **api_pull_quanteda_networks.R** or accessed on M2 at **/scratch/group/pract-txt-mine/quanteda-data**.
 
-Because of the sheer size of **quanteda-data**, we reccomend using the data on M2 for M2 jobs. To use the version on M2, **cp** the file and overwrite **quanteda-data** using: **cp /scratch/group/pract-txt-mine/quanteda-data ~/democracy-lab/quanteda-networks/.**. Alternatively, create a symblink. In **democracy-lab/quanteda-networks** type **ln -s /scratch/group/pract-txt-mine/quanteda-data**.
+Because of the sheer size of **quanteda-data**, we reccomend using the data on M2 for M2 jobs. To use the version on M2, create a symlink. In **democracy-lab/quanteda-networks** type **ln -s /scratch/group/pract-txt-mine/quanteda-data**.
 
 
