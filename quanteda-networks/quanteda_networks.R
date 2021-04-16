@@ -6,7 +6,7 @@ hansard_data <- "hansard_justnine_w_year.csv"
 
 subsection <- "c19_"
 
-do_quantedafy_hansard <- TRUE
+do_quantedafy_hansard <- FALSE
 do_generate_graphs <- TRUE
 do_generate_semantic_networks <- TRUE
 
@@ -182,7 +182,7 @@ gen_classifier <- function() {
            Empire = "NA") %>%
     select(node, kind, Geography, Empire, cat)
   
-  phenomena <- read_csv(file.path(quanteda_data_path," wordnet-phenomena.csv"))
+  phenomena <- read_csv(file.path(quanteda_data_path, "wordnet-phenomena.csv"))
   phenomena <- phenomena %>%
     dplyr::rename(node = term) %>%
     mutate(kind = "phenomena") %>%
