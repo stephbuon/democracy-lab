@@ -2,17 +2,20 @@
 
 The purpose of this repository is to provide code and data to Democracy Lab's research assistants. Most code is designed to run out-of-the-box and calls directories specific to this repository's file system. For this reason, and to ensure consistent coding and organization practices, we reccomend reading this entire **README.md** file before starting work. 
 
-## First Time Set Up 
-
 #### Initial Clone 
 `git clone https://github.com/stephbuon/democracy-lab.git --recursive`
 
-#### Make Directories
-If this is your first time in this repository, run **first-time-set-up.R** or **first-time-set-up.py** (located in the repository's root directory). 
-
-The **first-time-set-up** script creates folders on your local machine (such as **data** and **visualizations**) that are not pushed to this repository. Deliverables will be exported to these folders and RAs will be expected to send them to Professor Guldi directly, or upload them to Box. 
+#### Subsequent Updates
+From inside **democracy-lab** directory:
+```
+git reset --hard
+git pull
+```
 
 ## Work Flow
+
+#### Handling Deliverables
+Deliverables are exported to **data** and **visualizations** folders. RAs are asked to send deliverables to Professor Guldi directly, or to upload them to Box. Both **data** and **visualization** folders are included on the **.gitignore**.
 
 #### Running Code
 Several R scripts source other R scripts. File paths are absolute (i.e. directories are mapped to the file hierarchy of the present repository). Therefore, code should be run in the (cloned) **democracy-lab** root folder. 
@@ -27,9 +30,6 @@ Set working directory to root in Python:
 import os # import the os module
 os.chdir('democracy-lab') # set working directory to democracy-lab. Add path if needed. 
 ```
-
-#### Saving Visualizations 
-Research assistants should upload visualizations to Box or give them to Professor Guldi over email or Slack. 
 
 ## Reccomended Coding Practices
 Democracy Lab encourages research assistants to practice clean and consistent coding practices. 
