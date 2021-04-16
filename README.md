@@ -2,6 +2,8 @@
 
 The purpose of this repository is to provide code and data to Democracy Lab's research assistants. Most code is designed to run out-of-the-box and calls directories specific to this repository's file system. For this reason, and to ensure consistent coding and organization practices, we reccomend reading this entire **README.md** file before starting work. 
 
+## GitHub & GitHub Conduct
+
 #### Initial Clone 
 `git clone https://github.com/stephbuon/democracy-lab.git --recursive`
 
@@ -11,6 +13,9 @@ From inside **democracy-lab** directory:
 git reset --hard
 git pull
 ```
+
+#### Conduct
+RAs are asked to create / work on a branch, and follow standard PR practices when merging a branch with the **master** branch. 
 
 ## Work Flow
 
