@@ -17,6 +17,9 @@ git pull
 #### Conduct
 RAs are asked to create / work on a branch, and follow standard PR practices when merging a branch with the **master** branch. 
 
+#### Change Branches 
+`git checkout -b <branch name>`
+
 ## Work Flow
 
 #### Handling Deliverables
