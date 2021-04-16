@@ -6,7 +6,7 @@
 #SBATCH --exclusive
 
 module purge
-module load r
+module load r/3.6.2
 
 hostname
 Rscript quanteda_networks.R
