@@ -34,7 +34,8 @@ property_triples <- property_triples %>%
   filter(str_detect(triple, "-be-unable", negate = T)) %>%
   filter(str_detect(triple, "^it-", negate = T)) %>%
   filter(str_detect(triple, "he-ask-attorney", negate = T)) %>%
-  filter(str_detect(triple, "-be-willing", negate = T))
+  filter(str_detect(triple, "-be-willing", negate = T)) %>%
+  filter(str_detect(triple, "landlord-buy-tenant", negate = T))
   
 
 
