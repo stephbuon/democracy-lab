@@ -1,7 +1,8 @@
+
 library(tidyverse)
 library(tidytext)
 
-property_triples <- read_csv("hansard_c19_property_triples_debate_text_03232021.csv")
+property_triples <- read_csv("/scratch/group/pract-txt-mine/hansard_c19_property_triples_debate_text_03232021.csv")
 
 property_triples$triple <- str_remove(property_triples$triple, "^-")
 property_triples$triple <- str_remove(property_triples$triple, "\"")
@@ -24,7 +25,12 @@ property_triples <- property_triples %>%
   filter(str_detect(triple, "he-gather-from-speech", negate = T)) %>%
   filter(str_detect(triple, "it-consolidate-law", negate = T)) %>%
   filter(str_detect(triple, "property-be-to-which", negate = T)) %>%
-  filter(str_detect(triple, "which-affect-property", negate = T))
+  filter(str_detect(triple, "which-affect-property", negate = T)) %>%
+  filter(str_detect(triple, "-which", negate = T)) %>%
+  filter(str_detect(triple, "-that", negate = T)) %>%
+  filter(str_detect(triple, "property-be-subject", negate = T)) %>%
+  filter(str_detect(triple, "property-have-duty", negate = T))
+
 
 
 interval <- 10
@@ -39,7 +45,7 @@ property_triples <- property_triples %>%
 top_property_triples <- property_triples %>%
   group_by(decade) %>%
   arrange(desc(n)) %>%
-  slice(seq_len(20)) %>%
+  slice(seq_len(18)) %>%
   #top_n(10) %>%
   ungroup()
 
