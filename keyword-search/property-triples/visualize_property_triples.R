@@ -29,7 +29,10 @@ property_triples <- property_triples %>%
   filter(str_detect(triple, "-which", negate = T)) %>%
   filter(str_detect(triple, "-that", negate = T)) %>%
   filter(str_detect(triple, "property-be-subject", negate = T)) %>%
-  filter(str_detect(triple, "property-have-duty", negate = T))
+  filter(str_detect(triple, "property-have-duty", negate = T)) %>%
+  filter(str_detect(triple, "-be-able", negate = T)) %>%
+  filter(str_detect(triple, "-be-unable", negate = T)) %>%
+  filter(str_detect(triple, "^it-", negate = T))
 
 
 
