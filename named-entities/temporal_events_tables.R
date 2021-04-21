@@ -503,7 +503,7 @@ for (i in 1:length(decades)) {
   #   anti_join(destroy_event)
   
   event_regex <- paste0("events_for_", d)
-
+  
   events_to_match <- get(event_regex)
   
   
@@ -536,7 +536,7 @@ for (i in 1:length(decades)) {
     
     matched_triples <- bind_rows(matched_triples, filtered_hansard) }
   
-
+  
   
   for_viz_option_2 <- matched_triples %>% #clean_counted %>%
     group_by(event) %>%
@@ -573,14 +573,13 @@ for (i in 1:length(decades)) {
   
   option_2$triple <- option_2$triple %>%
     str_to_title() 
-
+  
   
   html <- option_2 %>%
     gt() %>%
     tab_header(title = md(paste0("Lemmatized Triples Co-Occuring with Temporal Events in ", d)),
                subtitle = md("Searching the Hansard Parliamentary Debates")) %>%
-    tab_footnote(footnote = "Color indicates height of sun.",
-                 locations = cells_column_labels(columns = option_2)) %>%
+    tab_source_note(source_note = md("Description: Three triples per event chosen for exemplary.")) %>%
     cols_width(vars(triple) ~ px(800),
                #vars(`temporal event`) ~ px(200),
                #vars(time) ~ px(200),
@@ -593,4 +592,5 @@ for (i in 1:length(decades)) {
   
   
 }
+
 
