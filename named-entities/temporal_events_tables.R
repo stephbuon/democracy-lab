@@ -324,7 +324,7 @@ triples_for_1800 <- c("baird-sail-on-9th", "baird-receive-intelligence", "we-sen
 for (i in 1:length(decades)) {
   
   d <- decades[i]
-  d <- 1830
+  #d <- 1830
   
   decade_of_interest <- preprocessed_hansard %>%
     filter(decade == d)
@@ -572,12 +572,15 @@ for (i in 1:length(decades)) {
     str_to_title()
   
   option_2$triple <- option_2$triple %>%
-    str_to_title()  
+    str_to_title() 
+
   
   html <- option_2 %>%
     gt() %>%
     tab_header(title = md(paste0("Lemmatized Triples Co-Occuring with Temporal Events in ", d)),
                subtitle = md("Searching the Hansard Parliamentary Debates")) %>%
+    tab_footnote(footnote = "Color indicates height of sun.",
+                 locations = cells_column_labels(columns = option_2)) %>%
     cols_width(vars(triple) ~ px(800),
                #vars(`temporal event`) ~ px(200),
                #vars(time) ~ px(200),
