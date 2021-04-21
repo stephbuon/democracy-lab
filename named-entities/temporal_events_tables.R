@@ -491,11 +491,18 @@ for (i in 1:length(decades)) {
   #  filter(n() == 1)
   #  ungroup()
   
-  clean_counted <- counted %>% # is this if I want the triple count to show up? 
-    group_by(triple) %>%
-    add_count(triple) %>%
-    #filter(nn >= 2) %>%
-    ungroup()
+  #clean_counted <- counted %>% # is this if I want the triple count to show up? 
+  #  group_by(triple) %>%
+  #  add_count(triple) %>%
+  #filter(nn >= 2) %>%
+  #  ungroup()
+  
+  triples_count <- counted %>%
+    group_by(event, triple) %>%
+    add_count(event, triple) %>%
+    ungroup() %>%
+    select(-c("decade", "n", "year"))
+  
   
   # destroy_event <- tibble("event" = c("war", "three years", "1887", "1884", "1883", "1886"))  
   
@@ -537,12 +544,26 @@ for (i in 1:length(decades)) {
     matched_triples <- bind_rows(matched_triples, filtered_hansard) }
   
   
+  include_triples_count <- left_join(matched_triples, triples_count, by = c("event", "triple")) # optional for including triples count 
   
-  for_viz_option_2 <- matched_triples %>% #clean_counted %>%
+  include_triples_count <- include_triples_count %>%
+    distinct(event, triple, .keep_all = T)
+  
+  include_triples_count$nn <- gsub("^", "(", include_triples_count$nn)
+  include_triples_count$nn <- gsub("$", ")", include_triples_count$nn)
+  
+  include_triples_count$triple_and_count <- paste(include_triples_count$triple, include_triples_count$nn)
+  
+  
+  for_viz_option_2 <- include_triples_count %>% #matched_triples %>% 
     group_by(event) %>%
-    mutate(flattened = paste0(concatenate(triple, collapse = ": "))) %>%
+    #mutate(flattened = paste0(concatenate(triple, collapse = ": "))) %>%
+    mutate(flattened = paste0(concatenate(triple_and_count, collapse = ": "))) %>%
     select(-triple) %>%
+    select(-nn) %>% # if I am using include_triples_count
+    select(triple_and_count) %>% # if I am using include_triples_count
     ungroup()
+  
   
   n <- 3
   pat <- paste0('^([^:]+(?::[^:]+){',n-1,'}).*') # mine
@@ -552,8 +573,7 @@ for (i in 1:length(decades)) {
   for_viz_option_2$flattened <- gsub(":", ";  ", for_viz_option_2$flattened)
   
   for_viz_option_2 <- for_viz_option_2 %>%
-    distinct(decade, event, n, flattened) #%>% #, .keep_all = T) %>%
-  #select(-nn)
+    distinct(decade, event, n, flattened) 
   
   for_viz_option_2 <- for_viz_option_2 %>%
     rename(triple = flattened)
@@ -579,7 +599,7 @@ for (i in 1:length(decades)) {
     gt() %>%
     tab_header(title = md(paste0("Lemmatized Triples Co-Occuring with Temporal Events in ", d)),
                subtitle = md("Searching the Hansard Parliamentary Debates")) %>%
-    tab_source_note(source_note = md("Description: Three triples per event chosen for exemplary.")) %>%
+    tab_source_note(source_note = md("Description: Three triples per event chosen for exemplary. Triple count is in parentheses.")) %>%
     cols_width(vars(triple) ~ px(800),
                #vars(`temporal event`) ~ px(200),
                #vars(time) ~ px(200),
@@ -592,5 +612,3 @@ for (i in 1:length(decades)) {
   
   
 }
-
-
