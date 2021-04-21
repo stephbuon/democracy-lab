@@ -561,7 +561,7 @@ for (i in 1:length(decades)) {
     mutate(flattened = paste0(concatenate(triple_and_count, collapse = ": "))) %>%
     select(-triple) %>%
     select(-nn) %>% # if I am using include_triples_count
-    select(triple_and_count) %>% # if I am using include_triples_count
+    select(-triple_and_count) %>% # if I am using include_triples_count
     ungroup()
   
   
@@ -612,3 +612,4 @@ for (i in 1:length(decades)) {
   
   
 }
+
