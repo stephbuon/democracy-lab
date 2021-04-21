@@ -1,3 +1,11 @@
+# Is 1881 mentioned 976 times in 1882? or overall? 
+# let's order this by the year of mention and then 
+# in descending order the events mentioned, and mentions-per-yr 
+# (those should also match the order, l to r, of the column)
+
+
+############ GO BACK AND MAKE SURE COUNT IS CORRECT -- in fact, get count early on and paste it so I am not counting the number of events joined to triples
+
 
 library(tidyverse)
 #library(formattable)
@@ -591,7 +599,7 @@ for (i in 1:length(decades)) {
     gt() %>%
     tab_header(title = md(paste0("Lemmatized Triples Co-Occuring with Temporal Events in ", d)),
                subtitle = md("Searching the Hansard Parliamentary Debates")) %>%
-    tab_source_note(source_note = md("Description: Three triples per event chosen for exemplary. Triple count is in parentheses.")) %>%
+    tab_source_note(source_note = md("Description: Three triples per event chosen for exemplarity Triple count is in parentheses.")) %>%
     cols_width(vars(triple) ~ px(800),
                #vars(`temporal event`) ~ px(200),
                #vars(time) ~ px(200),
@@ -604,4 +612,6 @@ for (i in 1:length(decades)) {
   
   
 }
+
+
 
