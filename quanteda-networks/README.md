@@ -2,7 +2,7 @@
 
 __quanteda-networks__ (formerly, quanteda-code-for-app-2), produces (enter).  
 
-__quanteda-networks.R__ is memory intensive, and will likely need to be run on M2. For this reason, __quanteda-networks.R__ is designed to be submitted as an sbatch job, although it can run on a local machine. To comply with sbatch requirments, functions have been added to the start of the script (enter). 
+__quanteda-networks.R__ is memory intensive, and will likely need to be run on M2. For this reason, __quanteda-networks.R__ is designed to be submitted as an sbatch job, although it can run on a local machine. To comply with sbatch requirments, functions have been added to the start of the script (instead of being sourced from another). 
 
 ### Control Flow 
 
