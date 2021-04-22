@@ -594,6 +594,9 @@ for (i in 1:length(decades)) {
   option_2$triple <- option_2$triple %>%
     str_to_title() 
   
+  # contents can be copied/pasted into a word doc
+  # inside the word doc, the user can highlight the contents and go to table -> convert -> convert text to table 
+  write.table(option_2, paste0(file = "triples_table_", d, ".txt"), sep = ",", quote = FALSE, row.names = F)
   
   html <- option_2 %>%
     gt() %>%
@@ -612,6 +615,3 @@ for (i in 1:length(decades)) {
   
   
 }
-
-
-
