@@ -1,3 +1,9 @@
+import glob
+import os
+import csv
+import pandas as pd
+import numpy as np 
+
 all_speech_files = glob.glob('/scratch/group/oit_research_data/stanford_congress/hein-bound/speeches_*.txt')
 CONGRESS_MIN_THRESHOLD = 1
 CONGRESS_MAX_THRESHOLD = 115
