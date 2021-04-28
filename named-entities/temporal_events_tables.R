@@ -1,5 +1,5 @@
 
-# remember that d is currently set to a decade, not all decades 
+# remember that d is currently set to a specific decade, not the loop 
 
 select_triples <- FALSE
 
@@ -211,8 +211,8 @@ if(select_triples == TRUE) {
                       "tenant-seek-relief", "tenant-deprive-of-benefit", "privilege-confer-upon-tenant", # 1881: state-vote-without-voice, lessee-apply-for-relief, lessor-enforce-right, lessor-grant-relief, grievance-be-of-consequence
                       "state-vote-without-voice", "million-squander-on-war", "india-go-through-experience", # afghan war: state-vote-without-voice, million-squander-on-frontier, parliament-vote-in-1880, india-go-through-much, it-go-in-famine
                       "tenant-pay-rent", "tenant-refund-by-landlord", "tenant-refund-difference", # land act: tenant-lodge-for-year, government-consider-proposal
-                      "tariff-come-into-force", "end-put-to-war", "treaty-negotiate-in-1882",
-                      "soldier-wound-in-action", "which-lame-him", "which-lame-for-life")
+                      "tariff-come-into-force", "end-put-to-war", "treaty-negotiate-in-1882", # treaty: treaty-contain-stipulation, britain-defend-acheenese, britain-defend-from-aggression
+                      "soldier-wound-in-action", "which-lame-him", "which-lame-for-life") # indian mutany: money-await-claimant
   
   triples_for_1880 <- c("drunkenness-decrease-in-city", "torpedo-bring-to-country", "drunkenness-decrease-from-1871", 
                       "hydrographer-make-investigation", "increase-pay-by-tenant", "landlord-pay-for-disturbance", 
@@ -295,7 +295,7 @@ if(select_triples == TRUE) {
 for (i in 1:length(decades)) {
   
   #d <- decades[i]
-  d <- 1890
+  d <- 1880
   
   decade_of_interest <- preprocessed_hansard %>%
     filter(decade == d)
@@ -404,6 +404,8 @@ for (i in 1:length(decades)) {
   decade_of_interest$event <- gsub("land acts", "land act", decade_of_interest$event)
   
   decade_of_interest$event <- gsub("a boer war", "boer war", decade_of_interest$event)
+  
+  decade_of_interest$event <- gsub(" 1881", "1881", decade_of_interest$event)
   
   
   # test <- str_replace(test, ".*(1.*)$", "\\1")
