@@ -1,10 +1,5 @@
-# Is 1881 mentioned 976 times in 1882? or overall? 
-# let's order this by the year of mention and then 
-# in descending order the events mentioned, and mentions-per-yr 
-# (those should also match the order, l to r, of the column)
 
-
-############ GO BACK AND MAKE SURE COUNT IS CORRECT -- in fact, get count early on and paste it so I am not counting the number of events joined to triples
+select_triples <- FALSE
 
 
 library(tidyverse)
@@ -17,7 +12,9 @@ library(mgsub)
 
 setwd("~/hansard_ner")
 
+
 hansard_event_time_triple <- read_csv("hansard_event_time_triple.csv")
+
 
 hansard_event_time_triple <- hansard_event_time_triple %>%
   drop_na(c("event", "time", "triple"))
@@ -27,18 +24,12 @@ hansard_event_time_triple$event <- tolower(hansard_event_time_triple$event)
 hansard_event_time_triple$time <- tolower(hansard_event_time_triple$time)
 hansard_event_time_triple$triple <- tolower(hansard_event_time_triple$triple)
 
-###################
-#trouble_shooting <- hansard_event_time_triple %>%
-#  select(time) %>%
-#  distinct()
-###################
-
-
 
 # keep these words if they appear in the time column
 keep_these <- c("inquisition", "duties", "holy", "seven years", "revolution", "war", "act", "eleven years", 
                 "ten years", "century", "christmas", "three years", "easter", "treaty", "1s12", "last parliament",
                 "code", "convention", "dark days", "late king", "lent", "modern days")
+
 
 filtered_time_triple <- tibble()
 
@@ -50,7 +41,6 @@ for(i in 1:length(keep_these)) {
     filter(str_detect(time, keep))
   
   filtered_time_triple <- bind_rows(filtered_time_triple, filtered_hansard) }
-
 
 
 # keep these because they are years, not something like currency tagged as a year 
@@ -88,7 +78,6 @@ preprocessed_hansard <- preprocessed_hansard %>%
 #  distinct(sentence_id, triple, .keep_all = T)
 
 
-
 interval <- 10
 
 preprocessed_hansard <- preprocessed_hansard %>%
@@ -98,8 +87,6 @@ preprocessed_hansard <- preprocessed_hansard %>%
 
 preprocessed_hansard <- preprocessed_hansard %>%
   select(c("sentence_id", "decade", "event", "triple", "year")) # adding year so we can see when a temporal event was stated
-
-
 
 
 decades <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900")
@@ -172,7 +159,7 @@ events_for_1850 <- c("french revolution",
 
 # done
 events_for_1840 <- c("french revolution",
-                     "lent",
+                     #"lent",
                      "st. domingo",
                      "revolution",
                      "revolution of 1688",
@@ -183,7 +170,7 @@ events_for_1840 <- c("french revolution",
 events_for_1830 <- c("french revolution", 
                      "national convention",
                      "revolution",
-                     "lent",
+                     #"lent",
                      "st. domingo",
                      "1807", # papist, murder, cry 
                      "st. domingo and guadaloupe") # buonaparte-contemplate-slavery
@@ -210,25 +197,22 @@ events_for_1800 <- c("st. domingo",
 
 
 
-# done
-triples_for_1900 <- c("it-be-in-1794", "country-be-in-jeopardy", "word-speak-against-king",
-                      "history-mislead-by-error", "we-have-war", "exaggeration-indulge-during-war",
-                      "tenant-do-repair", "tenant-hold-farm", "tenant-have-landlord",
-                      "debt-stand-in-1866", "he-propose-taxation", "we-march-through-london")
-
-
-
-# done
-triples_for_1890 <- c("which-cost-million", "we-liberate-portion", "i-ask-for-war",
-                      "regulation-regard-disease", "regulation-introduce-into-perak", "acts-be-in-force",
-                      "tenant-seek-relief", "tenant-deprive-of-benefit", "privilege-confer-upon-tenant", 
-                      "state-vote-without-voice", "million-squander-on-war", "india-go-through-experience", 
-                      "tenant-pay-rent", "tenant-refund-by-landlord", "tenant-refund-difference",
+if(select_triples == TRUE) {
+  
+  triples_for_1900 <- c("it-be-in-1794", "country-be-in-jeopardy", "word-speak-against-king", #  french rev: no other options
+                      "history-mislead-by-error", "we-have-war", "exaggeration-indulge-during-war", # boer war: history-begin-in-1795, officer-reemploye-during-emergency, officer-hold-rank
+                      "tenant-do-repair", "tenant-hold-farm", "tenant-have-landlord", # act of 1881: no other options  
+                      "debt-stand-in-1866", "he-propose-taxation", "we-march-through-london") # crimean war: battalion-volunteer-for-service, we-think-with-complacency, minister-yield-allegiance
+  
+  triples_for_1890 <- c("which-cost-million", "we-liberate-portion", "i-ask-for-war", # crimean war: no other options
+                      "regulation-regard-disease", "regulation-introduce-into-perak", "acts-be-in-force", # contagious disease acts: police-engage-in-connection, police-live-on-ship, regulation-regard-disease, operation-have-effect
+                      "tenant-seek-relief", "tenant-deprive-of-benefit", "privilege-confer-upon-tenant", # 1881: state-vote-without-voice, lessee-apply-for-relief, lessor-enforce-right, lessor-grant-relief, grievance-be-of-consequence
+                      "state-vote-without-voice", "million-squander-on-war", "india-go-through-experience", # afghan war: state-vote-without-voice, million-squander-on-frontier, parliament-vote-in-1880, india-go-through-much, it-go-in-famine
+                      "tenant-pay-rent", "tenant-refund-by-landlord", "tenant-refund-difference", # land act: tenant-lodge-for-year, government-consider-proposal
                       "tariff-come-into-force", "end-put-to-war", "treaty-negotiate-in-1882",
                       "soldier-wound-in-action", "which-lame-him", "which-lame-for-life")
-
-# done
-triples_for_1880 <- c("drunkenness-decrease-in-city", "torpedo-bring-to-country", "drunkenness-decrease-from-1871", 
+  
+  triples_for_1880 <- c("drunkenness-decrease-in-city", "torpedo-bring-to-country", "drunkenness-decrease-from-1871", 
                       "hydrographer-make-investigation", "increase-pay-by-tenant", "landlord-pay-for-disturbance", 
                       "glander-prevail-among-horse", "member-confound-with-russia", "vessel-arrive-at-suez",
                       "arrest-increase-during-period", "arreset-increase-in-county", "intemperance-decrease-in-district", 
@@ -243,10 +227,8 @@ triples_for_1880 <- c("drunkenness-decrease-in-city", "torpedo-bring-to-country"
                       "mutiny-come-after-war", "concession-grow-gloomy", "concession-have-trouble",
                       "landlord-remove-tenant", "tenant-entitle-to-compensation", "tenant-receive-notice",
                       "catholics-attend-service", "prayer-read-for-catholics", "troopship-have-chaplain")
-
-
-# done
-triples_for_1870 <- c("woman-take-into-custody","woman-take-without-warrant", "woman-detain-in-hospital",
+  
+  triples_for_1870 <- c("woman-take-into-custody","woman-take-without-warrant", "woman-detain-in-hospital",
                       "they-have-war", "sum-cover-expenditure", "bonds-make-total",
                       "khan-be-loyal", "india-contribute-for-expenditure", "government-plunge-into-war",
                       "war-increase-debt", "sum-be-great", "war-commence-in-1854",
@@ -260,71 +242,58 @@ triples_for_1870 <- c("woman-take-into-custody","woman-take-without-warrant", "w
                       "indemnity-pay-by-turkey", "indemnity-pay-to-russia", "integrity-guarantee-by-powers",
                       "discontent-be-strong", "country-ruin-by-war", "statesman-foresee-downfall", # french rev and blow is just rev
                       "parliament-have-courage", "presbytery-appoint-minister", "house-disregard-restriction") 
-
-
-# done 
-triples_for_1860 <- c("colony-separate-from-england", "i-examine-before-revolution", "she-tax-them", # american revolution 
+  
+  triples_for_1860 <- c("colony-separate-from-england", "i-examine-before-revolution", "she-tax-them", # american revolution 
                       "artist-expose-themselves", "salviati-come-to-england", "artist-have-copyright", # great exhibition 
                       "revolution-stimulate-feeling", "centralization-contribute-to-destruction", "french-take-possession", # french revolution
                       "support-be-prepared", "you-disestablish-church", "lords-guarantee-between-england", # protestant revolution
                       "declaration-adopt-in-1856", "poles-maintain-contest", "militia-supply-man", # crimean war 
                       "paper-establish-throughout-italy", "paper-oppose-progress", "revolution-take-place", # revolution 
                       "dissenters-attract-by-declaration", "jesuitism-insinuate-into-affair", "power-become-supreme") # rev of 1688
-
-
-
-#done 
-triples_for_1850 <- c("vessel-carry-passenger", "vessel-bind-for-havannah", "110-perish-on-voyage",
+  
+  triples_for_1850 <- c("vessel-carry-passenger", "vessel-bind-for-havannah", "110-perish-on-voyage",
                       "bourbons-restore-to-throne", "neutrality-conclude-between-denmark", "restitution-make-for-property",
                       "manufacture-be-on-increase", "object-exclude-catholics", "person-be-anxious",
                       "constitution-become-protestant", "act-pass-after-revolution", "they-suffer-under-enactment",
                       "turks-cross-danube", "turks-declare-war", "one-inspire-by-fanaticism")
-
-
-# done
-triples_for_1840 <- c("revolution-be-in-1792", "revolution-be-at-height", "religion-suffer-in-revolution",
-                      "performance-allow-during-lent", "performance-tolerate-during-lent", "duty-be-severe",
+  
+  triples_for_1840 <- c("revolution-be-in-1792", "revolution-be-at-height", "religion-suffer-in-revolution",
+                      #"performance-allow-during-lent", "performance-tolerate-during-lent", "duty-be-severe",
                       "law-enact-in-country", "law-enact-in-1688", "system-endure-since-1688-he",
                       "england-establish-faith", "england-shake-domination", "prophet-speak-of-day",
                       "crop-become-unproductive", "prospect-offer-in-country", "he-extend-to-cuba",
                       "americans-have-right", "spain-have-right", "england-watch-over-welfare")
-
-# done
-triples_for_1830 <- c("papists-invade-in-country", "atrocity-perpetrate-under-excitement", "countryman-raise-impostor",
+  
+  triples_for_1830 <- c("papists-invade-in-country", "atrocity-perpetrate-under-excitement", "countryman-raise-impostor",
                       "dissolution-take-before-revolution", "spain-disgrace-by-atrocity", "event-inflame-people",
-                      "prince-pray-for-relaxation", "he-approve-of-relaxation", "it-observe-on-friday",
+                      #"prince-pray-for-relaxation", "he-approve-of-relaxation", "it-observe-on-friday",
                       "christianity-abjure-in-1793-in", "slave-send-for-emancipation", "france-reap-from-assembly",
                       "population-enjoy-happiness", "young-be-in-error", "country-border-on-anarchy",
                       "change-take-place", "constitution-be-different", "rebellion-produce-feeling",
                       "domingo-lose-possession", "domingo-sever-from-france", "she-exercise-sovereignty",
                       "buonaparte-contemplate-slavery", "plantation-cultivate-by-labourer", "plantation-cultivate-in-1801")
-
-# done
-triples_for_1820 <- c("pope-excommunicate-council", "scarcity-prevail-over-country", "taxation-produce-revolution",
+  
+  triples_for_1820 <- c("pope-excommunicate-council", "scarcity-prevail-over-country", "taxation-produce-revolution",
                       "revolution-take-place", "they-acknowledge-him", "they-acknowledge-for-king",
                       "law-pass-against-bribery", "ancestor-consider-at-revolution", "history-date-from-reformation",
                       "war-excite-uneasiness", "government-seize-property", "government-seize-in-violation",
                       "sugar-have-regulation", "sugar-smuggle-into-part", "petitioner-grant-emancipation")
-
-# done
-triples_for_1810 <- c("distress-reach-height", "troop-maintain-by-guinea", "crime-augment-in-war",
+  
+  triples_for_1810 <- c("distress-reach-height", "troop-maintain-by-guinea", "crime-augment-in-war",
                       "revolution-spread-throughout-world", "revolution-be-in-vigour", "independence-swallow-in-gulf",
                       "sentiment-take-place", "sentiment-take-in-dublin", "sentiment-express-in-parliament",
                       "it-assail-church", "country-deprive-of-trade", "ireland-recover-trade")
-
-# done 
-triples_for_1800 <- c("baird-sail-on-9th", "baird-receive-intelligence", "we-send-for-army",
+  
+  triples_for_1800 <- c("baird-sail-on-9th", "baird-receive-intelligence", "we-send-for-army",
                       "fate-deter-us", "critic-estimate-production", "critic-be-unreasonable",
                       "general-order-delinquent", "court-exercise-power", "they-labour-in-consequence",
-                      "that-desolate-world", "which-be-for-year")
-
-
+                      "that-desolate-world", "which-be-for-year") }
 
 
 for (i in 1:length(decades)) {
   
-  d <- decades[i]
-  #d <- 1830
+  #d <- decades[i]
+  d <- 1890
   
   decade_of_interest <- preprocessed_hansard %>%
     filter(decade == d)
