@@ -1,4 +1,6 @@
 
+# remember that d is currently set to a decade, not all decades 
+
 select_triples <- FALSE
 
 
