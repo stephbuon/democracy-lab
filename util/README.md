@@ -5,4 +5,4 @@ The utilities folder holds a variety of useful scripts, such as scripts that all
 
 | Command | Description |
 | --- | --- |
-| `read_stanford_congress.py` | for aggregating the Stanford Congressional Records .txt files into a data frame | 
+| `read_stanford_congress.py` | Aggregate the Stanford Congressional Records .txt files into a data frame | 
