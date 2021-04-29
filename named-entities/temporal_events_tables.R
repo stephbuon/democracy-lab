@@ -222,9 +222,9 @@ if(select_triples == TRUE) {
                         "france-be-independent", "tunis-be-independent", "engagement-take-by-country", # treaty: treaty-be-insufferable, france-have-treaty, treaty-be-disappointing
                         "war-labour-in-gloom", "order-send-for-army", "order-send-for-gun", # crimean war: germany-be-concern, beaconsfield-increase-force, rent-make-by-farmer, country-help-turkey
                         "england-make-contribution", "500-grant-from-fund", "500-grant-reward", # afghan war: contribution-make-by-government, year-darken-by-war, government-be-ashamed, i-come-to-war
-                        "bill-propose-repeal", "disease-rise-between-year", "disease-rise-in-number",
-                        "expenditure-incur-in-year", "he-ask-for-war", "officer-reward-for-service",
-                        "they-engage-in-war", "government-protect-ally", "government-protect-from-ruin",
+                        "bill-propose-repeal", "disease-rise-between-year", "disease-rise-in-number", # contagious diseases acts: officer-attend-meeting, ward-become-large, officer-command-regiment
+                        "expenditure-incur-in-year", "he-ask-for-war", "officer-reward-for-service", # zulu war: chiefs-cede-to-boers, war-break-in-spring, he-command-troop, they-engage-in-war
+                        "they-engage-in-war", "government-protect-ally", "government-protect-from-ruin", 
                         "operation-be-effectual", "bill-propose-repeal", "disease-rise-in-number",
                         "mutiny-come-after-war", "concession-grow-gloomy", "concession-have-trouble",
                         "landlord-remove-tenant", "tenant-entitle-to-compensation", "tenant-receive-notice",
