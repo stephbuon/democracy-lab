@@ -92,7 +92,7 @@ produce_dictionary <- function(stemmed){
 #    rename(word = Cities, 
 #           sentiment = City_Base) 
   
-  concerns <- read_csv(file.path(quanteda_data_path, "hk-concerns.csv"))
+  concerns <- read_csv(file.path(quanteda_data_path, "hk_concerns.csv"))
 #  classes <- read_csv(file.path(quanteda_data_path,"classes.csv"))
 #  offices <- read_csv(file.path(quanteda_data_path,"offices.csv"))
 #  property <- read_csv(file.path(quanteda_data_path,"propertywords.csv"))
@@ -206,7 +206,7 @@ gen_classifier <- function() {
   #  mutate( cat = "NA") %>%
   #  select(node, kind, Geography, Empire, cat)
   
-  concerns <- read_csv(file.path(quanteda_data_path, "hk-concerns.csv"))
+  concerns <- read_csv(file.path(quanteda_data_path, "hk_concerns.csv"))
   concerns2 <- concerns %>%
     dplyr::rename(node = concerns) %>%
     mutate(kind = "concern") %>%
