@@ -42,4 +42,4 @@ ggplot(data = hansard) +
        y = "Count") 
 
 # this ggsave w/ systime is not working on M2 
-ggsave(file.path(dir, paste("hansard_adjnoun_woman_1870_79_", format(Sys.time(), "%Y-%m-%d_%H-%M"), ".png"), dpi = 1000))
+ggsave(file.path(dir, paste("hansard_adjective_noun_pairs_woman_1870_79_", format(Sys.time(), "%Y-%m-%d_%H-%M"), ".png"), dpi = 1000))
