@@ -25,7 +25,8 @@ hansard <- hansard %>%
   arrange(desc(n)) %>%
   slice(seq_len(45)) 
 
-
+hansard$pair <- hansard$pair %>%
+  str_to_title()
 
 ggplot(data = hansard) +
   geom_col(aes(x = reorder(pair, n), 
