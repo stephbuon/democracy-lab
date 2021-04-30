@@ -143,7 +143,7 @@ fulldict <- d1 %>%
 
 gen_classifier <- function() {
   
-  sentiment <- get_sentiments(lexicon = "bing")
+  #sentiment <- get_sentiments(lexicon = "bing")
   
   govwords <- c("attorney", "court",  "attorney", "money", "gentleman", "noble", "respect", "sir", 
                 "hope", "question", "feeling", "doubt", "general", "subject", "found", "statement", "parliament",
@@ -167,44 +167,44 @@ gen_classifier <- function() {
                 "examination", "vote", "perjury", "opposition", "kind", "friend", "member", "committee", "investigation", 
                 "board", "inquiry", "present", "lord", "government", "special", "appeal", "case", "bonus", "advance", "deal", "tax")
   
-  s2 <- sentiment %>%
-    dplyr::filter(!(word %in% govwords)) %>% # changed (and also the other)
-    dplyr::mutate(kind = "sentiment") %>%
-    dplyr::mutate(Geography = "NA", 
-                  Empire = "NA") %>%
-    dplyr::rename(node = word) %>% 
-    dplyr::rename(cat = sentiment) 
+  #s2 <- sentiment %>%
+  #  dplyr::filter(!(word %in% govwords)) %>% # changed (and also the other)
+  #  dplyr::mutate(kind = "sentiment") %>%
+  #  dplyr::mutate(Geography = "NA", 
+  #                Empire = "NA") %>%
+  #  dplyr::rename(node = word) %>% 
+  #  dplyr::rename(cat = sentiment) 
   
-  traits <- read_csv(file.path(quanteda_data_path, "wordnet-traits.csv")) 
-  traits <- traits %>%
-    as.data.frame() %>%
-    dplyr::rename(node = term) %>%
-    mutate(kind = "trait") %>%
-    mutate(Geography = "NA", 
-           Empire = "NA") %>%
-    select(node, kind, Geography, Empire, cat)
+  #traits <- read_csv(file.path(quanteda_data_path, "wordnet-traits.csv")) 
+  #traits <- traits %>%
+  #  as.data.frame() %>%
+  #  dplyr::rename(node = term) %>%
+  #  mutate(kind = "trait") %>%
+  #  mutate(Geography = "NA", 
+  #         Empire = "NA") %>%
+  #  select(node, kind, Geography, Empire, cat)
   
-  phenomena <- read_csv(file.path(quanteda_data_path, "wordnet-phenomena.csv"))
-  phenomena <- phenomena %>%
-    dplyr::rename(node = term) %>%
-    mutate(kind = "phenomena") %>%
-    mutate(Geography = "NA", Empire = "NA") %>%
-    select(node, kind, Geography, Empire, cat)
+  #phenomena <- read_csv(file.path(quanteda_data_path, "wordnet-phenomena.csv"))
+  #phenomena <- phenomena %>%
+  #  dplyr::rename(node = term) %>%
+  #  mutate(kind = "phenomena") %>%
+  #  mutate(Geography = "NA", Empire = "NA") %>%
+  #  select(node, kind, Geography, Empire, cat)
   
-  nations <- read_csv(file.path(quanteda_data_path, "collaborative_nations.csv"))
-  nations2 <- nations %>%
-    select(Nation_Base, Geography, Empire) %>%
-    dplyr::rename(node = Nation_Base) %>%
-    mutate(kind = "nations",  cat = "NA") %>%
-    select(node, kind, Geography, Empire, cat)
+  #nations <- read_csv(file.path(quanteda_data_path, "collaborative_nations.csv"))
+  #nations2 <- nations %>%
+  #  select(Nation_Base, Geography, Empire) %>%
+  #  dplyr::rename(node = Nation_Base) %>%
+  #  mutate(kind = "nations",  cat = "NA") %>%
+  #  select(node, kind, Geography, Empire, cat)
   
-  cities <- read_csv(file.path(quanteda_data_path, "collaborative_cities.csv"))
-  cities2 <- cities %>%
-    select(City_Base, Geography, Empire) %>%
-    dplyr::rename(node = City_Base) %>%
-    mutate(kind = "cities") %>%
-    mutate( cat = "NA") %>%
-    select(node, kind, Geography, Empire, cat)
+  #cities <- read_csv(file.path(quanteda_data_path, "collaborative_cities.csv"))
+  #cities2 <- cities %>%
+  #  select(City_Base, Geography, Empire) %>%
+  #  dplyr::rename(node = City_Base) %>%
+  #  mutate(kind = "cities") %>%
+  #  mutate( cat = "NA") %>%
+  #  select(node, kind, Geography, Empire, cat)
   
   concerns <- read_csv(file.path(quanteda_data_path, "concerns.csv"))
   concerns2 <- concerns %>%
@@ -213,40 +213,42 @@ gen_classifier <- function() {
     mutate(Geography = "NA", Empire = "NA",  cat = "NA") %>%
     select(node, kind, Geography, Empire, cat)
   
-  classes <- read_csv(file.path(quanteda_data_path, "classes.csv"))
-  classes2 <- classes %>%
-    dplyr::rename(node = classes) %>%
-    mutate(kind = "class") %>%
-    mutate(Geography = "NA", Empire = "NA", cat = "NA") %>%
-    select(node, kind, Geography, Empire, cat)
+  #classes <- read_csv(file.path(quanteda_data_path, "classes.csv"))
+  #classes2 <- classes %>%
+  #  dplyr::rename(node = classes) %>%
+  #  mutate(kind = "class") %>%
+  #  mutate(Geography = "NA", Empire = "NA", cat = "NA") %>%
+  #  select(node, kind, Geography, Empire, cat)
   
-  offices <- read_csv(file.path(quanteda_data_path, "offices.csv"))
-  offices2 <- offices %>% 
-    dplyr::rename(node = offices) %>%
-    dplyr::mutate(kind = "office") %>%
-    mutate(Geography = "NA", Empire = "NA", cat = "NA") %>%
-    select(node, kind, Geography, Empire, cat)
+  #offices <- read_csv(file.path(quanteda_data_path, "offices.csv"))
+  #offices2 <- offices %>% 
+  #  dplyr::rename(node = offices) %>%
+  #  dplyr::mutate(kind = "office") %>%
+  #  mutate(Geography = "NA", Empire = "NA", cat = "NA") %>%
+  #  select(node, kind, Geography, Empire, cat)
   
-  traits <- read_csv(file.path(quanteda_data_path, "traitdict.csv")) %>%
-    select(word, cat) %>%
-    dplyr::rename(node = word) %>%
-    mutate(kind = "trait") %>%
-    mutate(Geography = "NA", Empire = "NA")
+  #traits <- read_csv(file.path(quanteda_data_path, "traitdict.csv")) %>%
+  #  select(word, cat) %>%
+  #  dplyr::rename(node = word) %>%
+  #  mutate(kind = "trait") %>%
+  #  mutate(Geography = "NA", Empire = "NA")
   
-  property <- read_csv(file.path(quanteda_data_path, "propertywords.csv"))
-  names(property) <- "node" 
-  property <- property %>%
-    mutate(kind = "property") %>%
-    mutate(cat = "NA") %>%
-    mutate(Geography = "NA", Empire = "NA")
+  #property <- read_csv(file.path(quanteda_data_path, "propertywords.csv"))
+  #names(property) <- "node" 
+  #property <- property %>%
+  #  mutate(kind = "property") %>%
+  #  mutate(cat = "NA") %>%
+  #  mutate(Geography = "NA", Empire = "NA")
   
-  phenomena <- read_csv(file.path(quanteda_data_path, "phenomenadict.csv")) %>%
-    select(word, cat) %>%
-    dplyr::rename(node = word) %>%
-    mutate(kind = "phenomena") %>%
-    mutate(Geography = "NA", Empire = "NA")  
+  #phenomena <- read_csv(file.path(quanteda_data_path, "phenomenadict.csv")) %>%
+  #  select(word, cat) %>%
+  #  dplyr::rename(node = word) %>%
+  #  mutate(kind = "phenomena") %>%
+  #  mutate(Geography = "NA", Empire = "NA")  
   
-  gen_classifier <- rbind(nations2, cities2, concerns2, offices2, classes2, s2, property, phenomena, traits)
+  #gen_classifier <- rbind(nations2, cities2, concerns2, offices2, classes2, s2, property, phenomena, traits)
+  
+  gen_classifier <- concerns2
   
   gen_classifier <- gen_classifier %>%
     group_by(node) %>%
