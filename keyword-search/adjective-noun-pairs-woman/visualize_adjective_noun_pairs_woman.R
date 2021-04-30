@@ -38,3 +38,5 @@ ggplot(data = hansard) +
        caption = "Searching the Hansard Parliamentary Debates from 1870-79",
        x = "Adjective-Noun Pair",
        y = "Count") 
+
+ggsave("adjnoun_woman.png", dpi = 500)
