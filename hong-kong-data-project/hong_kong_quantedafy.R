@@ -206,7 +206,7 @@ gen_classifier <- function() {
   #  mutate( cat = "NA") %>%
   #  select(node, kind, Geography, Empire, cat)
   
-  concerns <- read_csv(file.path(quanteda_data_path, "concerns.csv"))
+  concerns <- read_csv(file.path(quanteda_data_path, "hk-concerns.csv"))
   concerns2 <- concerns %>%
     dplyr::rename(node = concerns) %>%
     mutate(kind = "concern") %>%
