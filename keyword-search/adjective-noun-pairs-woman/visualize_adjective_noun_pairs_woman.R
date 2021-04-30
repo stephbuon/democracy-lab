@@ -1,6 +1,8 @@
 library(tidyverse)
 
-hansard <- read_csv("~/triples_in_hansard/hansard_1870_9_adjnoun_pairs.csv")
+dir <- ("/scratch/group/pract-txt-mine/democracy-lab/adjective-noun-pairs-woman")
+
+hansard <- read_csv(file.path(dir, "hansard_1870_79_adjective_noun_pairs.csv"))
 
 hansard$pair <- hansard$pair %>%
   tolower()
@@ -39,4 +41,5 @@ ggplot(data = hansard) +
        x = "Adjective-Noun Pair",
        y = "Count") 
 
-ggsave("adjnoun_woman.png", dpi = 500)
+# this ggsave w/ systime is not working on M2 
+ggsave(file.path(dir, paste("hansard_adjnoun_woman_1870_79_", format(Sys.time(), "%Y-%m-%d_%H-%M"), ".png"), dpi = 1000))
