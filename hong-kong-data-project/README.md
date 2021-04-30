@@ -1,3 +1,3 @@
-This folder 
+# Hong Kong Data Project
 
-is for macabe stuff
+This folder contains code for Macabe Keliher's Hong Kong project. 
