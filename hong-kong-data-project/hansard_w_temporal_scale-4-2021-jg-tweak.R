@@ -29,26 +29,25 @@
 # nothing to add.
 
 ##### GENERAL SETUP
-source("baseline_setup.R")
+source("~/projects/code/wordcount-functions.R")
 
 ##### SETUP SPECIFIC TO THIS BATCH
-path <- "twig-level/language-time-twig/language-time-identify-relative-peaks-tfidf-twig alias"
-description <- "temporal-scale-tfidf-concerns-4-2021"
-setwd("democracylab")
-datadir <- "/Users/joguldi/Dropbox"
+#path <- "twig-level/language-time-twig/language-time-identify-relative-peaks-tfidf-twig alias"
+description <- "temporal-scale-tfidf-concerns-hong-kong"
+datadir <- "~/projects/hong-kong"
 
-#load data
-library(dplyr)
-setwd(datadir)
 library(tidyverse)
-hm <- read_csv("fulldict-textfromquanteda-oct-2019.csv")#"fulldict-textfromquanteda-jg-2019.csv")
-hansard <- readhansard()
+library(ggrepel)
+
+hm <- read_csv("~/projects/hong_kong/fulldict-text-TRUEtest")#"fulldict-textfromquanteda-jg-2019.csv")
+#hansard <- readhansard()
+hansard <- read_csv("~/projects/hong_kong/hansard_c20_debate_titles_w_hong_kong.csv")
 
 metadata <- hansard %>% 
   distinct(sentence_id, speechdate, year) %>%
   rename(document = sentence_id)
 
-hm2 <- left_join(hm, metadata) %>%
+hm2 <- left_join(hm, metadata, by = "document") %>%
   rename(word = term)
 
 # tidy hansard
@@ -65,16 +64,16 @@ numyears <- nrow(years)
 #  mutate(count = sum(count)) %>% 
 #  filter(n>1) %>%
 #  filter(is.na(as.numeric(word))) %>%
-  #filter(word %in% concerns)
+#filter(word %in% concerns)
 #  filter(!year > 1907)
 
 all_terms_wordcount <- hm2 %>% 
-group_by(year, word) %>%
+  group_by(year, word) %>%
   mutate(n = sum(count)) %>% 
   filter(n >1) %>%
-  filter(is.na(as.numeric(word))) %>%
+  filter(is.na(as.numeric(word))) #%>%
   #filter(word %in% concerns) #for use if using tidy_hans and controlling vocab
-  filter(!year > 1907)
+  #filter(!year > 1907)
 
 # cycles through term counts by month, 6 month, year, etc.  
 
@@ -122,7 +121,7 @@ for(yrs in c(5, 10, 20, 50, 100)) {
          subtitle = paste0("What did Parliament Speak About Intensely for a Relatively Short Period (", yrs, " yr)?"),
          caption = "Searching the Hansard Parliamentary Debates, Measuring statistical uniqueness by TF-IDF")
   
-  setwd(vizfolder)
+  setwd("~/projects/hong_kong")
   ggsave(paste0(description, "1--", yrs, "yr.jpg"),
          w = 11, h = 8, units = "in")
   
@@ -149,7 +148,7 @@ for(yrs in c(5, 10, 20, 50, 100)) {
          y = "count",
          x = "keyword")
   
-  setwd(vizfolder)
+  setwd("~/projects/hong_kong")
   ggsave(paste0(description, "--", yrs, "yr.jpg"),
          w = 11, h = 8, units = "in")
   
@@ -295,7 +294,7 @@ for(mos in c("1 day", "1 week", "1 month", "6 months", "12 months")){
       caption = "Searching the Hansard Parliamentary Debates"
     )
   
-  setwd(vizfolder)
+  setwd("~/projects/hong_kong")
   ggsave(paste0("statistical-outlier-", description, "-", mos, ".jpg"), 
          w = 11, h = 8, units = "in")
   
@@ -358,6 +357,3 @@ for(mos in c("1 day", "1 week", "1 month", "6 months", "12 months")){
   ggsave(paste0(description, "_compare_count_and_tfidf_measures1-", mos, ".jpg"),
          w = 11, h = 8, units = "in")
 }
-
-
-
