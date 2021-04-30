@@ -61,11 +61,19 @@ firstyear <- min(years)
 lastyear <- max(years)
 numyears <- nrow(years)
 
-all_terms_wordcount <- hm2 %>% group_by(year, speechdate, word) %>%
-  mutate(count = sum(count)) %>% 
-  filter(n>1) %>%
-  filter(is.na(as.numeric(word))) %>%
+#all_terms_wordcount <- hm2 %>% group_by(year, speechdate, word) %>%
+#  mutate(count = sum(count)) %>% 
+#  filter(n>1) %>%
+#  filter(is.na(as.numeric(word))) %>%
   #filter(word %in% concerns)
+#  filter(!year > 1907)
+
+all_terms_wordcount <- hm2 %>% 
+group_by(year, word) %>%
+  mutate(n = sum(count)) %>% 
+  filter(n >1) %>%
+  filter(is.na(as.numeric(word))) %>%
+  #filter(word %in% concerns) #for use if using tidy_hans and controlling vocab
   filter(!year > 1907)
 
 # cycles through term counts by month, 6 month, year, etc.  
