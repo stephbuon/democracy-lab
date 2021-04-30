@@ -15,7 +15,7 @@ stemmed <- TRUE
 # test <- file.path("~/projects/data")
 
 #quanteda_data_path <- file.path("quanteda-networks", "quanteda-data" )
-quanteada_data_path <- "hong-kong-data-project"
+quanteada_data_path <- file.path("hong-kong-data-project")
 #quanteda_viz_path <- file.path("quanteda-networks", "quanteda-visualizations" )
 
 
