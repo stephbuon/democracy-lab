@@ -57,7 +57,7 @@ Data can be found on Box and on M2.
 
 #### Accessing Data on M2
 
-> Note: Permissions will neeed to be granted to first time users by SMU's M2 admins. 
+> Note: Permissions will neeed to be granted to first time users by SMU's M2 admins. Email help desk at SMU with HPC in subject line. 
 
 We keep some large data sets on M2, and most importantly the TSV and CSV versions of the Hansard data. 
 
