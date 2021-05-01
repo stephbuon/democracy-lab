@@ -29,4 +29,5 @@ count_1 <- return_entity_count(hansard_named_events, keyword)
 
 count_2 <- return_entity_count(hansard_named_times, keyword)
 
-count_3 <- return_entity_count(entites_triples_w_event_count, keyword, filter_decade = TRUE)
+count_3 <- return_entity_count(entites_triples_w_event_count, keyword, filter_decade = FALSE)
+
