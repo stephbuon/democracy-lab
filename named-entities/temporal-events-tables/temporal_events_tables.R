@@ -4,7 +4,7 @@
 
 
 select_events <- TRUE 
-select_triples <- FALSE
+select_triples <- TRUE
 
 library(tidyverse)
 library(gt)
@@ -280,7 +280,7 @@ decades <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "18
 for (i in 1:length(decades)) {
   
   #d <- decades[i]
-  d <- 1870
+  d <- 1860
   
   decade_of_interest <- hansard_named_temporal_events_triples %>%
     filter(decade == d)
@@ -430,16 +430,16 @@ for (i in 1:length(decades)) {
   
   
   if(select_events == TRUE){
-  event_regex <- paste0("events_for_", d)
-  events_to_match <- get(event_regex)
-  
-  matched_events <- tibble()
-  for(i in 1:length(events_to_match)) {
-    event_to_match <- events_to_match[i]
-    filtered_hansard <- entites_triples_w_event_count %>% # change from counted to clean_counted if I want triples said 2 or more times  
-      filter(str_detect(entity, event_to_match))
-    matched_events <- bind_rows(matched_events, filtered_hansard) } } else {
-      matched_events <- entites_triples_w_event_count }
+    event_regex <- paste0("events_for_", d)
+    events_to_match <- get(event_regex)
+    
+    matched_events <- tibble()
+    for(i in 1:length(events_to_match)) {
+      event_to_match <- events_to_match[i]
+      filtered_hansard <- entites_triples_w_event_count %>% # change from counted to clean_counted if I want triples said 2 or more times  
+        filter(str_detect(entity, event_to_match))
+      matched_events <- bind_rows(matched_events, filtered_hansard) } } else {
+        matched_events <- entites_triples_w_event_count }
   
   
   if(select_triples == TRUE) {
@@ -465,13 +465,14 @@ for (i in 1:length(decades)) {
   
   
   include_triples_count <- left_join(matched_triples, triples_count_per_entity, by = c("entity", "triple")) # optional for including triples count 
-
+  
   include_triples_count$triples_count <- gsub("^", "(", include_triples_count$triples_count)
   include_triples_count$triples_count <- gsub("$", ")", include_triples_count$triples_count)
   
   include_triples_count$triple_and_count <- paste(include_triples_count$triple, include_triples_count$triples_count)
   
-  viz_option_2 <- include_triples_count %>% #matched_triples %>% 
+  viz_option_2 <- include_triples_count %>%
+    distinct(triple_and_count, .keep_all = TRUE) %>%
     group_by(entity) %>%
     mutate(flattened = paste0(concatenate(triple_and_count, collapse = ": "))) %>%
     select(-triple, -sentence_id, -triples_count, -triple_and_count) %>%
@@ -497,11 +498,8 @@ for (i in 1:length(decades)) {
   
   # maybe include an empty column so this is aligned better 
   
-  option_2$entity <- option_2$entity %>%
-    str_to_title()
-  
-  option_2$entity <- option_2$entity %>%
-    str_to_title() 
+  # do this for entity and triple -- are the columns right? 
+  option_2[1:3] <- lapply(option_2[1:3], str_to_title)
   
   # contents can be copied/pasted into a word doc
   # inside the word doc, the user can highlight the contents and go to table -> convert -> convert text to table 
