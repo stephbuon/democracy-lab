@@ -99,7 +99,7 @@ events_for_1900 <- c("french revolution",
                      "act", # landlord
                      "crimean war")
 
-# done 
+# done troopship-have-chaplain
 events_for_1890 <- c("transvaal war", # pass 
                      "crimean war",
                      "contagious diseases acts",
@@ -224,26 +224,26 @@ if(select_triples == TRUE) {
                         "england-make-contribution", "500-grant-from-fund", "500-grant-reward", # afghan war: contribution-make-by-government, year-darken-by-war, government-be-ashamed, i-come-to-war
                         "bill-propose-repeal", "disease-rise-between-year", "disease-rise-in-number", # contagious diseases acts: officer-attend-meeting, ward-become-large, officer-command-regiment
                         "expenditure-incur-in-year", "he-ask-for-war", "officer-reward-for-service", # zulu war: chiefs-cede-to-boers, war-break-in-spring, he-command-troop, they-engage-in-war
-                        "they-engage-in-war", "government-protect-ally", "government-protect-from-ruin", 
-                        "operation-be-effectual", "bill-propose-repeal", "disease-rise-in-number",
-                        "mutiny-come-after-war", "concession-grow-gloomy", "concession-have-trouble",
-                        "landlord-remove-tenant", "tenant-entitle-to-compensation", "tenant-receive-notice",
-                        "catholics-attend-service", "prayer-read-for-catholics", "troopship-have-chaplain")
+                        "they-engage-in-war", "government-protect-ally", "government-protect-from-ruin", # transvaal war: boers-make-war, difficulty-appear-from-papers
+                        "operation-be-effectual", "bill-propose-repeal", "disease-rise-in-number", # contagious disease acts: state-be-terrible, young-be-rampant, ward-become-large
+                        "mutiny-come-after-war", "concession-grow-gloomy", "concession-have-trouble", # american war: no other options
+                        "landlord-remove-tenant", "tenant-entitle-to-compensation", "tenant-receive-notice", # amendment: bill-read-mischievous, government-feel-bind, he-reject-amendment, system-oppose-amendment
+                        "catholics-attend-service", "prayer-read-for-catholics", "troopship-have-chaplain") # service of protestant chaplains: chaplain-be-available, prayer-read-by-officer, troopship-have-chaplain
   
-  triples_for_1870 <- c("woman-take-into-custody","woman-take-without-warrant", "woman-detain-in-hospital",
-                        "they-have-war", "sum-cover-expenditure", "bonds-make-total",
-                        "khan-be-loyal", "india-contribute-for-expenditure", "government-plunge-into-war",
-                        "war-increase-debt", "sum-be-great", "war-commence-in-1854",
-                        "woman-detain-in-hospital", "woman-subject-by-order", "woman-subject-to-examination",
-                        "woman-detain-in-hospital", "penalty-impose-in-england", "gentleman-direct-against-act",
-                        "debate-occur-in-1775", "objection-raise-in-1781", "pauperism-increase-between-1859",
-                        "cruelty-perpetrate-for-year", "rayahs", "rayahs-enjoy-protection", 
-                        "injustice-commit-under-cover", "reply-be-inconclusive", "which-force-conviction",
-                        "treaty-conclude-in-1860", "which-organize-during-famine", "minister-extend-power", 
-                        "dissatisfaction-prevail-in-china", "sultan-announce-at-council", "china-open-port", 
-                        "indemnity-pay-by-turkey", "indemnity-pay-to-russia", "integrity-guarantee-by-powers",
-                        "discontent-be-strong", "country-ruin-by-war", "statesman-foresee-downfall", # french rev and blow is just rev
-                        "parliament-have-courage", "presbytery-appoint-minister", "house-disregard-restriction") 
+  triples_for_1870 <- c("woman-take-into-custody","woman-take-without-warrant", "woman-detain-in-hospital", # act: they-complain-of-tramway, person-keep-shop, parliament-pass-act, construction-adopt-by-public
+                        "they-have-war", "sum-cover-expenditure", "bonds-make-total", # zulu war: they-be-anxious, troop-engage-during-day, gentleman-be-confident, colonists-be-incline
+                        "khan-be-loyal", "india-contribute-for-expenditure", "government-plunge-into-war", # afghan war: i-remember-war, he-be-surprised, war-bring-to-close, war-involve-charge
+                        "war-increase-debt", "sum-be-great", "war-commence-in-1854", # crimean war: gentleman-reduce-cavalry, commission-appoint-in-1857, difficulty-lead-to-promulgation, war-follow-period
+                        "woman-detain-in-hospital", "woman-subject-by-order", "woman-subject-to-examination", # contagious disease acts: man-have-idea, woman-put-in-position, paris-have-population
+                        "woman-detain-in-hospital", "penalty-impose-in-england", "gentleman-direct-against-act", # act of 1869: woman-subject-to-examination 
+                        "debate-occur-in-1775", "objection-raise-in-1781", "pauperism-increase-between-1859", # american war: troop-occupy-position, it-advise-sovereign, it-be-beyond-duty
+                        "cruelty-perpetrate-for-year", "cruelty-perpetrate-upon-them", "rayahs-enjoy-protection", # war of independence: no other options
+                        "injustice-commit-under-cover", "reply-be-inconclusive", "which-force-conviction", # vienna exhibition: no other options
+                        "treaty-conclude-in-1860", "which-organize-during-famine", "minister-extend-power", # french treaty: no other options 
+                        "dissatisfaction-prevail-in-china", "sultan-announce-at-council", "china-open-port", # treaty: chancellor-include-in-budget, government-accede-to-suggestion, opium-admit-into-japan, nation-be-prepared
+                        "indemnity-pay-by-turkey", "indemnity-pay-to-russia", "integrity-guarantee-by-powers", # treaty of san stefano: no other options
+                        # "discontent-be-strong", "country-ruin-by-war", "statesman-foresee-downfall", # french revolution: find the correct decade 
+                        # "parliament-have-courage", "presbytery-appoint-minister", "house-disregard-restriction") # revolution: find the correct decade 
   
   triples_for_1860 <- c("colony-separate-from-england", "i-examine-before-revolution", "she-tax-them", # american revolution 
                         "artist-expose-themselves", "salviati-come-to-england", "artist-have-copyright", # great exhibition 
@@ -295,7 +295,7 @@ if(select_triples == TRUE) {
 for (i in 1:length(decades)) {
   
   #d <- decades[i]
-  d <- 1880
+  d <- 1870
   
   decade_of_interest <- preprocessed_hansard %>%
     filter(decade == d)
@@ -307,9 +307,13 @@ for (i in 1:length(decades)) {
   
   decade_of_interest$event <- gsub("these contagious diseases acts", "contagious diseases acts", decade_of_interest$event)
   
+  decade_of_interest$event <- gsub("this act of 1869", "act of 1869", decade_of_interest$event) # this could be swaped out with contagious disease acts
+  
   decade_of_interest$event <- gsub("service of protestant chaplains on", "service of protestant chaplains", decade_of_interest$event)
   
   decade_of_interest$event <- gsub("zulu war of", "zulu war", decade_of_interest$event)
+  decade_of_interest$event <- gsub("no zulu war", "zulu war", decade_of_interest$event)
+  decade_of_interest$event <- gsub("this zulu war", "zulu war", decade_of_interest$event)
   
   decade_of_interest$event <- gsub("crimean war a commission", "crimean war", decade_of_interest$event)
   decade_of_interest$event <- gsub("crimean war i", "crimean war", decade_of_interest$event)
@@ -407,6 +411,12 @@ for (i in 1:length(decades)) {
   decade_of_interest$event <- gsub("a boer war", "boer war", decade_of_interest$event)
   
   decade_of_interest$event <- gsub(" 1881", "1881", decade_of_interest$event)
+  
+  decade_of_interest$event <- gsub("this amendment", "amendment", decade_of_interest$event)
+  decade_of_interest$event <- gsub("paper an amendment", "amendment", decade_of_interest$event)
+  decade_of_interest$event <- gsub("this amendment government", "amendment", decade_of_interest$event)
+  decade_of_interest$event <- gsub("amendment of hon", "amendment", decade_of_interest$event)
+  decade_of_interest$event <- gsub("amendment acts", "amendment", decade_of_interest$event)
   
   
   # test <- str_replace(test, ".*(1.*)$", "\\1")
@@ -516,6 +526,7 @@ for (i in 1:length(decades)) {
       filter(str_detect(triple, triple_to_match))
     
     matched_triples <- bind_rows(matched_triples, filtered_hansard) }
+  
   
   
   include_triples_count <- left_join(matched_triples, triples_count, by = c("event", "triple")) # optional for including triples count 
