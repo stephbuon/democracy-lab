@@ -89,10 +89,10 @@ hansard_named_temporal_events_triples <- hansard_named_temporal_events_triples %
 
 
 if(select_events == TRUE) {
-  source(events_list.R) }
+  source("entities_list.R") }
 
 if(select_triples == TRUE) {
-  source(triples_list.R) }
+  source("triples_list.R") }
 
 
 decades <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900")
@@ -235,11 +235,13 @@ for (i in 1:length(decades)) {
   decade_of_interest$entity <- gsub("amendment acts", "amendment", decade_of_interest$entity)
   
   entity_count <- decade_of_interest %>%
+    select(sentence_id, entity) %>%
     group_by(entity) %>%
     add_count(entity) %>%
+    select(-entity) %>%
     ungroup()
   
-  entites_triples_w_event_count <- left_join(decade_of_interest, entity_count)
+  entites_triples_w_event_count <- left_join(decade_of_interest, entity_count, on = "sentence_id")
   
   ##############################################
   # test : see which triples are the same
