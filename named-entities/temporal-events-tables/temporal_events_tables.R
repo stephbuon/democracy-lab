@@ -1,5 +1,6 @@
 # remember that "d" is currently set to a decade, not the loop 
 # setwd("~/hansard_ner")
+# is my event count correct? 
 
 
 select_events <- TRUE 
@@ -410,28 +411,7 @@ for (i in 1:length(decades)) {
   
   entites_triples_w_event_count <- left_join(decade_of_interest, entity_count)
   
-  #counted <- counted_events %>% # notice that I changed counted to counted_events for this experiment
-  #  distinct(decade, entity, triple, n, .keep_all = T)
-  
-  # counted <- counted[,c(1,2,4,3)] 
-  
-  # viz_version_1 <- entites_triples_w_event_count[,c(2,5,4,3)] 
-  
-  #version_1 <- viz_version_1 %>%
-  #  arrange(desc(n)) %>%
-  #  slice(seq_len(15))
-  
-  #version_1 %>%
-  #  gt() %>%
-  #  cols_width(vars(triple) ~ px(300),
-  #vars(`temporal event`) ~ px(200),
-  #vars(time) ~ px(200),
-  #             vars(event) ~ px(200),
-  #             vars(decade) ~ px(100)) %>%
-  #  cols_align(align = "right") # do right for event, left for triple 
-  
-  ############
-  
+  ##############################################
   # test : see which triples are the same
   # I don't think this is working
   
@@ -448,10 +428,6 @@ for (i in 1:length(decades)) {
   #filter(triples_count >= 2) %>%
   #  ungroup()
   
-
-  # destroy_event <- tibble("entity" = c("war", "three years", "1887", "1884", "1883", "1886"))  
-  # clean_counted <- for_clean_counted %>%
-  #   anti_join(destroy_event)
   
   if(select_events == TRUE){
   event_regex <- paste0("events_for_", d)
@@ -479,6 +455,7 @@ for (i in 1:length(decades)) {
         matched_triples <- entites_triples_w_event_count
         matched_triples <- bind_rows(matched_triples, matched_events) }
   
+  
   triples_count_per_entity <- entites_triples_w_event_count %>%
     group_by(entity, triple) %>%
     add_count(entity, triple) %>%
@@ -486,47 +463,37 @@ for (i in 1:length(decades)) {
     rename(triples_count = nn) %>%
     select(-c("decade", "n", "year", "sentence_id"))
   
+  
   include_triples_count <- left_join(matched_triples, triples_count_per_entity, by = c("entity", "triple")) # optional for including triples count 
-  
-  #include_triples_count <- include_triples_count %>%
-  #  distinct(event, triple, .keep_all = T)
-  
+
   include_triples_count$triples_count <- gsub("^", "(", include_triples_count$triples_count)
   include_triples_count$triples_count <- gsub("$", ")", include_triples_count$triples_count)
   
   include_triples_count$triple_and_count <- paste(include_triples_count$triple, include_triples_count$triples_count)
   
-  
-  for_viz_option_2 <- include_triples_count %>% #matched_triples %>% 
+  viz_option_2 <- include_triples_count %>% #matched_triples %>% 
     group_by(entity) %>%
-    #mutate(flattened = paste0(concatenate(triple, collapse = ": "))) %>%
     mutate(flattened = paste0(concatenate(triple_and_count, collapse = ": "))) %>%
-    select(-triple) %>%
-    select(-triples_count) %>% # if I am using include_triples_count
-    select(-triple_and_count) %>% # if I am using include_triples_count
-    ungroup()
+    select(-triple, -sentence_id, -triples_count, -triple_and_count) %>%
+    ungroup() 
   
+  viz_option_2 <- viz_option_2 %>%
+    distinct(decade, entity, n, flattened)
   
   n <- 3
-  pat <- paste0('^([^:]+(?::[^:]+){',n-1,'}).*') # mine
-  for_viz_option_2$flattened <- sub(pat, '\\1', for_viz_option_2$flattened)
+  pat <- paste0('^([^:]+(?::[^:]+){',n-1,'}).*') 
+  viz_option_2$flattened <- sub(pat, '\\1', viz_option_2$flattened)
   
+  viz_option_2$flattened <- gsub(":", ";  ", viz_option_2$flattened)
   
-  for_viz_option_2$flattened <- gsub(":", ";  ", for_viz_option_2$flattened)
-  
-  for_viz_option_2 <- for_viz_option_2 %>%
-    distinct(decade, entity, n, flattened) 
-  
-  for_viz_option_2 <- for_viz_option_2 %>%
+  viz_option_2 <- viz_option_2 %>%
     rename(triple = flattened)
   
-  option_2 <- for_viz_option_2 %>%
+  option_2 <- viz_option_2 %>%
     arrange(desc(n)) %>%
     slice(seq_len(15)) %>%
     select(-decade)  %>%
-    rename(`event count` = n) #%>%
-  #rename(`year mentioned` = year) %>%
-  #select(-`year mentioned`) # added this 
+    rename(`event count` = n)
   
   # maybe include an empty column so this is aligned better 
   
@@ -540,8 +507,7 @@ for (i in 1:length(decades)) {
   # inside the word doc, the user can highlight the contents and go to table -> convert -> convert text to table 
   write.table(option_2, paste0(file = "triples_table_", d, ".txt"), sep = ",", quote = FALSE, row.names = F)
   
-  #html <- option_2 %>%
-  option_2 %>%
+  html <- option_2 %>%
     gt() %>%
     tab_header(title = md(paste0("Lemmatized Triples Co-Occuring with Temporal Events in ", d)),
                subtitle = md("Searching the Hansard Parliamentary Debates")) %>%
@@ -552,7 +518,6 @@ for (i in 1:length(decades)) {
                vars(entity) ~ px(200)) %>% #,
     #vars(decade) ~ px(100)) %>%
     cols_align(align = "left") # do right for event, left for triple 
-  
   
   gtsave(html, paste0("triples_table_", d, ".html"))
   
