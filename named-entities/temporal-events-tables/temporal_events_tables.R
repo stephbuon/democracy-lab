@@ -62,9 +62,8 @@ if (file.exists("hansard_named_temporal_events_triples.csv")) {
     
     hansard_named_times_to_keep <- bind_rows(filtered_times, filtered_years)
     
-    hansard_named_events <- left_join(hansard_named_events, year, on = "sentence_id")
-    hansard_named_times_to_keep <- left_join(hansard_named_times_to_keep, year, on = "sentence_id")
     all_named_entities <- bind_rows(hansard_named_events, hansard_named_times_to_keep)
+    all <- left_join(all_named_entities, year, on = "sentence_id")
     
     year <- read_csv("hansard_justnine_w_year.csv") %>%
       select(sentence_id, year)
@@ -72,7 +71,7 @@ if (file.exists("hansard_named_temporal_events_triples.csv")) {
       rename(sentence_id = doc_id) %>%
       select(sentence_id, triple)
     
-    hansard_named_temporal_events_triples <- left_join(all_named_entities, hansard_triples, on = "sentence_id")
+    hansard_named_temporal_events_triples <- left_join(all, hansard_triples, on = "sentence_id")
     
     hansard_named_temporal_events_triples <- hansard_named_temporal_events_triples %>%
       drop_na("triple")
