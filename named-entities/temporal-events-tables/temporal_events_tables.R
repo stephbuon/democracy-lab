@@ -1,202 +1,184 @@
+# remember that "d" is currently set to a decade, not the loop 
+# setwd("~/hansard_ner")
 
-# remember that d is currently set to a specific decade, not the loop 
 
+select_events <- TRUE 
 select_triples <- FALSE
 
-
 library(tidyverse)
-#library(formattable)
-#library(DT)
 library(gt)
 library(ngram)
 library(mgsub)
 
 
-setwd("~/hansard_ner")
-
-
-hansard_event_time_triple <- read_csv("hansard_event_time_triple.csv")
-
-
-hansard_event_time_triple <- hansard_event_time_triple %>%
-  drop_na(c("event", "time", "triple"))
-
-
-hansard_event_time_triple$event <- tolower(hansard_event_time_triple$event)
-hansard_event_time_triple$time <- tolower(hansard_event_time_triple$time)
-hansard_event_time_triple$triple <- tolower(hansard_event_time_triple$triple)
-
-
-# keep these words if they appear in the time column
-keep_these <- c("inquisition", "duties", "holy", "seven years", "revolution", "war", "act", "eleven years", 
-                "ten years", "century", "christmas", "three years", "easter", "treaty", "1s12", "last parliament",
-                "code", "convention", "dark days", "late king", "lent", "modern days")
-
-
-filtered_time_triple <- tibble()
-
-for(i in 1:length(keep_these)) {
-  
-  keep <- keep_these[i]
-  
-  filtered_hansard <- hansard_event_time_triple %>%
-    filter(str_detect(time, keep))
-  
-  filtered_time_triple <- bind_rows(filtered_time_triple, filtered_hansard) }
-
-
-# keep these because they are years, not something like currency tagged as a year 
-years <- as.character(1000:1910)
-
-filtered_years <- tibble()
-
-for(i in 1:length(years)) {
-  
-  y <- years[i]
-  
-  filtered_hansard <- hansard_event_time_triple %>%
-    filter(str_detect(time, y))
-  
-  filtered_years <- bind_rows(filtered_years, filtered_hansard) }
-
-
-keep_times <- bind_rows(filtered_years, filtered_time_triple)
-
-
-# now I create a new df that merges events and the items from the time column that I wish to keep (i.e. preprocessed_hansard)
-keep_times <- keep_times %>%
-  select(sentence_id, time, year, triple) %>%
-  rename(event = time) # rename to event so I can mush the two DFs together 
-
-hansard_event_time_triple <- hansard_event_time_triple %>%
-  select(-(time)) 
-
-preprocessed_hansard <- bind_rows(hansard_event_time_triple, keep_times)
-
-preprocessed_hansard <- preprocessed_hansard %>%
-  distinct(sentence_id, event, year, triple)
-
-#hansard_event_time_triple <- hansard_event_time_triple %>%
-#  distinct(sentence_id, triple, .keep_all = T)
-
+if (file.exists("hansard_named_temporal_events_triples.csv")) {
+  hansard_named_temporal_events_triples <- read_csv("hansard_named_temporal_events_triples.csv") } else {
+    hansard_named_events <- read_csv("hansard_ner_event.csv")
+    hansard_named_times <- read_csv("hansard_ner_time.csv")
+    
+    keep_times <- c("inquisition", # keep time entities with these patterns 
+                    "duties", 
+                    "holy", 
+                    "seven years", 
+                    "revolution", 
+                    "war", 
+                    "act", 
+                    "eleven years", 
+                    "ten years", 
+                    "century", 
+                    "christmas", 
+                    "three years", 
+                    "easter", 
+                    "treaty", 
+                    "1s12", 
+                    "last parliament", 
+                    "code", 
+                    "convention", 
+                    "dark days", 
+                    "late king", 
+                    "lent", 
+                    "modern days")
+    
+    filtered_times <- tibble()
+    
+    for(i in 1:length(keep_times)) {
+      keep <- keep_times[i]
+      filtered_hansard <- hansard_named_times %>%
+        filter(str_detect(entity, keep))
+      filtered_times <- bind_rows(filtered_times, filtered_hansard) }
+    
+    
+    years <- as.character(1000:1910) # sometimes currency is tagged as a year -- this helps us keep just years 
+    
+    filtered_years <- tibble()
+    
+    for(i in 1:length(years)) {
+      year <- years[i]
+      filtered_hansard <- hansard_named_times %>%
+        filter(str_detect(entity, year))
+      filtered_years <- bind_rows(filtered_years, filtered_hansard) }
+    
+    
+    hansard_named_times_to_keep <- bind_rows(filtered_times, filtered_years)
+    
+    hansard_w_year <- read_csv("hansard_justnine_w_year.csv")
+    hansard_triples <- read_csv("hansard_c19_triples_debate_text_03232021.csv") %>%
+      rename(sentence_id = doc_id) %>%
+      select(sentence_id, triple)
+    
+    year <- hansard_w_year %>%
+      select(sentence_id, year)
+    rm(hansard_w_year)
+    
+    hansard_named_events <- left_join(hansard_named_events, year, on = "sentence_id")
+    hansard_named_times <- left_join(hansard_named_times_to_keep, year, on = "sentence_id")
+    all_named_entities <- bind_rows(hansard_named_events, hansard_named_times)
+    hansard_named_temporal_events_triples <- left_join(all_named_entities, hansard_triples, on = "sentence_id")
+    
+    hansard_named_temporal_events_triples <- distinct(hansard_named_temporal_events_triples) # check to see if duplicates are in original csv files--check to see if I want duplicates 
+    
+    hansard_named_temporal_events_triples <- hansard_named_temporal_events_triples %>%
+      drop_na("triple")
+    
+    hansard_named_temporal_events_triples <- hansard_named_temporal_events_triples[,c(1,2,4,3)] 
+    
+    hansard_named_temporal_events_triples[2:3] <- lapply(hansard_named_temporal_events_triples[2:3], tolower)
+    
+    write_csv(hansard_named_temporal_events_triples, "hansard_named_temporal_events_triples.csv") }
 
 interval <- 10
 
-preprocessed_hansard <- preprocessed_hansard %>%
+hansard_named_temporal_events_triples <- hansard_named_temporal_events_triples %>%
   mutate(decade = year - year %% interval)
 
-#hansard_event_time_triple$event_time <- paste(hansard_event_time_triple$event, "-", hansard_event_time_triple$time)
 
-preprocessed_hansard <- preprocessed_hansard %>%
-  select(c("sentence_id", "decade", "event", "triple", "year")) # adding year so we can see when a temporal event was stated
-
-
-decades <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900")
-
-
-events_for_1900 <- c("french revolution",
-                     "boer war",
-                     "act", # landlord
-                     "crimean war")
-
-# done troopship-have-chaplain
-events_for_1890 <- c("transvaal war", # pass 
-                     "crimean war",
-                     "contagious diseases acts",
-                     "indian mutiny",
-                     "crimean war",
-                     "1881", #tenant seek relief 
-                     "treaty", # treaty enter between france
-                     "afghan war", # war pay by india 
-                     "land act") # tenant seek relief, tenant-labour-under-injustice
-
-# done 
-events_for_1880 <- c("1870",
-                     "1878",
-                     "1881", 
-                     "1882", 
-                     "1885",
-                     "amendment", # landlord-remove-tenant, tenant-entitle-to-compensation, tenant-receive-notice
-                     "afghan war",
-                     "american war",
-                     "contagious diseases acts",
-                     "crimean war",
-                     "service of protestant chaplains",
-                     "transvaal war",
-                     "treaty", 
-                     "zulu war")
-
-# done 
-events_for_1870 <- c("zulu war",
-                     "afghan war",
-                     "crimean war",
-                     "contagious diseases acts",
-                     "act of 1869", # woman 
-                     "act", # woman
-                     "american war",
-                     "war of independence",
-                     "vienna exhibition",
-                     "french treaty",
-                     "indian mutiny",
-                     "treaty", # china 
-                     "treaty of san stefano") # by turky to russia 
-
-
-
-# done 
-events_for_1860 <- c("french revolution",
-                     "crimean war",
-                     "revolution",
-                     "russian war",
-                     "great exhibition")
-
-
-
-# done
-events_for_1850 <- c("french revolution",
-                     "vienna conference",
-                     "revolution",
-                     "chinese passengers act") # cary -- 110 parish 
-
-
-# done
-events_for_1840 <- c("french revolution",
-                     #"lent",
-                     "st. domingo",
-                     "revolution",
-                     "revolution of 1688",
-                     "treaty") # brazile 
-
-
-# done 
-events_for_1830 <- c("french revolution", 
-                     "national convention",
-                     "revolution",
-                     #"lent",
-                     "st. domingo",
-                     "1807", # papist, murder, cry 
-                     "st. domingo and guadaloupe") # buonaparte-contemplate-slavery
-
-# done
-events_for_1820 <- c("french revolution", # pope excommunicate concil 
-                     "spanish revolution",
-                     "revolution",
-                     "st. domingo", 
-                     "french war")
-
-
-# done 
-events_for_1810 <- c("french revolution", 
-                     "crimean war",
-                     "american war",
-                     "revolution of 1688", # recover and deprive trade
-                     "grand orange lodge") # meeting 
-
-# I use counted not clean_count
-events_for_1800 <- c("st. domingo",
-                     "revolution",
-                     "convention of cintra")
-
+if(select_events == TRUE) {
+  
+  events_for_1900 <- c("french revolution",
+                       "boer war",
+                       "act", 
+                       "crimean war")
+  
+  events_for_1890 <- c("transvaal war",
+                       "crimean war",
+                       "contagious diseases acts",
+                       "indian mutiny",
+                       "crimean war",
+                       "1881", #tenant seek relief 
+                       "treaty", # treaty enter between france
+                       "afghan war", # war pay by india 
+                       "land act") # tenant seek relief, tenant-labour-under-injustice
+  
+  events_for_1880 <- c("1870",
+                       "1878",
+                       "1881", 
+                       "1882", 
+                       "1885",
+                       "amendment", # landlord-remove-tenant, tenant-entitle-to-compensation, tenant-receive-notice
+                       "afghan war",
+                       "american war",
+                       "contagious diseases acts",
+                       "crimean war",
+                       "service of protestant chaplains",
+                       "transvaal war",
+                       "treaty", 
+                       "zulu war")
+  
+  events_for_1870 <- c("zulu war",
+                       "afghan war",
+                       "crimean war",
+                       "contagious diseases acts",
+                       "act of 1869",
+                       "act",
+                       "american war",
+                       "war of independence",
+                       "vietriples_counta exhibition",
+                       "french treaty",
+                       "indian mutiny",
+                       "treaty",
+                       "treaty of san stefano")
+  
+  events_for_1860 <- c("french revolution",
+                       "crimean war",
+                       "revolution",
+                       "russian war",
+                       "great exhibition")
+  
+  events_for_1850 <- c("french revolution",
+                       "vietriples_counta conference",
+                       "revolution",
+                       "chinese passengers act")
+  
+  events_for_1840 <- c("french revolution",
+                       #"lent",
+                       "st. domingo",
+                       "revolution",
+                       "revolution of 1688",
+                       "treaty")
+  
+  events_for_1830 <- c("french revolution", 
+                       "national convention",
+                       "revolution",
+                       #"lent",
+                       "st. domingo",
+                       "1807", 
+                       "st. domingo and guadaloupe")
+  
+  events_for_1820 <- c("french revolution",
+                       "spanish revolution",
+                       "revolution",
+                       "st. domingo", 
+                       "french war")
+  
+  events_for_1810 <- c("french revolution", 
+                       "crimean war",
+                       "american war",
+                       "revolution of 1688", 
+                       "grand orange lodge") 
+  
+  events_for_1800 <- c("st. domingo",
+                       "revolution",
+                       "convention of cintra") }
 
 
 if(select_triples == TRUE) {
@@ -207,14 +189,14 @@ if(select_triples == TRUE) {
                         "debt-stand-in-1866", "he-propose-taxation", "we-march-through-london") # crimean war: battalion-volunteer-for-service, we-think-with-complacency, minister-yield-allegiance
   
   triples_for_1890 <- c("which-cost-million", "we-liberate-portion", "i-ask-for-war", # crimean war: no other options
-                        "regulation-regard-disease", "regulation-introduce-into-perak", "acts-be-in-force", # contagious disease acts: police-engage-in-connection, police-live-on-ship, regulation-regard-disease, operation-have-effect
+                        "regulation-regard-disease", "regulation-introduce-into-perak", "acts-be-in-force", # contagious disease acts: police-engage-in-cotriples_countection, police-live-on-ship, regulation-regard-disease, operation-have-effect
                         "tenant-seek-relief", "tenant-deprive-of-benefit", "privilege-confer-upon-tenant", # 1881: state-vote-without-voice, lessee-apply-for-relief, lessor-enforce-right, lessor-grant-relief, grievance-be-of-consequence
                         "state-vote-without-voice", "million-squander-on-war", "india-go-through-experience", # afghan war: state-vote-without-voice, million-squander-on-frontier, parliament-vote-in-1880, india-go-through-much, it-go-in-famine
                         "tenant-pay-rent", "tenant-refund-by-landlord", "tenant-refund-difference", # land act: tenant-lodge-for-year, government-consider-proposal
                         "tariff-come-into-force", "end-put-to-war", "treaty-negotiate-in-1882", # treaty: treaty-contain-stipulation, britain-defend-acheenese, britain-defend-from-aggression
                         "soldier-wound-in-action", "which-lame-him", "which-lame-for-life") # indian mutany: money-await-claimant
   
-  triples_for_1880 <- c("drunkenness-decrease-in-city", "torpedo-bring-to-country", "drunkenness-decrease-from-1871", # 1881: tunis-be-independent, government-arrange-for-dissolution, parliament-promise-to-tenant, act-fix-rent
+  triples_for_1880 <- c("drunketriples_countess-decrease-in-city", "torpedo-bring-to-country", "drunketriples_countess-decrease-from-1871", # 1881: tunis-be-independent, government-arrange-for-dissolution, parliament-promise-to-tenant, act-fix-rent
                         "hydrographer-make-investigation", "increase-pay-by-tenant", "landlord-pay-for-disturbance", # 1870: property-have-protection, tenant-have-claim, landlord-acquire-right, government-exercise-surveillance
                         "glander-prevail-among-horse", "member-confound-with-russia", "vessel-arrive-at-suez", #1882: failure-necessitate-action, land-be-at-unlet
                         #"arrest-increase-during-period", "arreset-increase-in-county", "intemperance-decrease-in-district", # I cant figure out which event/ date these belong to
@@ -238,12 +220,12 @@ if(select_triples == TRUE) {
                         "woman-detain-in-hospital", "penalty-impose-in-england", "gentleman-direct-against-act", # act of 1869: woman-subject-to-examination 
                         "debate-occur-in-1775", "objection-raise-in-1781", "pauperism-increase-between-1859", # american war: troop-occupy-position, it-advise-sovereign, it-be-beyond-duty
                         "cruelty-perpetrate-for-year", "cruelty-perpetrate-upon-them", "rayahs-enjoy-protection", # war of independence: no other options
-                        "injustice-commit-under-cover", "reply-be-inconclusive", "which-force-conviction", # vienna exhibition: no other options
+                        "injustice-commit-under-cover", "reply-be-inconclusive", "which-force-conviction", # vietriples_counta exhibition: no other options
                         "treaty-conclude-in-1860", "which-organize-during-famine", "minister-extend-power", # french treaty: no other options 
-                        "dissatisfaction-prevail-in-china", "sultan-announce-at-council", "china-open-port", # treaty: chancellor-include-in-budget, government-accede-to-suggestion, opium-admit-into-japan, nation-be-prepared
-                        "indemnity-pay-by-turkey", "indemnity-pay-to-russia", "integrity-guarantee-by-powers", # treaty of san stefano: no other options
-                        # "discontent-be-strong", "country-ruin-by-war", "statesman-foresee-downfall", # french revolution: find the correct decade 
-                        # "parliament-have-courage", "presbytery-appoint-minister", "house-disregard-restriction") # revolution: find the correct decade 
+                        "dissatisfaction-prevail-in-china", "sultan-atriples_countounce-at-council", "china-open-port", # treaty: chancellor-include-in-budget, government-accede-to-suggestion, opium-admit-into-japan, nation-be-prepared
+                        "indemnity-pay-by-turkey", "indemnity-pay-to-russia", "integrity-guarantee-by-powers") #, # treaty of san stefano: no other options
+  # "discontent-be-strong", "country-ruin-by-war", "statesman-foresee-downfall", # french revolution: find the correct decade 
+  # "parliament-have-courage", "presbytery-appoint-minister", "house-disregard-restriction") # revolution: find the correct decade 
   
   triples_for_1860 <- c("colony-separate-from-england", "i-examine-before-revolution", "she-tax-them", # american revolution 
                         "artist-expose-themselves", "salviati-come-to-england", "artist-have-copyright", # great exhibition 
@@ -253,7 +235,7 @@ if(select_triples == TRUE) {
                         "paper-establish-throughout-italy", "paper-oppose-progress", "revolution-take-place", # revolution 
                         "dissenters-attract-by-declaration", "jesuitism-insinuate-into-affair", "power-become-supreme") # rev of 1688
   
-  triples_for_1850 <- c("vessel-carry-passenger", "vessel-bind-for-havannah", "110-perish-on-voyage",
+  triples_for_1850 <- c("vessel-carry-passenger", "vessel-bind-for-havatriples_countah", "110-perish-on-voyage",
                         "bourbons-restore-to-throne", "neutrality-conclude-between-denmark", "restitution-make-for-property",
                         "manufacture-be-on-increase", "object-exclude-catholics", "person-be-anxious",
                         "constitution-become-protestant", "act-pass-after-revolution", "they-suffer-under-enactment",
@@ -292,165 +274,150 @@ if(select_triples == TRUE) {
                         "that-desolate-world", "which-be-for-year") }
 
 
+decades <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900")
+
 for (i in 1:length(decades)) {
   
   #d <- decades[i]
   d <- 1870
   
-  decade_of_interest <- preprocessed_hansard %>%
+  decade_of_interest <- hansard_named_temporal_events_triples %>%
     filter(decade == d)
   
-  decade_of_interest$event <- mgsub(decade_of_interest$event,
-                                    c("[[:punct:]]", "the year ", "the ", "end of ", "january ", "february ", "march ", "april", "may ", "june ", "july ","august ", "september ", "october ", "november ", "december "), 
-                                    c("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""), 
-                                    ignore.case = TRUE)
+  decade_of_interest$entity <- mgsub(decade_of_interest$entity,
+                                     c("[[:punct:]]", "the year ", "the ", "end of ", "january ", "february ", "march ", "april", "may ", "june ", "july ","august ", "september ", "october ", "november ", "december "), 
+                                     c("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""), 
+                                     ignore.case = TRUE)
   
-  decade_of_interest$event <- gsub("these contagious diseases acts", "contagious diseases acts", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("these contagious diseases acts", "contagious diseases acts", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("this act of 1869", "act of 1869", decade_of_interest$event) # this could be swaped out with contagious disease acts
+  decade_of_interest$entity <- gsub("this act of 1869", "act of 1869", decade_of_interest$entity) # this could be swaped out with contagious disease acts
   
-  decade_of_interest$event <- gsub("service of protestant chaplains on", "service of protestant chaplains", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("service of protestant chaplains on", "service of protestant chaplains", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("zulu war of", "zulu war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("no zulu war", "zulu war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("this zulu war", "zulu war", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("zulu war of", "zulu war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("no zulu war", "zulu war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("this zulu war", "zulu war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("a zulu war", "zulu war", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("crimean war a commission", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("crimean war i", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the crimean war", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("a crimean war", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the crimean war two", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the crimean war the turks", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the crimean war—eleven years and a half", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("crimean war been reduced to", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("crimean war turks", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("crimean wareleven and a half", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("crimean warlarge reductions", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("another crimean war", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("crimean war 198 millions of debt", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("crimean war fund", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("crimean war two", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("crimean wareleven and a half", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("war malt duty of crimean war", "crimean war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("crimean war about", "crimean war", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("crimean war a commission", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("crimean war i", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the crimean war", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("a crimean war", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the crimean war two", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the crimean war the turks", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the crimean war—eleven years and a half", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("crimean war been reduced to", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("crimean war turks", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("crimean wareleven and a half", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("crimean warlarge reductions", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("another crimean war", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("crimean war 198 millions of debt", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("crimean war fund", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("crimean war two", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("crimean wareleven and a half", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("war malt duty of crimean war", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("crimean war about", "crimean war", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("crofters acts", "crofters act", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("crofters acts", "crofters act", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("american warthe", "american war", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("american warthe", "american war", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("year ", "", decade_of_interest$event)
-  decade_of_interest$event <- gsub("years ", "", decade_of_interest$event)
-  decade_of_interest$event <- gsub("year ", "", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the year ", "", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the years ", "", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("year ", "", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("years ", "", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("year ", "", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the year ", "", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the years ", "", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the afghan war", "afghan war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("this afghan war", "afghan war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("affghan war", "afghan war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the affghan war", "afghan war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("this affghan war", "afghan war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("afghan war liberal party", "afghan war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("afghan war as", "afghan war", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the afghan war", "afghan war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("this afghan war", "afghan war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("affghan war", "afghan war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the affghan war", "afghan war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("this affghan war", "afghan war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("afghan war liberal party", "afghan war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("afghan war as", "afghan war", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the indian mutiny war", "indian mutiny", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the indian mutiny", "indian mutiny", decade_of_interest$event)
-  decade_of_interest$event <- gsub("indian mutiny war", "indian mutiny", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the indian mutiny war", "indian mutiny", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the indian mutiny", "indian mutiny", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("indian mutiny war", "indian mutiny", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the lent", "lent", decade_of_interest$event)
-  decade_of_interest$event <- gsub("lent assizes", "lent", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the yorkshire lent assizes", "lent", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the lent assizes", "lent", decade_of_interest$event)
-  decade_of_interest$event <- gsub("yorkshire lent", "lent", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the lent", "lent", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("lent assizes", "lent", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the yorkshire lent assizes", "lent", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the lent assizes", "lent", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("yorkshire lent", "lent", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the french revolution", "french revolution", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the then french revolution", "french revolution", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the revolution of france", "french revolution", decade_of_interest$event)
-  decade_of_interest$event <- gsub("revolution of france", "french revolution", decade_of_interest$event)
-  decade_of_interest$event <- gsub("then french revolution", "french revolution", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the french revolution", "french revolution", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the then french revolution", "french revolution", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the revolution of france", "french revolution", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("revolution of france", "french revolution", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("then french revolution", "french revolution", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the french war", "french war", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the french war against", "french war", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the french war", "french war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the french war against", "french war", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the vienna conferences", "the vienna conference", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the conference at vienna", "the vienna conference", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the vietriples_counta conferences", "the vietriples_counta conference", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the conference at vietriples_counta", "the vietriples_counta conference", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the american war", "american war", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the american war", "american war", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("st. domingo)", "st. domingo", decade_of_interest$event)
-  decade_of_interest$event <- gsub("st domingo", "st. domingo", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("st. domingo)", "st. domingo", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("st domingo", "st. domingo", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("st domingo and guadaloupe", "st. domingo and guadaloupe", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("st domingo and guadaloupe", "st. domingo and guadaloupe", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the convention of cintra", "convention of cintra", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the convention of cintra", "convention of cintra", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the convention of cintra", "convention of cintra", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the convention of cintra", "convention of cintra", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the revolution", "revolution", decade_of_interest$event)
-  decade_of_interest$event <- gsub("this revolution", "revolution", decade_of_interest$event)
-  decade_of_interest$event <- gsub("revolutionthat", "revolution", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the revolution", "revolution", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("this revolution", "revolution", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("revolutionthat", "revolution", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the spanish revolution", "spanish revolution", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the spanish revolution", "spanish revolution", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the national convention", "national convention", decade_of_interest$event)
-  decade_of_interest$event <- gsub("a national convention", "national convention", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the national convention", "national convention", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("a national convention", "national convention", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("the vienna conference", "vienna conference", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("the vietriples_counta conference", "vietriples_counta conference", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("revolution of 1688down", "revolution of 1688", decade_of_interest$event)
-  decade_of_interest$event <- gsub("revolution of 1688it", "revolution of 1688", decade_of_interest$event)
-  decade_of_interest$event <- gsub("the revolution of 1688", "revolution of 1688", decade_of_interest$event)
-  decade_of_interest$event <- gsub("revolution of 1688parliament", "revolution of 1688", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("revolution of 1688down", "revolution of 1688", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("revolution of 1688it", "revolution of 1688", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the revolution of 1688", "revolution of 1688", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("revolution of 1688parliament", "revolution of 1688", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("exhibition of 1851", "great exhibition", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("exhibition of 1851", "great exhibition", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("contagious diseases act", "contagious diseases acts", decade_of_interest$event)
-  decade_of_interest$event <- gsub("contagious diseases actss", "contagious diseases acts", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("contagious diseases act", "contagious diseases acts", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("contagious diseases actss", "contagious diseases acts", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("clause of land act", "land act", decade_of_interest$event)
-  decade_of_interest$event <- gsub("land acts", "land act", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("clause of land act", "land act", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("land acts", "land act", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("a boer war", "boer war", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("a boer war", "boer war", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub(" 1881", "1881", decade_of_interest$event)
+  decade_of_interest$entity <- gsub(" 1881", "1881", decade_of_interest$entity)
   
-  decade_of_interest$event <- gsub("this amendment", "amendment", decade_of_interest$event)
-  decade_of_interest$event <- gsub("paper an amendment", "amendment", decade_of_interest$event)
-  decade_of_interest$event <- gsub("this amendment government", "amendment", decade_of_interest$event)
-  decade_of_interest$event <- gsub("amendment of hon", "amendment", decade_of_interest$event)
-  decade_of_interest$event <- gsub("amendment acts", "amendment", decade_of_interest$event)
+  decade_of_interest$entity <- gsub("this amendment", "amendment", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("paper an amendment", "amendment", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("this amendment government", "amendment", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("amendment of hon", "amendment", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("amendment acts", "amendment", decade_of_interest$entity)
   
-  
-  # test <- str_replace(test, ".*(1.*)$", "\\1")
-  
-  #clean_decade_count$event <- gsub(".*1", "", clean_decade_count$event)
-  #clean_decade_count$event <- gsub(".*[[:digit:]]", "", clean_decade_count$event)
-  
-  
-  #counted_triple_per_event <- decade_of_interest %>% # will produce too much if I don't make distinct w/o id
-  #  group_by(event, triple) %>%
-  #  add_count(triple) %>%
-  #  ungroup()
-  
-  correct_count <- decade_of_interest %>%
-    distinct(sentence_id, event) %>%
-    group_by(event) %>%
-    add_count(event) %>%
-    select(-(event)) %>%
+  entity_count <- decade_of_interest %>%
+    group_by(entity) %>%
+    add_count(entity) %>%
     ungroup()
   
-  counted_events <- left_join(decade_of_interest, correct_count)
+  entites_triples_w_event_count <- left_join(decade_of_interest, entity_count)
   
-  counted <- counted_events %>% # notice that I changed counted to counted_events for this experiment
-    distinct(decade, event, triple, n, .keep_all = T)
-  
-  
-  counted <- counted %>%
-    select(-(sentence_id))
+  #counted <- counted_events %>% # notice that I changed counted to counted_events for this experiment
+  #  distinct(decade, entity, triple, n, .keep_all = T)
   
   # counted <- counted[,c(1,2,4,3)] 
   
-  counted <- counted[,c(1,2,5,4,3)] 
+  # viz_version_1 <- entites_triples_w_event_count[,c(2,5,4,3)] 
   
-  #version_1 <- counted %>%
+  #version_1 <- viz_version_1 %>%
   #  arrange(desc(n)) %>%
   #  slice(seq_len(15))
   
@@ -478,74 +445,64 @@ for (i in 1:length(decades)) {
   #clean_counted <- counted %>% # is this if I want the triple count to show up? 
   #  group_by(triple) %>%
   #  add_count(triple) %>%
-  #filter(nn >= 2) %>%
+  #filter(triples_count >= 2) %>%
   #  ungroup()
   
-  triples_count <- counted %>%
-    group_by(event, triple) %>%
-    add_count(event, triple) %>%
-    ungroup() %>%
-    select(-c("decade", "n", "year"))
-  
-  
-  # destroy_event <- tibble("event" = c("war", "three years", "1887", "1884", "1883", "1886"))  
-  
+
+  # destroy_event <- tibble("entity" = c("war", "three years", "1887", "1884", "1883", "1886"))  
   # clean_counted <- for_clean_counted %>%
   #   anti_join(destroy_event)
   
+  if(select_events == TRUE){
   event_regex <- paste0("events_for_", d)
-  
   events_to_match <- get(event_regex)
   
-  
   matched_events <- tibble()
-  
   for(i in 1:length(events_to_match)) {
-    
     event_to_match <- events_to_match[i]
+    filtered_hansard <- entites_triples_w_event_count %>% # change from counted to clean_counted if I want triples said 2 or more times  
+      filter(str_detect(entity, event_to_match))
+    matched_events <- bind_rows(matched_events, filtered_hansard) } } else {
+      matched_events <- entites_triples_w_event_count }
+  
+  
+  if(select_triples == TRUE) {
+    triples_regex <- paste0("triples_for_", d)
+    triples_to_match <- get(triples_regex)
     
-    filtered_hansard <- counted %>% # change from counted to clean_counted if I want triples said 2 or more times  
-      filter(str_detect(event, event_to_match))
-    
-    matched_events <- bind_rows(matched_events, filtered_hansard) }
+    matched_triples <- tibble()
+    for(i in 1:length(triples_to_match)) {
+      triple_to_match <- triples_to_match[i]
+      filtered_hansard <- matched_events %>%
+        filter(str_detect(triple, triple_to_match))
+      matched_triples <- bind_rows(matched_triples, filtered_hansard) } } else {
+        matched_triples <- entites_triples_w_event_count
+        matched_triples <- bind_rows(matched_triples, matched_events) }
   
+  triples_count_per_entity <- entites_triples_w_event_count %>%
+    group_by(entity, triple) %>%
+    add_count(entity, triple) %>%
+    ungroup() %>%
+    rename(triples_count = nn) %>%
+    select(-c("decade", "n", "year", "sentence_id"))
   
+  include_triples_count <- left_join(matched_triples, triples_count_per_entity, by = c("entity", "triple")) # optional for including triples count 
   
+  #include_triples_count <- include_triples_count %>%
+  #  distinct(event, triple, .keep_all = T)
   
-  triples_regex <- paste0("triples_for_", d)
+  include_triples_count$triples_count <- gsub("^", "(", include_triples_count$triples_count)
+  include_triples_count$triples_count <- gsub("$", ")", include_triples_count$triples_count)
   
-  triples_to_match <- get(triples_regex)
-  
-  matched_triples <- tibble()
-  
-  for(i in 1:length(triples_to_match)) {
-    
-    triple_to_match <- triples_to_match[i]
-    
-    filtered_hansard <- matched_events %>%
-      filter(str_detect(triple, triple_to_match))
-    
-    matched_triples <- bind_rows(matched_triples, filtered_hansard) }
-  
-  
-  
-  include_triples_count <- left_join(matched_triples, triples_count, by = c("event", "triple")) # optional for including triples count 
-  
-  include_triples_count <- include_triples_count %>%
-    distinct(event, triple, .keep_all = T)
-  
-  include_triples_count$nn <- gsub("^", "(", include_triples_count$nn)
-  include_triples_count$nn <- gsub("$", ")", include_triples_count$nn)
-  
-  include_triples_count$triple_and_count <- paste(include_triples_count$triple, include_triples_count$nn)
+  include_triples_count$triple_and_count <- paste(include_triples_count$triple, include_triples_count$triples_count)
   
   
   for_viz_option_2 <- include_triples_count %>% #matched_triples %>% 
-    group_by(event) %>%
+    group_by(entity) %>%
     #mutate(flattened = paste0(concatenate(triple, collapse = ": "))) %>%
     mutate(flattened = paste0(concatenate(triple_and_count, collapse = ": "))) %>%
     select(-triple) %>%
-    select(-nn) %>% # if I am using include_triples_count
+    select(-triples_count) %>% # if I am using include_triples_count
     select(-triple_and_count) %>% # if I am using include_triples_count
     ungroup()
   
@@ -558,7 +515,7 @@ for (i in 1:length(decades)) {
   for_viz_option_2$flattened <- gsub(":", ";  ", for_viz_option_2$flattened)
   
   for_viz_option_2 <- for_viz_option_2 %>%
-    distinct(decade, event, n, flattened) 
+    distinct(decade, entity, n, flattened) 
   
   for_viz_option_2 <- for_viz_option_2 %>%
     rename(triple = flattened)
@@ -573,17 +530,18 @@ for (i in 1:length(decades)) {
   
   # maybe include an empty column so this is aligned better 
   
-  option_2$event <- option_2$event %>%
+  option_2$entity <- option_2$entity %>%
     str_to_title()
   
-  option_2$triple <- option_2$triple %>%
+  option_2$entity <- option_2$entity %>%
     str_to_title() 
   
   # contents can be copied/pasted into a word doc
   # inside the word doc, the user can highlight the contents and go to table -> convert -> convert text to table 
   write.table(option_2, paste0(file = "triples_table_", d, ".txt"), sep = ",", quote = FALSE, row.names = F)
   
-  html <- option_2 %>%
+  #html <- option_2 %>%
+  option_2 %>%
     gt() %>%
     tab_header(title = md(paste0("Lemmatized Triples Co-Occuring with Temporal Events in ", d)),
                subtitle = md("Searching the Hansard Parliamentary Debates")) %>%
@@ -591,7 +549,7 @@ for (i in 1:length(decades)) {
     cols_width(vars(triple) ~ px(800),
                #vars(`temporal event`) ~ px(200),
                #vars(time) ~ px(200),
-               vars(event) ~ px(200)) %>% #,
+               vars(entity) ~ px(200)) %>% #,
     #vars(decade) ~ px(100)) %>%
     cols_align(align = "left") # do right for event, left for triple 
   
@@ -600,3 +558,12 @@ for (i in 1:length(decades)) {
   
   
 }
+
+
+# IDK: 
+
+
+# test <- str_replace(test, ".*(1.*)$", "\\1")
+
+#clean_decade_count$event <- gsub(".*1", "", clean_decade_count$event)
+#clean_decade_count$event <- gsub(".*[[:digit:]]", "", clean_decade_count$event)
