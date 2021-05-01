@@ -55,21 +55,21 @@ Research assistant are expected to employ (enter).
 
 Data can be found on Box and on M2. 
 
-#### Accessing Data on M2
+#### Data on M2
 
-> Note: Permissions will neeed to be granted to first time users by SMU's M2 admins. Email help desk at SMU with HPC in subject line. 
+> Note: Permissions will neeed to be granted to first time users by SMU's M2 admins. Request permissions by emailing help desk at SMU with HPC in the subject line. 
 
-We keep some large data sets on M2, and most importantly the TSV and CSV versions of the Hansard data. 
+We keep several data sets on M2, located at: `/scratch/group/pract-txt-mine/democracy-lab-data`.
 
-Current data sets are located at: `/scratch/group/pract-txt-mine`.
+Running **slink_data.sh** will create symlinks to these data sets (enter). 
 
-These include: 
-- **hansard_c19_04152021.tsv**, a TSV file of the C19 Hansard debates
-- **hansard_c20_tokenized.csv**, a tokenized version of the C20 Hansard debates
+#### Hansard Versions
 
 Early pipeline versions of the Hansard data--that is, versions scraped from the original XML files and which have not undergone extra cleaning, are located at: `/scratch/group/pract-txt-mine/data_sets/hansard/`. These versions include TSV files for all of Hansard (1803-2004), and are mostly kept for documentation purposes. 
 
-#### Accessing Box Data
+#### Data on Box
+
+If working on M2, it may be unnecessary to pull data from Box. However, these instructions are offered if working with Box is desired. 
 
 Most pipelines have accompanying **api_pull** code for pulling relevant data from the Box API. Pulled data will be stored in the corresponding __data__ folders. Data folders are included in the __.gitignore__, as data should be stored on Box. 
 
