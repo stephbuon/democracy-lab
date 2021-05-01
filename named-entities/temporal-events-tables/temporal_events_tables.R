@@ -62,15 +62,13 @@ if (file.exists("hansard_named_temporal_events_triples.csv")) {
     
     hansard_named_times_to_keep <- bind_rows(filtered_times, filtered_years)
     
-    hansard_w_year <- read_csv("hansard_justnine_w_year.csv")
+    year <- read_csv("hansard_justnine_w_year.csv") %>%
+      select(sentence_id, year)
     hansard_triples <- read_csv("hansard_c19_triples_debate_text_03232021.csv") %>%
       rename(sentence_id = doc_id) %>%
       select(sentence_id, triple)
     
-    year <- hansard_w_year %>%
-      select(sentence_id, year)
-    rm(hansard_w_year)
-    
+
     hansard_named_events <- left_join(hansard_named_events, year, on = "sentence_id")
     hansard_named_times <- left_join(hansard_named_times_to_keep, year, on = "sentence_id")
     all_named_entities <- bind_rows(hansard_named_events, hansard_named_times)
@@ -142,6 +140,16 @@ for (i in 1:length(decades)) {
   decade_of_interest$entity <- gsub("crimean wareleven and a half", "crimean war", decade_of_interest$entity)
   decade_of_interest$entity <- gsub("war malt duty of crimean war", "crimean war", decade_of_interest$entity)
   decade_of_interest$entity <- gsub("crimean war about", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the crimean war lord rokeby", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the crimean war the war department", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("the crimean war enormous quantities of stores", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("another crimean War", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("liberals the crimean war", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("recent crimean war", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("that crimean war", "crimean war", decade_of_interest$entity)
+  decade_of_interest$entity <- gsub("crimean war bonds", "crimean war", decade_of_interest$entity)
+
+  
   
   decade_of_interest$entity <- gsub("crofters acts", "crofters act", decade_of_interest$entity)
   
