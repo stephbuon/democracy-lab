@@ -1,5 +1,7 @@
 library(mgsub)
 
+clean_hansard_entities <- function(decade_of_interest){
+
 decade_of_interest$entity <- mgsub(decade_of_interest$entity,
                                    c("[[:punct:]]", "the year ", "the ", "end of ", "january ", "february ", "march ", "april", "may ", "june ", "july ","august ", "september ", "october ", "november ", "december "), 
                                    c("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""), 
@@ -137,3 +139,5 @@ decade_of_interest$entity <- gsub("paper an amendment", "amendment", decade_of_i
 decade_of_interest$entity <- gsub("this amendment government", "amendment", decade_of_interest$entity)
 decade_of_interest$entity <- gsub("amendment of hon", "amendment", decade_of_interest$entity)
 decade_of_interest$entity <- gsub("amendment acts", "amendment", decade_of_interest$entity)
+  
+ }
