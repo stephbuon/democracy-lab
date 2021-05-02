@@ -1,3 +1,5 @@
+# count entity debugging script
+
 library(tidyverse)
 
 keyword <- "crimean war"
@@ -27,5 +29,4 @@ count_1 <- return_entity_count(hansard_named_events, keyword)
 count_2 <- return_entity_count(hansard_named_times, keyword)
 
 count_3 <- return_entity_count(entity_count, keyword, filter_decade = FALSE)
-
 
