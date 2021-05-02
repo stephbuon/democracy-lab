@@ -8,7 +8,6 @@ select_triples <- TRUE
 library(tidyverse)
 library(gt)
 library(ngram)
-library(mgsub)
 
 
 if (file.exists("hansard_named_temporal_events.csv")) {
@@ -83,8 +82,8 @@ if(select_triples == TRUE) {
 decades <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900")
 
 for (i in 1:length(decades)) {
-  #d <- decades[i]
-  d <- 1860
+  d <- decades[i]
+  #d <- 1860
   
   decade_of_interest <- temporal_events_w_decade %>%
     filter(decade == d)
