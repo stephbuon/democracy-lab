@@ -2,8 +2,10 @@
 # setwd("~/hansard_ner")
 
 
-select_events <- TRUE 
+# I haven't tested if all the FALSE combos work yet 
+select_events <- TRUE
 select_triples <- TRUE
+ocr_handling <- TRUE
 
 library(tidyverse)
 library(gt)
@@ -11,7 +13,7 @@ library(ngram)
 
 
 if (file.exists("hansard_named_temporal_events.csv")) {
-  hansard_named_temporal_events_triples <- read_csv("hansard_named_temporal_events_triples.csv") } else {
+  hansard_named_temporal_events <- read_csv("hansard_named_temporal_events.csv") } else {
     hansard_named_events <- read_csv("hansard_ner_event.csv")
     hansard_named_times <- read_csv("hansard_ner_time.csv")
     
@@ -54,6 +56,7 @@ if (file.exists("hansard_named_temporal_events.csv")) {
         filter(str_detect(entity, year))
       filtered_years <- bind_rows(filtered_years, filtered_hansard) }
     
+    
     hansard_named_times_to_keep <- bind_rows(filtered_times, filtered_years)
     all_named_entities <- bind_rows(hansard_named_events, hansard_named_times_to_keep)
     
@@ -73,7 +76,7 @@ temporal_events_w_decade <- hansard_named_temporal_events %>%
 
 
 if(select_events == TRUE) {
-  source("entities_list.R") }
+  source("events_list.R") }
 
 if(select_triples == TRUE) {
   source("triples_list.R") }
@@ -82,42 +85,64 @@ if(select_triples == TRUE) {
 decades <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900")
 
 for (i in 1:length(decades)) {
-  d <- decades[i]
-  #d <- 1860
+  #d <- decades[i]
+  d <- 1870
   
   decade_of_interest <- temporal_events_w_decade %>%
     filter(decade == d)
   
-  # source("sub_entity_names.R")
-  
-  entity_count <- decade_of_interest %>%
-    select(sentence_id, entity) %>%
-    group_by(entity) %>%
-    add_count(entity) %>%
-    select(-entity) %>%
-    ungroup()
-  
-  entites_w_event_count <- left_join(decade_of_interest, entity_count, on = "sentence_id")
+  if(ocr_handling == TRUE) {
+    pattern_regex <- paste0("events_for_", d)
+    patterns_to_match <- get(pattern_regex)
+    
+    entity_count <- tibble()
+    for(i in 1:length(patterns_to_match)) {
+      pattern <- patterns_to_match[i]
+      matches <- decade_of_interest %>%
+        filter(str_detect(entity, regex(pattern, ignore_case = TRUE)))
+      
+      matches_count <- matches %>%
+        select(-year, -decade) %>%
+        add_tally() %>%
+        mutate(entity = pattern)
+      
+      entity_count <- bind_rows(entity_count, matches_count) }
+    
+    decade_of_interest <- decade_of_interest %>%
+      select(sentence_id, year, decade)
+    
+    entites_w_event_count <- left_join(entity_count, decade_of_interest, on = "sentence_id")
+  } else {
+    entity_count <- decade_of_interest %>%
+      select(sentence_id, entity) %>%
+      group_by(entity) %>% 
+      add_count(entity) %>%
+      select(-entity) %>%
+      ungroup() 
+    
+    entites_w_event_count <- left_join(decade_of_interest, entity_count, on = "sentence_id") }
   
   
   if(select_events == TRUE){
-    event_regex <- paste0("events_for_", d)
-    events_to_match <- get(event_regex)
+    source("regex_list.R")
+    regex <- paste0("regex_for_", d)
+    regexes_to_match <- get(regex)
     
     matched_events <- tibble()
-    for(i in 1:length(events_to_match)) {
-      event_to_match <- events_to_match[i]
-      filtered_hansard <- entites_triples_w_event_count %>%
-        filter(str_detect(entity, event_to_match))
+    for(i in 1:length(regexes_to_match)) {
+      regex_to_matches <- regexes_to_match[i]
+      filtered_hansard <- entites_w_event_count %>%
+        filter(str_detect(entity, regex_to_matches))
       matched_events <- bind_rows(matched_events, filtered_hansard) } } else {
-        matched_events <- entites_triples_w_event_count }
+        matched_events <- entites_w_event_count }
   
   
-  hansard_triples <- read_csv("hansard_c19_triples_debate_text_03232021.csv") %>%
-    rename(sentence_id = doc_id) %>%
-    select(sentence_id, triple)
+  if(!exists("hansard_triples")) {
+    hansard_triples <- read_csv("hansard_c19_triples_debate_text_03232021.csv") %>%
+      rename(sentence_id = doc_id) %>%
+      select(sentence_id, triple) }
   
-  hansard_events_triples <- left_join(entites_w_event_count, hansard_triples, on = "sentence_id")
+  hansard_events_triples <- left_join(matched_events, hansard_triples, on = "sentence_id")
   
   hansard_events_triples <- hansard_events_triples %>%
     drop_na(c("triple", "entity"))
@@ -134,15 +159,35 @@ for (i in 1:length(decades)) {
         filter(str_detect(triple, triple_to_match))
       matched_triples <- bind_rows(matched_triples, filtered_hansard) } } else {
         matched_triples <- hansard_events_triples
-        matched_triples <- bind_rows(matched_triples, matched_events) }
+        matched_triples <- bind_rows(matched_triples, matched_events) } # is this right? 
+  
+  matched_triples <- distinct(matched_triples) # confusing -- come back to 
   
   
-  triples_count_per_entity <- matched_triples %>%
-    group_by(entity, triple) %>%
-    add_count(entity, triple) %>%
-    ungroup() %>%
-    rename(triples_count = nn) %>%
-    select(-c("decade", "n", "year", "sentence_id"))
+  if(ocr_handling == TRUE) {
+    pattern_regex_2 <- paste0("triples_for_", d)
+    patterns_to_match_2 <- get(pattern_regex_2)
+    
+    triples_count_per_entity <- tibble()
+    for(i in 1:length(patterns_to_match_2)) {
+      pattern_2 <- patterns_to_match_2[i]
+      matches <- matched_triples %>%
+        filter(str_detect(triple, regex(pattern_2, ignore_case = TRUE)))
+      
+      matches_count <- matches %>%
+        add_tally() %>%
+        rename(triples_count = nn) %>%
+        select(-c("decade", "n", "year", "sentence_id")) %>%
+        mutate(triple = pattern_2)
+      
+      triples_count_per_entity <- bind_rows(triples_count_per_entity, matches_count) }
+  } else {
+    triples_count_per_entity <- matched_triples %>% 
+      group_by(entity, triple) %>%
+      add_count(entity, triple) %>%
+      ungroup() %>%
+      rename(triples_count = nn) %>%
+      select(-c("decade", "n", "year", "sentence_id")) }
   
   
   include_triples_count <- left_join(matched_triples, triples_count_per_entity, by = c("entity", "triple")) 
