@@ -1,9 +1,9 @@
-events_for_1900 <- c("french revolution",
+events_for_1900 <- c("french revolution", # validated
                      "boer war",
                      "act", 
                      "crimean war")
 
-events_for_1890 <- c("transvaal war",
+events_for_1890 <- c("transvaal war", # validated, but I have extra events here
                      "crimean war",
                      "contagious diseases acts",
                      "indian mutiny",
@@ -13,12 +13,15 @@ events_for_1890 <- c("transvaal war",
                      "afghan war", # war pay by india 
                      "land act") # tenant seek relief, tenant-labour-under-injustice
 
+
+
+
 events_for_1880 <- c("1870",
-                     "1878",
+                     "1878", # is this the place of the missing triples? 
                      "1881", 
                      "1882", 
                      "1885",
-                     "amendment", # landlord-remove-tenant, tenant-entitle-to-compensation, tenant-receive-notice
+                     "amendment",
                      "afghan war",
                      "american war",
                      "contagious diseases acts",
@@ -28,6 +31,10 @@ events_for_1880 <- c("1870",
                      "treaty", 
                      "zulu war")
 
+
+
+
+
 events_for_1870 <- c("zulu war",
                      "afghan war",
                      "crimean war",
@@ -36,22 +43,33 @@ events_for_1870 <- c("zulu war",
                      "act",
                      "american war",
                      "war of independence",
-                     "vietriples_counta exhibition",
+                     "great exhibition",
                      "french treaty",
                      "indian mutiny",
                      "treaty",
-                     "treaty of san stefano")
+                     "treaty of san stefano",
+                    "french revolution",
+                    "revolution")
+
+
+
 
 events_for_1860 <- c("french revolution",
                      "crimean war",
                      "revolution",
+                     "american revolution",
                      "russian war",
-                     "great exhibition")
+                     "great exhibition",
+                    "protestant revolution",
+                    "revolution of 1688")
 
 events_for_1850 <- c("french revolution",
                      "vietriples_counta conference",
                      "revolution",
                      "chinese passengers act")
+
+
+
 
 events_for_1840 <- c("french revolution",
                      #"lent",
