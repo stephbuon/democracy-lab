@@ -47,9 +47,7 @@ events_for_1870 <- c("zulu war",
                      "french treaty",
                      "indian mutiny",
                      "treaty",
-                     "treaty of san stefano",
-                    "french revolution",
-                    "revolution")
+                     "treaty of san stefano")
 
 
 
@@ -59,9 +57,7 @@ events_for_1860 <- c("french revolution",
                      "revolution",
                      "american revolution",
                      "russian war",
-                     "great exhibition",
-                    "protestant revolution",
-                    "revolution of 1688")
+                     "great exhibition")
 
 events_for_1850 <- c("french revolution",
                      "vietriples_counta conference",
