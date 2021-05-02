@@ -1,10 +1,5 @@
 # remember that "d" is currently set to a decade, not the loop 
 # setwd("~/hansard_ner")
-# is my event count correct? it is radically different 
-
-# remember that "d" is currently set to a decade, not the loop 
-# setwd("~/hansard_ner")
-# is my event count correct? it is radically different 
 
 
 select_events <- TRUE 
@@ -45,27 +40,22 @@ if (file.exists("hansard_named_temporal_events.csv")) {
                     "modern days")
     
     filtered_times <- tibble()
-    
     for(i in 1:length(keep_times)) {
       keep <- keep_times[i]
       filtered_hansard <- hansard_named_times %>%
         filter(str_detect(entity, keep))
       filtered_times <- bind_rows(filtered_times, filtered_hansard) }
     
-    
     years <- as.character(1000:1910) # sometimes currency is tagged as a year -- this helps us keep just years 
     
     filtered_years <- tibble()
-    
     for(i in 1:length(years)) {
       year <- years[i]
       filtered_hansard <- hansard_named_times %>%
         filter(str_detect(entity, year))
       filtered_years <- bind_rows(filtered_years, filtered_hansard) }
     
-    
     hansard_named_times_to_keep <- bind_rows(filtered_times, filtered_years)
-    
     all_named_entities <- bind_rows(hansard_named_events, hansard_named_times_to_keep)
     
     year <- read_csv("hansard_justnine_w_year.csv") %>%
@@ -79,7 +69,7 @@ if (file.exists("hansard_named_temporal_events.csv")) {
 
 
 interval <- 10
-hansard_named_temporal_events <- hansard_named_temporal_events %>%
+temporal_events_w_decade <- hansard_named_temporal_events %>%
   mutate(decade = year - year %% interval)
 
 
@@ -96,10 +86,10 @@ for (i in 1:length(decades)) {
   #d <- decades[i]
   d <- 1860
   
-  decade_of_interest <- hansard_named_temporal_events %>%
+  decade_of_interest <- temporal_events_w_decade %>%
     filter(decade == d)
   
-  source("sub_entity_names.R")
+  # source("sub_entity_names.R")
   
   entity_count <- decade_of_interest %>%
     select(sentence_id, entity) %>%
@@ -131,7 +121,7 @@ for (i in 1:length(decades)) {
   hansard_events_triples <- left_join(entites_w_event_count, hansard_triples, on = "sentence_id")
   
   hansard_events_triples <- hansard_events_triples %>%
-    drop_na("triple")
+    drop_na(c("triple", "entity"))
   
   
   if(select_triples == TRUE) {
@@ -187,8 +177,7 @@ for (i in 1:length(decades)) {
     rename(`event count` = n)
   
   # maybe include an empty column so this is aligned better 
-  
-  #hansard_named_temporal_events_triples <- hansard_named_temporal_events_triples[,c(1,2,4,3)] 
+  # hansard_named_temporal_events_triples <- hansard_named_temporal_events_triples[,c(1,2,4,3)] 
   
   viz_option_2[1:3] <- lapply(viz_option_2[1:3], str_to_title)
   
@@ -198,12 +187,10 @@ for (i in 1:length(decades)) {
   
   html <- viz_option_2 %>%
     gt() %>%
-    tab_header(title = md(paste0("Lemmatized Triples Co-Occuring with Temporal Events in ", d)),
-               subtitle = md("Searching the Hansard Parliamentary Debates")) %>%
-    tab_source_note(source_note = md("Description: Three triples per event chosen for exemplarity. Triple count is in parentheses.")) %>%
+    tab_header(title = md(paste0("Grammatical Triples Co-Occuring with Named Temporal Events in ", d)),
+               subtitle = md("Searching the 19th-Century Hansard Parliamentary Debates")) %>%
+    tab_source_note(source_note = md("Description: Three triples per event chosen for exemplarity. Triples have been lemmatized and count is in parentheses.")) %>%
     cols_width(vars(triple) ~ px(800),
-               #vars(`temporal event`) ~ px(200),
-               #vars(time) ~ px(200),
                vars(entity) ~ px(200)) %>%
     cols_align(align = "left") # do right for event, left for triple 
   
