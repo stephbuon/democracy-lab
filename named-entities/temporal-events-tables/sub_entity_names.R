@@ -1,3 +1,5 @@
+library(mgsub)
+
 decade_of_interest$entity <- mgsub(decade_of_interest$entity,
                                    c("[[:punct:]]", "the year ", "the ", "end of ", "january ", "february ", "march ", "april", "may ", "june ", "july ","august ", "september ", "october ", "november ", "december "), 
                                    c("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""), 
