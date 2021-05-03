@@ -42,13 +42,13 @@ triples_for_1870 <- c("woman-take-into-custody","woman-take-without-warrant", "w
                       #"discontent-be-strong", "country-ruin-by-war", "statesman-foresee-downfall", # french revolution: find the correct decade 
                       #"parliament-have-courage", "presbytery-appoint-minister", "house-disregard-restriction") # revolution: find the correct decade 
 
-triples_for_1860 <- c("colony-separate-from-england", "i-examine-before-revolution", "she-tax-them", # american revolution: colony-separate-commons (test)
-                      "artist-expose-themselves", "salviati-come-to-england", "artist-have-copyright", # great exhibition: slater-retail-sheep, 
-                      "revolution-stimulate-feeling", "centralization-contribute-to-destruction", "french-take-possession", # french revolution
-                      "support-be-prepared", "you-disestablish-church", "lords-guarantee-between-england", # protestant revolution
-                      "declaration-adopt-in-1856", "poles-maintain-contest", "militia-supply-man", # crimean war 
-                      "paper-establish-throughout-italy", "paper-oppose-progress", "revolution-take-place", # revolution 
-                      "dissenters-attract-by-declaration", "jesuitism-insinuate-into-affair", "power-become-supreme") # rev of 1688
+triples_for_1860 <- c("colony-separate-from-england", "i-examine-before-revolution", "she-tax-them", # american revolution: colony-separate-commons (check prepositions)
+                      "artist-expose-themselves", "salviati-come-to-england", "artist-have-copyright", # great exhibition: slater-retail-sheep, improvement-become-imperative, picture-be-in-museum, power-culminate-in-exhibition, specimen-see-in-exhibition
+                      "revolution-stimulate-feeling", "centralization-contribute-to-destruction", "french-take-possession", # french revolution: which-shock-conscience, right-be-universal, horror-spread-over-europe, duke-abolish-punishment
+                      #"support-be-prepared", "you-disestablish-church", "lords-guarantee-between-england", # protestant revolution: 
+                      "declaration-adopt-in-1856", "poles-maintain-contest", "militia-supply-man", # crimean war: majesty-distribute-medal, russia-add-to-debt, we-speak-in-turkey, sympathy-exist-for-country
+                      "paper-establish-throughout-italy", "paper-oppose-progress", "revolution-take-place") #, # revolution: you-disestablish-church, support-be-prepared, power-become-supreme, dissenters-attract-by-declaration
+                      #"dissenters-attract-by-declaration", "jesuitism-insinuate-into-affair", "power-become-supreme") # rev of 1688
 
 triples_for_1850 <- c("vessel-carry-passenger", "vessel-bind-for-havatriples_countah", "110-perish-on-voyage",
                       "bourbons-restore-to-throne", "neutrality-conclude-between-denmark", "restitution-make-for-property",
