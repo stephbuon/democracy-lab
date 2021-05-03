@@ -39,11 +39,11 @@ triples_for_1870 <- c("woman-take-into-custody","woman-take-without-warrant", "w
                       "treaty-conclude-in-1860", "which-organize-during-famine", "minister-extend-power", # french treaty: no other options 
                       "dissatisfaction-prevail-in-china", "sultan-atriples_countounce-at-council", "china-open-port", # treaty: chancellor-include-in-budget, government-accede-to-suggestion, opium-admit-into-japan, nation-be-prepared
                       "indemnity-pay-by-turkey", "indemnity-pay-to-russia", "integrity-guarantee-by-powers") #, # treaty of san stefano: no other options
-# "discontent-be-strong", "country-ruin-by-war", "statesman-foresee-downfall", # french revolution: find the correct decade 
-# "parliament-have-courage", "presbytery-appoint-minister", "house-disregard-restriction") # revolution: find the correct decade 
+                      #"discontent-be-strong", "country-ruin-by-war", "statesman-foresee-downfall", # french revolution: find the correct decade 
+                      #"parliament-have-courage", "presbytery-appoint-minister", "house-disregard-restriction") # revolution: find the correct decade 
 
-triples_for_1860 <- c("colony-separate-from-england", "i-examine-before-revolution", "she-tax-them", # american revolution 
-                      "artist-expose-themselves", "salviati-come-to-england", "artist-have-copyright", # great exhibition 
+triples_for_1860 <- c("colony-separate-from-england", "i-examine-before-revolution", "she-tax-them", # american revolution: colony-separate-commons (test)
+                      "artist-expose-themselves", "salviati-come-to-england", "artist-have-copyright", # great exhibition: slater-retail-sheep, 
                       "revolution-stimulate-feeling", "centralization-contribute-to-destruction", "french-take-possession", # french revolution
                       "support-be-prepared", "you-disestablish-church", "lords-guarantee-between-england", # protestant revolution
                       "declaration-adopt-in-1856", "poles-maintain-contest", "militia-supply-man", # crimean war 
