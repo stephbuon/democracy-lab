@@ -1,11 +1,11 @@
-# remember that "d" is currently set to a decade, not the loop 
-# setwd("~/hansard_ner")
+ # setwd("~/hansard_ner")
 
 
 # I haven't tested if all the FALSE combos work yet 
 select_events <- TRUE
 select_triples <- TRUE
 ocr_handling <- TRUE
+fact_checking <- FALSE 
 
 library(tidyverse)
 library(gt)
@@ -85,8 +85,7 @@ if(select_triples == TRUE) {
 decades <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900")
 
 for (i in 1:length(decades)) {
-  #d <- decades[i]
-  d <- 1870
+  d <- decades[i]
   
   decade_of_interest <- temporal_events_w_decade %>%
     filter(decade == d)
@@ -142,10 +141,25 @@ for (i in 1:length(decades)) {
       rename(sentence_id = doc_id) %>%
       select(sentence_id, triple) }
   
+  if(fact_checking == TRUE) {
+    fact_checking_triples <- read_csv("hansard_c19_triples_debate_text_03232021.csv") %>%
+      rename(sentence_id = doc_id) %>%
+      select(sentence_id, triple, text) 
+    
+    fact_checking_triples <- left_join(matched_events, fact_checking_triples, on = "sentence_id")
+    fact_checking_triples <- fact_checking_triples %>%
+      drop_na(c("triple", "entity"))
+    
+    fact_checking_triples <- distinct(fact_checking_triples) 
+    write_csv(fact_checking_triples, paste0("fact_checking_triples_", d, ".csv")) }
+  
+  
   hansard_events_triples <- left_join(matched_events, hansard_triples, on = "sentence_id")
   
   hansard_events_triples <- hansard_events_triples %>%
     drop_na(c("triple", "entity"))
+  
+  hansard_events_triples <- distinct(hansard_events_triples) # confusing -- come back to -- this might be the first instance of the problem, but check 
   
   
   if(select_triples == TRUE) {
@@ -164,7 +178,7 @@ for (i in 1:length(decades)) {
   matched_triples <- distinct(matched_triples) # confusing -- come back to 
   
   
-  if(ocr_handling == TRUE) { # still testing 
+  if(ocr_handling == TRUE) { 
     
     regex <- paste0("regex_for_", d)
     regexes_to_match <- get(regex)
@@ -252,3 +266,4 @@ for (i in 1:length(decades)) {
   gtsave(html, paste0("triples_table_", d, ".html"))
   
   }
+  
