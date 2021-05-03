@@ -164,15 +164,30 @@ for (i in 1:length(decades)) {
   matched_triples <- distinct(matched_triples) # confusing -- come back to 
   
   
-  if(ocr_handling == TRUE) {
-    pattern_regex_2 <- paste0("triples_for_", d)
-    patterns_to_match_2 <- get(pattern_regex_2)
+  if(ocr_handling == TRUE) { # this is not working right -- fix this 
     
-    triples_count_per_entity <- tibble()
-    for(i in 1:length(patterns_to_match_2)) {
-      pattern_2 <- patterns_to_match_2[i]
-      matches <- matched_triples %>%
-        filter(str_detect(triple, regex(pattern_2, ignore_case = TRUE)))
+    regex <- paste0("regex_for_", d)
+    regexes_to_match <- get(regex)
+    
+    matched_events <- tibble()
+    for(i in 1:length(regexes_to_match)) {
+      regex_to_matches <- regexes_to_match[i]
+      filtered_hansard <- entites_w_event_count %>%
+        filter(str_detect(entity, regex_to_matches))
+      
+      triples_count_per_entity <- tibble()
+      for(i in 1:length(patterns_to_match_2)) {
+        pattern_2 <- patterns_to_match_2[i]
+        matches <- matched_triples %>%
+          filter(str_detect(triple, regex(pattern_2, ignore_case = TRUE)))
+      
+      
+      #matched_events <- bind_rows(matched_events, filtered_hansard)
+      
+      
+      pattern_regex_2 <- paste0("triples_for_", d)
+      patterns_to_match_2 <- get(pattern_regex_2)
+    
       
       matches_count <- matches %>%
         add_tally() %>%
