@@ -39,8 +39,8 @@ triples_for_1870 <- c("woman-take-into-custody","woman-take-without-warrant", "w
                       "treaty-conclude-in-1860", "which-organize-during-famine", "minister-extend-power", # french treaty: no other options 
                       "dissatisfaction-prevail-in-china", "sultan-atriples_countounce-at-council", "china-open-port", # treaty: chancellor-include-in-budget, government-accede-to-suggestion, opium-admit-into-japan, nation-be-prepared
                       "indemnity-pay-by-turkey", "indemnity-pay-to-russia", "integrity-guarantee-by-powers") #, # treaty of san stefano: no other options
-                      #"discontent-be-strong", "country-ruin-by-war", "statesman-foresee-downfall", # french revolution: find the correct decade 
-                      #"parliament-have-courage", "presbytery-appoint-minister", "house-disregard-restriction") # revolution: find the correct decade 
+#"discontent-be-strong", "country-ruin-by-war", "statesman-foresee-downfall", # french revolution: find the correct decade 
+#"parliament-have-courage", "presbytery-appoint-minister", "house-disregard-restriction") # revolution: find the correct decade 
 
 triples_for_1860 <- c("colony-separate-from-england", "i-examine-before-revolution", "she-tax-them", # american revolution: colony-separate-commons (check prepositions)
                       "artist-expose-themselves", "salviati-come-to-england", "artist-have-copyright", # great exhibition: slater-retail-sheep, improvement-become-imperative, picture-be-in-museum, power-culminate-in-exhibition, specimen-see-in-exhibition
@@ -48,42 +48,41 @@ triples_for_1860 <- c("colony-separate-from-england", "i-examine-before-revoluti
                       #"support-be-prepared", "you-disestablish-church", "lords-guarantee-between-england", # protestant revolution: 
                       "declaration-adopt-in-1856", "poles-maintain-contest", "militia-supply-man", # crimean war: majesty-distribute-medal, russia-add-to-debt, we-speak-in-turkey, sympathy-exist-for-country
                       "paper-establish-throughout-italy", "paper-oppose-progress", "revolution-take-place") #, # revolution: you-disestablish-church, support-be-prepared, power-become-supreme, dissenters-attract-by-declaration
-                      #"dissenters-attract-by-declaration", "jesuitism-insinuate-into-affair", "power-become-supreme") # rev of 1688
+#"dissenters-attract-by-declaration", "jesuitism-insinuate-into-affair", "power-become-supreme") # rev of 1688
 
-triples_for_1850 <- c("vessel-carry-passenger", "vessel-bind-for-havatriples_countah", "110-perish-on-voyage",
-                      "bourbons-restore-to-throne", "neutrality-conclude-between-denmark", "restitution-make-for-property",
-                      "manufacture-be-on-increase", "object-exclude-catholics", "person-be-anxious",
-                      "constitution-become-protestant", "act-pass-after-revolution", "they-suffer-under-enactment",
-                      "turks-cross-danube", "turks-declare-war", "one-inspire-by-fanaticism")
+triples_for_1850 <- c("vessel-carry-passenger", "vessel-bind-for-havatriples_countah", "110-perish-on-voyage", # chinese passengers act: 110-perish-at-havannah, 110-perish-by-suicide, government-propose-amendment
+                      "bourbons-restore-to-throne", "neutrality-conclude-between-denmark", "restitution-make-for-property", # french revolution: revolution-be-in-progress, they-convert-them, gentleman-do-for-farmer, they-do-for-peasant, belgians-talk-after-revolution, belgians-express-wish
+                      "manufacture-be-on-increase", "object-exclude-catholics", "person-be-anxious", # revolution: pope-divide-england, man-teach-in-school, napoleon-base-upon-christianity, napoleon-base-upon-doctrine
+                      "constitution-become-protestant", "act-pass-after-revolution", "they-suffer-under-enactment") # , # revolution: above  
+#"turks-cross-danube", "turks-declare-war", "one-inspire-by-fanaticism") # find correct decade 
 
-triples_for_1840 <- c("revolution-be-in-1792", "revolution-be-at-height", "religion-suffer-in-revolution",
+triples_for_1840 <- c("revolution-be-in-1792", "revolution-be-at-height", "religion-suffer-in-revolution", # french revolution: france-shake-christianity, he-alleviate-distress, church-be-at-war, revolution-awaken-throughout-europe
                       #"performance-allow-during-lent", "performance-tolerate-during-lent", "duty-be-severe",
-                      "law-enact-in-country", "law-enact-in-1688", "system-endure-since-1688-he",
-                      "england-establish-faith", "england-shake-domination", "prophet-speak-of-day",
-                      "crop-become-unproductive", "prospect-offer-in-country", "he-extend-to-cuba",
-                      "americans-have-right", "spain-have-right", "england-watch-over-welfare")
+                      "law-enact-in-country", "law-enact-in-1688", "system-endure-since-1688-he", # revolution: philosopher-recede-in-terror, system-work-for-man, estrangement-grow-between-class, revolution-break-in-1830, revolution-break-under-circumstance
+                      "england-establish-faith", "england-shake-domination", "prophet-speak-of-day", # revolution of 1688: one-restore-church, practice-originate-after-revolution, burke-think-of-prohibition, 
+                      "crop-become-unproductive", "prospect-offer-in-country", "he-extend-to-cuba", # st. domingo: colony-state-by-m'queen, lord-propose-from-hispaniola, fabric-exist-in-indies, he-extend-to-louisiana, prospect-offer-in-country, quantity-withdraw-from-market
+                      "americans-have-right", "spain-have-right", "england-watch-over-welfare") # treaty: expenditure-leave-deficiency, commissioner-negotiate-it, spain-take-possession, spain-take-in-1792
 
-triples_for_1830 <- c("papists-invade-in-country", "atrocity-perpetrate-under-excitement", "countryman-raise-impostor",
-                      "dissolution-take-before-revolution", "spain-disgrace-by-atrocity", "event-inflame-people",
-                      #"prince-pray-for-relaxation", "he-approve-of-relaxation", "it-observe-on-friday",
-                      "christianity-abjure-in-1793-in", "slave-send-for-emancipation", "france-reap-from-assembly",
-                      "population-enjoy-happiness", "young-be-in-error", "country-border-on-anarchy",
-                      "change-take-place", "constitution-be-different", "rebellion-produce-feeling",
-                      "domingo-lose-possession", "domingo-sever-from-france", "she-exercise-sovereignty",
-                      "buonaparte-contemplate-slavery", "plantation-cultivate-by-labourer", "plantation-cultivate-in-1801")
+triples_for_1830 <- c("papists-invade-in-country", "atrocity-perpetrate-under-excitement", "countryman-raise-impostor", # 1807: dissolution-take-place, slave-rise-to-rank, holland-quote-opinion, whigs-be-in-power
+                      "dissolution-take-before-revolution", "spain-disgrace-by-atrocity", "event-inflame-people", # french revolution: disturbance-occur-since-revolution, it-overturn-monarchy, it-destroy-nobility, magician-rise-from-dead, agriculturist-wink-for-reason
+                      #"prince-pray-for-relaxation", "he-approve-of-relaxation", "it-observe-on-friday", # lent 
+                      "christianity-abjure-in-1793-in", "slave-send-for-emancipation", "france-reap-from-assembly", # national convention: assembly-elect-under-system, delegate-represent-county, 
+                      "population-enjoy-happiness", "young-be-in-error", "country-border-on-anarchy", # revolution: whigs-hold-doctrine, university-disseminate-among-people, emigrant-seek-asylum, somers-liken-to-reformer
+                      "change-take-place", "constitution-be-different", "rebellion-produce-feeling", # revolution: ireland-effect-revolution, spirit-prevail-in-ireland, bill-introduce-in-assembly
+                      "domingo-lose-possession", "domingo-sever-from-france", "she-exercise-sovereignty", # st. domingo: england-permit-expedition, emancipation-be-injurious, emancipation-lead-to-horror, party-be-anxious
+                      "buonaparte-contemplate-slavery", "plantation-cultivate-by-labourer", "plantation-cultivate-in-1801") # st. domingo and guadaloupe: no other options 
 
-triples_for_1820 <- c("pope-excommunicate-council", "scarcity-prevail-over-country", "taxation-produce-revolution",
-                      "revolution-take-place", "they-acknowledge-him", "they-acknowledge-for-king",
-                      "law-pass-against-bribery", "ancestor-consider-at-revolution", "history-date-from-reformation",
-                      "war-excite-uneasiness", "government-seize-property", "government-seize-in-violation",
-                      "sugar-have-regulation", "sugar-smuggle-into-part", "petitioner-grant-emancipation")
+triples_for_1820 <- c("pope-excommunicate-council", "scarcity-prevail-over-country", "taxation-produce-revolution", # revolution: government-seize-property, taxation-ruin-holland, government-stipulate-in-1814
+                      "revolution-take-place", "they-acknowledge-him", "they-acknowledge-for-king", # revolution: same as above 
+                      "law-pass-against-bribery", "ancestor-consider-at-revolution", "history-date-from-reformation", # revolution: same as above 
+                      "war-excite-uneasiness", "government-seize-property", "government-seize-in-violation", # spanish revolution: war-endanger-safety
+                      "sugar-have-regulation", "sugar-smuggle-into-part", "petitioner-grant-emancipation") # st. domingo: gentleman-exercise-right, population-remain-passive, they-land-at-domingo
 
-triples_for_1810 <- c("distress-reach-height", "troop-maintain-by-guinea", "crime-augment-in-war",
-                      "revolution-spread-throughout-world", "revolution-be-in-vigour", "independence-swallow-in-gulf",
-                      "sentiment-take-place", "sentiment-take-in-dublin", "sentiment-express-in-parliament",
-                      "it-assail-church", "country-deprive-of-trade", "ireland-recover-trade")
+triples_for_1810 <- c("distress-reach-height", "troop-maintain-by-guinea", "crime-augment-in-war", # american war: fleet-anchor-in-1778, troop-maintain-by-guinea, distress-reach-height
+                      "revolution-spread-throughout-world", "revolution-be-in-vigour", "independence-swallow-in-gulf", # french revolution: paper-be-impotent, cross-wear-by-servant, distinction-wear-in-portugal, debt-be-great
+                      "sentiment-take-place", "sentiment-take-in-dublin", "sentiment-express-in-parliament", # grand orange lodge: they be in ireland 
+                      "it-assail-church", "country-deprive-of-trade", "ireland-recover-trade") # revolution of 1688: succession-secure-by-revolution, 
 
-triples_for_1800 <- c("baird-sail-on-9th", "baird-receive-intelligence", "we-send-for-army",
-                      "fate-deter-us", "critic-estimate-production", "critic-be-unreasonable",
-                      "general-order-delinquent", "court-exercise-power", "they-labour-in-consequence",
-                      "that-desolate-world", "which-be-for-year") 
+triples_for_1800 <- c("baird-sail-on-9th", "baird-receive-intelligence", "we-send-for-army", # st. domingo: he-go-to-france, he-come-from-france, he-go-from-domingo
+                      "fate-deter-us", "critic-estimate-production", "critic-be-unreasonable", # st. domingo: same as above 
+                      "general-order-delinquent", "court-exercise-power", "they-labour-in-consequence") # revolution: it-destroy-constitution, aggression-alter-complexion, france-attack-after-revolution, that-desolate-world
