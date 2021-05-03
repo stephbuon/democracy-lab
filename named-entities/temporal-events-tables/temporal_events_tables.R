@@ -164,38 +164,32 @@ for (i in 1:length(decades)) {
   matched_triples <- distinct(matched_triples) # confusing -- come back to 
   
   
-  if(ocr_handling == TRUE) { # this is not working right -- fix this 
+  if(ocr_handling == TRUE) { # still testing 
     
     regex <- paste0("regex_for_", d)
     regexes_to_match <- get(regex)
     
-    matched_events <- tibble()
+    pattern_regex_2 <- paste0("triples_for_", d)
+    patterns_to_match_2 <- get(pattern_regex_2)
+    
+    triples_count_per_entity <- tibble()
     for(i in 1:length(regexes_to_match)) {
-      regex_to_matches <- regexes_to_match[i]
-      filtered_hansard <- entites_w_event_count %>%
-        filter(str_detect(entity, regex_to_matches))
+      regex_to_match <- regexes_to_match[i]
+      event <- matched_triples %>%
+        filter(str_detect(entity, regex_to_match))
       
-      triples_count_per_entity <- tibble()
       for(i in 1:length(patterns_to_match_2)) {
         pattern_2 <- patterns_to_match_2[i]
-        matches <- matched_triples %>%
+        matches <- event %>%
           filter(str_detect(triple, regex(pattern_2, ignore_case = TRUE)))
-      
-      
-      #matched_events <- bind_rows(matched_events, filtered_hansard)
-      
-      
-      pattern_regex_2 <- paste0("triples_for_", d)
-      patterns_to_match_2 <- get(pattern_regex_2)
-    
-      
-      matches_count <- matches %>%
-        add_tally() %>%
-        rename(triples_count = nn) %>%
-        select(-c("decade", "n", "year", "sentence_id")) %>%
-        mutate(triple = pattern_2)
-      
-      triples_count_per_entity <- bind_rows(triples_count_per_entity, matches_count) }
+        
+        matches_count <- matches %>%
+          add_tally() %>%
+          rename(triples_count = nn) %>%
+          select(-c("decade", "n", "year", "sentence_id")) %>%
+          mutate(triple = pattern_2) 
+        
+        triples_count_per_entity <- bind_rows(triples_count_per_entity, matches_count) } }
   } else {
     triples_count_per_entity <- matched_triples %>% 
       group_by(entity, triple) %>%
@@ -204,6 +198,8 @@ for (i in 1:length(decades)) {
       rename(triples_count = nn) %>%
       select(-c("decade", "n", "year", "sentence_id")) }
   
+  
+  triples_count_per_entity <- distinct(triples_count_per_entity) # confusing -- come back to 
   
   include_triples_count <- left_join(matched_triples, triples_count_per_entity, by = c("entity", "triple")) 
   
@@ -255,4 +251,4 @@ for (i in 1:length(decades)) {
   
   gtsave(html, paste0("triples_table_", d, ".html"))
   
-}
+  }
