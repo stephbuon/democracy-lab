@@ -2,6 +2,6 @@
 
 | Folder | Description |
 | --- | --- |
-| **adjective-noun-pairs** | Code for discovering adjective-noun pairs that contain a keyword |
-| **detect-sentences** | Code for filtering datasets for just sentences that contain a keyword |
-| **triples** | Code for discovering triples that contain a keyword |
+| **adjective-noun-pairs** | Detect adjective-noun pairs that contain a keyword |
+| **detect-sentences** | Filtering datasets for just sentences that contain a keyword |
+| **triples** | Detect triples that contain a keyword |
