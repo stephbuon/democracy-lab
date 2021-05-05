@@ -39,26 +39,6 @@ os.chdir('democracy-lab') # set working directory to democracy-lab. Add path if 
 #### Handling Deliverables
 Deliverables are exported to **data** and **visualizations** folders. RAs are asked to send deliverables to Professor Guldi directly, or to upload them to Box. Both **data** and **visualization** folders are included on the **.gitignore**.
 
-#### Version Control 
-(scientific coding practices -- to document the version used to produce results) 
-
-
-In R, this can be acheived with [packrat](https://rstudio.github.io/packrat/). 
-
-#### Install packrat: 
-```
-install.packages("packrat")
-```
-#### Usage:
-```
-packrat::init("/users/sbuongiorno/democracy-lab/quanteda-networks") # create and/or initalize a Packrat env
-install.packages("tidyverse") # install packages like usual
-```
-#### Export names of packages and versions: 
-```
-packrat::snapshot() # export: packrat.lock file. To open: nano packrat.lock
-```
-
 ## Reccomended Coding Practices
 Democracy Lab encourages research assistants to practice clean and consistent coding practices. 
 
