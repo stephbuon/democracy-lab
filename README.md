@@ -89,8 +89,6 @@ Early pipeline versions of the Hansard data--that is, versions scraped from the 
 
 #### Data on Box
 
-If working on M2, it may be unnecessary to pull data from Box. However, these instructions are offered if working with Box is desired. 
-
 Most pipelines have accompanying **api_pull** code for pulling relevant data from the Box API. Pulled data will be stored in the corresponding __data__ folders. Data folders are included in the __.gitignore__, as data should be stored on Box. 
 
 If the pipeline does not have accompanying **api_pull** code, data on Box can be accessed by three different ways:
@@ -119,7 +117,7 @@ file.remove(paste0("all_terms_wordcount_", description, ".csv"))
   filename <- paste0(description, "_collocates_", firstyear, "-", lastyear, ".csv")
   file.remove(filename)
 ```
-3.Pull from BoX API using a Dev App
+3.Pull from the Box API using a Dev App
 
 Individual files can be pulled from Box's API using a Box dev app. 
 
