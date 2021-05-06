@@ -19,7 +19,7 @@ See the Democracy Lab Wiki for information about:
 `git clone https://github.com/stephbuon/democracy-lab.git --recursive`
 
 #### Subsequent Updates
-From inside **democracy-lab** directory:
+From inside the **democracy-lab** directory:
 ```
 git reset --hard
 git pull
