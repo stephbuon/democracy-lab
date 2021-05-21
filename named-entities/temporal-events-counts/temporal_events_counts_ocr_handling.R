@@ -71,4 +71,9 @@ out <- out %>%
 
 out$entity <- str_to_title(out$entity)
 
+if(interval == 100) {
+  out <- out %>%
+    rename(century = decade)
+}
+  
 write_csv(out, "entity_count.csv")
