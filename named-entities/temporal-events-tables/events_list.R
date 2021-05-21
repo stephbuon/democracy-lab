@@ -1,3 +1,6 @@
+events_for_ner_tables <- "events_for_ner_tables"
+
+
 events_for_1900 <- c("french revolution", # validated
                      "boer war",
                      "act", 
