@@ -1,4 +1,5 @@
 # notes from jo: https://docs.google.com/document/d/1pezD4soeb-Xy1OPAnX0_LLS_tsp30GVOYh9W-HwC0D4/edit
+# also: note that not everything is labeled properly in this code 
 
 library(tidyverse)
 
@@ -12,11 +13,12 @@ replace <- c("crimean war", "great southern and western railway company", "great
 for(i in seq_along(find)) {
   hansard_named_temporal_events$entity <- str_replace_all(hansard_named_temporal_events$entity, find[[i]], replace[[i]]) }
 
-interval <- 100
+interval <- 1
 temporal_events_w_decade <- hansard_named_temporal_events %>%
   mutate(decade = year - year %% interval)
 
 decades <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900")
+decades <- 1800:1910
 
 entity_date_dictionary <- read_csv("entity-date-dictionary.csv") %>%
   rename(entity = entity_name)
@@ -77,5 +79,5 @@ if(interval == 100) {
   out <- out %>%
     rename(century = decade)
 }
-  
+
 write_csv(out, "entity_count.csv")
