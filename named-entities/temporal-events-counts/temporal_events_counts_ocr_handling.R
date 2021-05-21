@@ -1,3 +1,5 @@
+# notes from jo: https://docs.google.com/document/d/1pezD4soeb-Xy1OPAnX0_LLS_tsp30GVOYh9W-HwC0D4/edit
+
 library(tidyverse)
 
 ocr_handling <- TRUE
