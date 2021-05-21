@@ -8,7 +8,7 @@ subset <- countedevents %>%
   filter(scholar_assigned_date > 1770) 
 
 ggplot(subset, 
-       aes(x = decade, 
+       aes(x = period, 
            y = scholar_assigned_date, 
            color = n)) + #, 
            #label = paste0(entity, ' (', scholar_assigned_date, ')') )) + 
@@ -25,7 +25,7 @@ ggplot(subset,
                     arrange(desc(n)) %>% 
                     slice(2), 
                   aes(color = 1, 
-                      x = decade + 0.03, 
+                      x = period + 0.03, 
                       label = paste0(entity, ' (', scholar_assigned_date, ')'), 
                       size = n*5), #size = rel(4), 
                   hjust=0) +
