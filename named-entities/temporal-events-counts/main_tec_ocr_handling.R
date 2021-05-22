@@ -1,6 +1,5 @@
 # notes from jo: https://docs.google.com/document/d/1pezD4soeb-Xy1OPAnX0_LLS_tsp30GVOYh9W-HwC0D4/edit
 # also: note that not everything is labeled properly in this code 
-# after I confirm this works, I need to make an sbatch file 
 
 library(tidyverse)
 library(tidytext)
