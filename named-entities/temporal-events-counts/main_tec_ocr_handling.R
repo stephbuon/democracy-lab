@@ -1,5 +1,6 @@
 # notes from jo: https://docs.google.com/document/d/1pezD4soeb-Xy1OPAnX0_LLS_tsp30GVOYh9W-HwC0D4/edit
 # also: note that not everything is labeled properly in this code 
+# after I confirm this works, I need to make an sbatch file 
 
 library(tidyverse)
 library(tidytext)
@@ -66,8 +67,8 @@ for (i in 1:length(decades)) {
         add_tally() %>%
         mutate(entity = pattern) } else {
           
-          matches$occurances <- str_count(matches$entity, regex(pattern, ignore_case = TRUE)) }
-    matches$entity <- paste0(pattern)
+          matches$occurances <- str_count(matches$entity, regex(pattern, ignore_case = TRUE)) 
+          matches$entity <- paste0(pattern) }
     
     entity_count <- bind_rows(entity_count, matches) } 
   
@@ -101,3 +102,4 @@ out <- out %>%
   rename(period = decade)
 
 write_csv(out, "entity_count.csv")
+
