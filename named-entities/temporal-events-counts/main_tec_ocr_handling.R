@@ -1,5 +1,6 @@
 # notes from jo: https://docs.google.com/document/d/1pezD4soeb-Xy1OPAnX0_LLS_tsp30GVOYh9W-HwC0D4/edit
 # also: note that not everything is labeled properly in this code 
+# after I confirm this works, I need to make an sbatch file 
 
 library(tidyverse)
 library(tidytext)
@@ -26,7 +27,7 @@ if(named_temporal_events_subset == TRUE) {
           filtered_hansard <- hansard_c19 %>%
             filter(str_detect(text, regex(keyword, ignore_case = TRUE))) %>%
             rename(entity = text)
-        
+          
           hansard_named_temporal_events <- bind_rows(hansard_named_temporal_events, filtered_hansard) }
         
         write_csv(subset, "hansard_c19_temporal_events_count.csv") } }
@@ -66,14 +67,14 @@ for (i in 1:length(decades)) {
         add_tally() %>%
         mutate(entity = pattern) } else {
           
-          matches$occurances <- str_count(matches$entity, regex(pattern, ignore_case = TRUE)) 
-          matches$entity <- paste0(pattern) }
+          matches$occurances <- str_count(matches$entity, regex(pattern, ignore_case = TRUE)) }
+    matches$entity <- paste0(pattern)
     
-    entity_count <- bind_rows(entity_count, matches) } }
+    entity_count <- bind_rows(entity_count, matches) } 
   
   decade_of_interest <- decade_of_interest %>%
     select(sentence_id, year, decade)
-    
+  
   entity_count <- left_join(entity_count, decade_of_interest, on = "sentence_id") 
   
   total <- bind_rows(total, entity_count) }
