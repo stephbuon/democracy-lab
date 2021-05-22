@@ -73,6 +73,11 @@ string_replace <- function(hansard_named_temporal_events, find, replace) {
     hansard_named_temporal_events$entity <- str_replace_all(hansard_named_temporal_events$entity, find[[i]], replace[[i]]) }
   return(hansard_named_temporal_events)}
 
+### ADD THIS TO STRING REPLACE: 
+# for(i in seq_along(find)) {
+#  hansard_named_temporal_events$entity <- str_replace_all(hansard_named_temporal_events$entity, regex(find[[i]], ignore_case = TRUE), regex(replace[[i]], ignore_case = TRUE)) }
+
+
 
 import_data <- function(passed_path, data) {
   file_path <- file.path(passed_path)
