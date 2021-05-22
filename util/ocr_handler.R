@@ -49,6 +49,9 @@ ocr_handler <- function(decades, temporal_events_w_decade) {
         select(-year, -decade) %>%
         add_tally() %>%
         mutate(entity = pattern)
+
+      ## add the str_count stuff here: https://github.com/stephbuon/democracy-lab/blob/main/named-entities/temporal-events-counts/main_tec_ocr_handling.R
+
       
       entity_count <- bind_rows(entity_count, matches_count) }
     
