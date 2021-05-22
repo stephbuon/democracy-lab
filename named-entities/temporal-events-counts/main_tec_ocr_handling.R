@@ -66,8 +66,8 @@ for (i in 1:length(decades)) {
         add_tally() %>%
         mutate(entity = pattern) } else {
           
-          matches$occurances <- str_count(matches$entity, regex(pattern, ignore_case = TRUE)) }
-          ##matches$entity <- paste0(pattern) } }
+          matches$occurances <- str_count(matches$entity, regex(pattern, ignore_case = TRUE)) 
+          matches$entity <- paste0(pattern) }
     
     entity_count <- bind_rows(entity_count, matches) } }
   
