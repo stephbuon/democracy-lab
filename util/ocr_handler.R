@@ -111,5 +111,7 @@ main <- function() {
   
   return(out) }
 
+ # this code should have summarize at the end 
+
 
 write_csv(out, "entity_count.csv")
