@@ -1,6 +1,5 @@
 # notes from jo: https://docs.google.com/document/d/1pezD4soeb-Xy1OPAnX0_LLS_tsp30GVOYh9W-HwC0D4/edit
 # also: note that not everything is labeled properly in this code 
-# after I confirm this works, I need to make an sbatch file 
 
 library(tidyverse)
 library(tidytext)
@@ -30,7 +29,7 @@ if(named_temporal_events_subset == TRUE) {
           
           hansard_named_temporal_events <- bind_rows(hansard_named_temporal_events, filtered_hansard) }
         
-        write_csv(subset, "hansard_c19_temporal_events_count.csv") } }
+        write_csv(hansard_named_temporal_events, "hansard_c19_temporal_events_count.csv") } }
 
 find <- c("russian war", "great southern and western line", "great northern bill", "china war", "scottish code", "affghan war", "afghanistan war", "ashantee", "transvaal war", "kafir", "english constitution", "franco german war", "franco - german war", "german war", "british constitution")
 replace <- c("crimean war", "great southern and western railway company", "great northern railway", "chinese war", "scotch code", "afghan war", "afghan war", "ashanti", "boer war", "kaffir", "magna carta", "franco-german war", "franco-german war", "franco-german war", "magna carta") 
