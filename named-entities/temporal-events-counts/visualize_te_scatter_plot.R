@@ -7,7 +7,7 @@ counted_events <- read_csv("~/entity_count_05242021.csv")
 counted_events <- counted_events %>%
   group_by(entity, period, occurances) %>%
   add_count() %>%
-  select(-occurances)
+  select(-occurances) %>%
   ungroup()
            
 subset <- counted_events %>% 
