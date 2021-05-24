@@ -11,8 +11,8 @@ entity_date_dictionary <- read_csv("entity_date_dictionary.csv")
 if(named_temporal_events_subset == TRUE) {
   hansard_named_temporal_events <- read_csv("/scratch/group/pract-txt-mine/hansard_named_temporal_events.csv") } else {
     
-    if (file.exists("hansard_c19_temporal_events_count.csv")) {
-      hansard_named_temporal_events <- read_csv("hansard_c19_temporal_events_count.csv") } else {
+    if (file.exists("hansard_c19_temporal_events_sentences.csv")) {
+      hansard_named_temporal_events <- read_csv("hansard_c19_temporal_events_sentences.csv") } else {
         
         hansard_c19 <- read_csv("~/hansard_justnine_w_year.csv") %>%
           select(sentence_id, text, year)
@@ -29,7 +29,7 @@ if(named_temporal_events_subset == TRUE) {
           
           hansard_named_temporal_events <- bind_rows(hansard_named_temporal_events, filtered_hansard) }
         
-        write_csv(hansard_named_temporal_events, "hansard_c19_temporal_events_count.csv") } }
+         write_csv(hansard_named_temporal_events, "hansard_c19_temporal_events_sentences.csv") } }
 
 find <- c("russian war", "great southern and western line", "great northern bill", "china war", "scottish code", "affghan war", "afghanistan war", "ashantee", "transvaal war", "kafir", "english constitution", "franco german war", "franco - german war", "german war", "british constitution")
 replace <- c("crimean war", "great southern and western railway company", "great northern railway", "chinese war", "scotch code", "afghan war", "afghan war", "ashanti", "boer war", "kaffir", "magna carta", "franco-german war", "franco-german war", "franco-german war", "magna carta") 
@@ -60,16 +60,15 @@ for (i in 1:length(decades)) {
     matches <- decade_of_interest %>%
       filter(str_detect(entity, regex(pattern, ignore_case = TRUE)))
     
-    if(named_temporal_events_subset == TRUE) {
-      matches <- matches %>%
-        select(-year, -decade) %>%
-        add_tally() %>%
-        mutate(entity = pattern) } else {
+  # if(named_temporal_events_subset == TRUE) {
+  #    matches <- matches %>%
+  #      select(-year, -decade) %>%
+  #      add_tally() %>%
+  #      mutate(entity = pattern) } else {
           
           matches$occurances <- str_count(matches$entity, regex(pattern, ignore_case = TRUE)) 
-          matches$entity <- paste0(pattern) }
-    
-    entity_count <- bind_rows(entity_count, matches) } 
+          matches$entity <- paste0(pattern) 
+          entity_count <- bind_rows(entity_count, matches) }
   
   decade_of_interest <- decade_of_interest %>%
     select(sentence_id, year, decade)
@@ -78,11 +77,15 @@ for (i in 1:length(decades)) {
   
   total <- bind_rows(total, entity_count) }
 
-out <- left_join(total, entity_date_dictionary, on = "entity")
+#okay 
 
-out <- out %>%
-  select(-year, -sentence_id) %>%
-  distinct()
+
+a <- left_join(total, entity_date_dictionary, on = "entity")
+
+a <- a %>%
+  select(sentence_id, entity, decade, scholar_assigned_date, occurances) %>%
+  distinct() %>%
+  select(-sentence_id)
 
 #out <- out %>%
 #  str_replace(entity, "american war", "american war of independence")
@@ -95,10 +98,11 @@ out <- out %>%
 
 #include_triples_count$triples_count <- gsub("$", ")", include_triples_count$triples_count)
 
-out$entity <- str_to_title(out$entity)
+a$entity <- str_to_title(a$entity)
 
-out <- out %>%
+a <- a %>%
   rename(period = decade)
 
-write_csv(out, "entity_count.csv")
+write_csv(a, "/scratch/group/pract-txt-mine/entity_count_05242021.csv")
+
 
