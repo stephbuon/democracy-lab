@@ -6,13 +6,13 @@ library(tidytext)
 
 named_temporal_events_subset <- FALSE
 
-entity_date_dictionary <- read_csv("entity_date_dictionary.csv") 
+entity_date_dictionary <- read_csv("~/entity_date_dictionary.csv") 
 
 if(named_temporal_events_subset == TRUE) {
-  hansard_named_temporal_events <- read_csv("/scratch/group/pract-txt-mine/hansard_named_temporal_events.csv") } else {
+  hansard_named_temporal_events <- read_csv("~/hansard_c19_temporal_events_sentences.csv") } else {
     
-    if (file.exists("hansard_c19_temporal_events_sentences.csv")) {
-      hansard_named_temporal_events <- read_csv("hansard_c19_temporal_events_sentences.csv") } else {
+    if (file.exists("~/hansard_c19_temporal_events_sentences.csv")) {
+      hansard_named_temporal_events <- read_csv("~/hansard_c19_temporal_events_sentences.csv") } else {
         
         hansard_c19 <- read_csv("~/hansard_justnine_w_year.csv") %>%
           select(sentence_id, text, year)
@@ -29,7 +29,7 @@ if(named_temporal_events_subset == TRUE) {
           
           hansard_named_temporal_events <- bind_rows(hansard_named_temporal_events, filtered_hansard) }
         
-         write_csv(hansard_named_temporal_events, "hansard_c19_temporal_events_sentences.csv") } }
+         write_csv(hansard_named_temporal_events, "~/hansard_c19_temporal_events_sentences.csv") } }
 
 find <- c("russian war", "great southern and western line", "great northern bill", "china war", "scottish code", "affghan war", "afghanistan war", "ashantee", "transvaal war", "kafir", "english constitution", "franco german war", "franco - german war", "german war", "british constitution")
 replace <- c("crimean war", "great southern and western railway company", "great northern railway", "chinese war", "scotch code", "afghan war", "afghan war", "ashanti", "boer war", "kaffir", "magna carta", "franco-german war", "franco-german war", "franco-german war", "magna carta") 
@@ -103,6 +103,6 @@ a$entity <- str_to_title(a$entity)
 a <- a %>%
   rename(period = decade)
 
-write_csv(a, "/scratch/group/pract-txt-mine/entity_count_05242021.csv")
+write_csv(a, "~/entity_count_05242021.csv")
 
 
