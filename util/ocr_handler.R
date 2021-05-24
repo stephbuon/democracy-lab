@@ -1,6 +1,7 @@
 # notes from jo: https://docs.google.com/document/d/1pezD4soeb-Xy1OPAnX0_LLS_tsp30GVOYh9W-HwC0D4/edit
 
 # add this other type of data input for the handler: https://docs.google.com/spreadsheets/d/1vFiKxCPdwp2HRsh_zFrLzF4f8ZBbsGEA4Wjh9vMWeL0/edit#gid=0
+# so change how the str_detect function works here? 
 
 library(tidyverse)
 
