@@ -6,14 +6,13 @@ library(tidyverse)
 clean_export <- function(out) {
   if ("events_mentioned_by_name_in_parliament" %in% ls(envir = .GlobalEnv)) { 
     out <- out %>%
-      str_replace(entity, "american war", "american war of independence") 
-    out$entity <- str_to_title(out$entity) } }
+      str_replace(keyword, "american war", "american war of independence") 
+    out$keyword <- str_to_title(out$keyword) } }
 
 
 count_entities <- function(total) {
-  print("Counting keywords by period.")
   counted_entities <- total %>%
-    group_by(entity, period, occurances) %>%
+    group_by(keyword, period, occurances) %>%
     add_count() %>%
     select(-occurances) %>%
     ungroup()
@@ -29,49 +28,53 @@ detect_with_ocr_handler <- function(periods, temporal_events_w_period) {
     period_of_interest <- temporal_events_w_period %>%
       filter(period == d)
     
-    patterns_to_match <- entity_date_dictionary$entity
+    # patterns_to_match <- keyword_date_dictionary$keyword add here
     
-    entity_count <- tibble()
+    keyword_count <- tibble()
     for(i in 1:length(patterns_to_match)) {
       pattern <- patterns_to_match[i]
       
       matches <- period_of_interest %>%
-        filter(str_detect(entity, regex(pattern, ignore_case = TRUE)))
+        filter(str_detect(keyword, regex(pattern, ignore_case = TRUE)))
       
-      matches$occurances <- str_count(matches$entity, regex(pattern, ignore_case = TRUE))
-      matches$entity <- paste0(pattern)
-      entity_count <- bind_rows(entity_count, matches) }
+      matches$occurances <- str_count(matches$keyword, regex(pattern, ignore_case = TRUE))
+      matches$keyword <- paste0(pattern)
+      keyword_count <- bind_rows(keyword_count, matches) }
     
     period_of_interest <- period_of_interest %>%
       select(sentence_id, year, period)
     
-    entity_count <- left_join(entity_count, period_of_interest, on = "sentence_id")
+    keyword_count <- left_join(keyword_count, period_of_interest, on = "sentence_id")
     
-    total <- bind_rows(total, entity_count) }
+    total <- bind_rows(total, keyword_count) }
   
-  total <- left_join(total, entity_date_dictionary, on = "entity")
+  total <- left_join(total, keyword_date_dictionary, on = "keyword")
   
   total <- total %>%
-    select(sentence_id, entity, period, scholar_assigned_date, occurances) %>%
+    select(sentence_id, keyword, period, scholar_assigned_date, occurances) %>%
     distinct() %>%
     select(-sentence_id)
   
-  total$entity <- str_to_title(total$entity)
+  total$keyword <- str_to_title(total$keyword)
   return(total) }
 
 
 string_replace <- function(hansard_named_temporal_events, find, replace) {
   for(i in seq_along(find)) {
-    hansard_named_temporal_events$entity <- str_replace_all(hansard_named_temporal_events$entity, regex(find[[i]], ignore_case = TRUE), regex(replace[[i]], ignore_case = TRUE)) }
-  return(hansard_named_temporal_events)}
+    hansard_named_temporal_events$keyword <- str_replace_all(hansard_named_temporal_events$keyword, regex(find[[i]], ignore_case = TRUE), regex(replace[[i]], ignore_case = TRUE)) }
+  return(hansard_named_temporal_events) }
 
 
 subset_data <- function(dataframe, keywords_csv) {
   
   dataframe <- read_csv(dataframe)
-  keywords_csv <- read_csv(keywords_csv) 
+  keywords_csv <- read_csv(keywords_csv)
   
-  keywords_value <- keywords_csv$entity # change instances of entity to keyword 
+  # have something like rename first column to keyword
+  
+  colnames(keywords_csv)[1] <- "keyword" # just added 
+  
+  keywords_value <- keywords_csv$keyword
   
   hansard_named_temporal_events <- tibble()
   for(i in 1:length(keywords_value)) {
@@ -79,7 +82,7 @@ subset_data <- function(dataframe, keywords_csv) {
     
     filtered_hansard <- dataframe %>%
       filter(str_detect(text, regex(keyword, ignore_case = TRUE))) %>%
-      rename(entity = text)
+      rename(keyword = text)
     
     hansard_named_temporal_events <- bind_rows(hansard_named_temporal_events, filtered_hansard) } 
   return(hansard_named_temporal_events) }
@@ -105,10 +108,12 @@ ocr_handler <- function(dataframe, keywords_csv, find = 0, replace = 0) {
   print("Finding occurances of keywords with ocr handler.")
   total <- detect_with_ocr_handler(periods, temporal_events_w_period)
   
+  print("Counting keywords by period.")
   counted_entities <- count_entities(total)
   
   export <- clean_export(counted_entities)
   
+  print("Writing entities count to csv.")
   write_csv(export, paste0("entities_count", format(Sys.time(), "_%Y%m%d"), ".csv")) 
   
   return(export) }
