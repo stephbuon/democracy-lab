@@ -11,7 +11,7 @@ clean_export <- function(out) {
 
 
 count_entities <- function(total) {
-  print("Counting keywords by period")
+  print("Counting keywords by period.")
   counted_entities <- total %>%
     group_by(entity, period, occurances) %>%
     add_count() %>%
@@ -41,21 +41,21 @@ detect_with_ocr_handler <- function(periods, temporal_events_w_period) {
       matches$occurances <- str_count(matches$entity, regex(pattern, ignore_case = TRUE))
       matches$entity <- paste0(pattern)
       entity_count <- bind_rows(entity_count, matches) }
-
+    
     period_of_interest <- period_of_interest %>%
       select(sentence_id, year, period)
-
+    
     entity_count <- left_join(entity_count, period_of_interest, on = "sentence_id")
-
+    
     total <- bind_rows(total, entity_count) }
-
+  
   total <- left_join(total, entity_date_dictionary, on = "entity")
-
+  
   total <- total %>%
     select(sentence_id, entity, period, scholar_assigned_date, occurances) %>%
     distinct() %>%
     select(-sentence_id)
-
+  
   total$entity <- str_to_title(total$entity)
   return(total) }
 
@@ -68,10 +68,8 @@ string_replace <- function(hansard_named_temporal_events, find, replace) {
 
 subset_data <- function(dataframe, keywords_csv) {
   
+  dataframe <- read_csv(dataframe)
   keywords_csv <- read_csv(keywords_csv) 
-  
-  hansard_c19 <- read_csv("~/hansard_justnine_w_year.csv") %>%
-    select(sentence_id, text, year)
   
   keywords_value <- keywords_csv$entity # change instances of entity to keyword 
   
@@ -79,7 +77,7 @@ subset_data <- function(dataframe, keywords_csv) {
   for(i in 1:length(keywords_value)) {
     keyword <- keywords_value[i]
     
-    filtered_hansard <- hansard_c19 %>%
+    filtered_hansard <- dataframe %>%
       filter(str_detect(text, regex(keyword, ignore_case = TRUE))) %>%
       rename(entity = text)
     
@@ -88,9 +86,10 @@ subset_data <- function(dataframe, keywords_csv) {
 
 
 ocr_handler <- function(dataframe, keywords_csv, find = 0, replace = 0) {
-  
+  print("Searching for sentences that contain a keyword.")
   hansard_named_temporal_events <- subset_data(dataframe, keywords_csv)
   
+  print("Substituting strings.")
   if(is.character(find) & is.character(replace)) {
     hansard_named_temporal_events <- string_replace(hansard_named_temporal_events, find, replace) }
   
@@ -103,19 +102,19 @@ ocr_handler <- function(dataframe, keywords_csv, find = 0, replace = 0) {
   if(interval == 1) {
     periods <- 1800:1910 }  # (I should not get a different summarization between these, check and then delete unecessary code!)
   
+  print("Finding occurances of keywords with ocr handler.")
   total <- detect_with_ocr_handler(periods, temporal_events_w_period)
   
   counted_entities <- count_entities(total)
   
   export <- clean_export(counted_entities)
   
-  write_csv(export, paste0(format(Sys.time(), "_%Y%m%d"), ".csv")) 
+  write_csv(export, paste0("entities_count", format(Sys.time(), "_%Y%m%d"), ".csv")) 
   
   return(export) }
 
-test <- ocr_handler(a, b)
+test <- ocr_handler("hansard_justnine_w_year.csv", "entity_date_dictionary.csv")
 
 find <- c("russian war", "great southern and western line", "great northern bill", "china war", "scottish code", "affghan war", "afghanistan war", "ashantee", "transvaal war", "kafir", "english constitution", "franco german war", "franco - german war", "german war", "british constitution")
 replace <- c("crimean war", "great southern and western railway company", "great northern railway", "chinese war", "scotch code", "afghan war", "afghan war", "ashanti", "boer war", "kaffir", "magna carta", "franco-german war", "franco-german war", "franco-german war", "magna carta") 
-
 
