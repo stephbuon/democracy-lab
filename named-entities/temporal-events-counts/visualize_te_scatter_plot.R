@@ -4,14 +4,15 @@ library(viridis)
 
 counted_events <- read_csv("~/entity_count_05242021.csv")
 
-subset <- countedevents %>% 
-  filter(scholar_assigned_date > 1770) 
+subset <- counted_events %>% 
+  filter(scholar_assigned_date > 1770) %>%
+  rename(n = occurances)
 
 ggplot(subset, 
        aes(x = period, 
            y = scholar_assigned_date, 
            color = n)) + #, 
-           #label = paste0(entity, ' (', scholar_assigned_date, ')') )) + 
+  #label = paste0(entity, ' (', scholar_assigned_date, ')') )) + 
   scale_color_viridis(breaks = round, 
                       trans = "log", 
                       option = "B", 
