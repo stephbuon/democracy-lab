@@ -7,111 +7,115 @@ clean_export <- function(out) {
   if ("events_mentioned_by_name_in_parliament" %in% ls(envir = .GlobalEnv)) { 
     out <- out %>%
       str_replace(entity, "american war", "american war of independence") 
-    
-    #endings <- c("war", "revolution", "railway", "exhibition", "code", "convention", "constitution", 
-    #             "company", "boyne", "waterloo", "laws", "colony", "campaign", "inquisition", "articles", "company")
-    # ends_with is not working for me 
-    
-    #out <- gsub("")
-    
-    #include_triples_count$triples_count <- gsub("$", ")", include_triples_count$triples_count)
-    
-    out$entity <- str_to_title(out$entity)
-    
-    if(interval == 100) {
-      out <- out %>%
-        rename(century = decade) } } }
+    out$entity <- str_to_title(out$entity) } }
 
 
-ocr_handler <- function(decades, temporal_events_w_decade) {
+count_entities <- function(total) {
+  print("Counting keywords by period")
+  counted_entities <- total %>%
+    group_by(entity, period, occurances) %>%
+    add_count() %>%
+    select(-occurances) %>%
+    ungroup()
+  return(counted_entities) }
+
+
+detect_with_ocr_handler <- function(periods, temporal_events_w_period) {
   total <- tibble()
   
-  for (i in 1:length(decades)) {
-    d <- decades[i]
+  for (i in 1:length(periods)) {
+    d <- periods[i]
     
-    decade_of_interest <- temporal_events_w_decade %>%
-      filter(decade == d)
+    period_of_interest <- temporal_events_w_period %>%
+      filter(period == d)
     
-    if ("temporal_events_counts" %in% ls(envir = .GlobalEnv)) {
-    patterns_to_match <- get("entity_value") }
+    patterns_to_match <- entity_date_dictionary$entity
     
-    if ("events_for_ner_tables" %in% ls(env = .GlobalEnv)) {
-      pattern_regex <- paste0("events_for_", d)
-      patterns_to_match <- get(pattern_regex) }
-  
     entity_count <- tibble()
     for(i in 1:length(patterns_to_match)) {
       pattern <- patterns_to_match[i]
-      matches <- decade_of_interest %>%
+      
+      matches <- period_of_interest %>%
         filter(str_detect(entity, regex(pattern, ignore_case = TRUE)))
       
-      matches_count <- matches %>%
-        select(-year, -decade) %>%
-        add_tally() %>%
-        mutate(entity = pattern)
+      matches$occurances <- str_count(matches$entity, regex(pattern, ignore_case = TRUE))
+      matches$entity <- paste0(pattern)
+      entity_count <- bind_rows(entity_count, matches) }
 
-      ## add the str_count stuff here: https://github.com/stephbuon/democracy-lab/blob/main/named-entities/temporal-events-counts/main_tec_ocr_handling.R
+    period_of_interest <- period_of_interest %>%
+      select(sentence_id, year, period)
 
-      
-      entity_count <- bind_rows(entity_count, matches_count) }
-    
-    decade_of_interest <- decade_of_interest %>%
-      select(sentence_id, year, decade)
-    
-    entity_count <- left_join(entity_count, decade_of_interest, on = "sentence_id") 
-    
+    entity_count <- left_join(entity_count, period_of_interest, on = "sentence_id")
+
     total <- bind_rows(total, entity_count) }
-  
-  out <- left_join(total, entity_date_dictionary, on = "entity")
-  
-  out <- out %>%
-    select(-year, -sentence_id) %>%
-    distinct() 
-  
-  return(out)}
+
+  total <- left_join(total, entity_date_dictionary, on = "entity")
+
+  total <- total %>%
+    select(sentence_id, entity, period, scholar_assigned_date, occurances) %>%
+    distinct() %>%
+    select(-sentence_id)
+
+  total$entity <- str_to_title(total$entity)
+  return(total) }
 
 
 string_replace <- function(hansard_named_temporal_events, find, replace) {
   for(i in seq_along(find)) {
-    hansard_named_temporal_events$entity <- str_replace_all(hansard_named_temporal_events$entity, find[[i]], replace[[i]]) }
+    hansard_named_temporal_events$entity <- str_replace_all(hansard_named_temporal_events$entity, regex(find[[i]], ignore_case = TRUE), regex(replace[[i]], ignore_case = TRUE)) }
   return(hansard_named_temporal_events)}
 
-### ADD THIS TO STRING REPLACE: 
-# for(i in seq_along(find)) {
-#  hansard_named_temporal_events$entity <- str_replace_all(hansard_named_temporal_events$entity, regex(find[[i]], ignore_case = TRUE), regex(replace[[i]], ignore_case = TRUE)) }
 
-
-
-import_data <- function(passed_path, data) {
-  file_path <- file.path(passed_path)
-  imported_data <- read_csv(file.path(file_path, data)) 
-  return(imported_data) }
-
-
-
-
-main <- function() {
+subset_data <- function(dataframe, keywords_csv) {
   
-  hansard_named_temporal_events <- import_data("/scratch/group/pract-txt-mine", "hansard_named_temporal_events.csv")
+  keywords_csv <- read_csv(keywords_csv) 
   
-  find <- c("russian war", "great southern and western line", "great northern bill", "china war", "scottish code", "affghan war", "afghanistan war", "ashantee", "transvaal war", "kafir", "english constitution", "franco german war", "franco - german war", "german war", "british constitution")
-  replace <- c("crimean war", "great southern and western railway company", "great northern railway", "chinese war", "scotch code", "afghan war", "afghan war", "ashanti", "boer war", "kaffir", "magna carta", "franco-german war", "franco-german war", "franco-german war", "magna carta") 
+  hansard_c19 <- read_csv("~/hansard_justnine_w_year.csv") %>%
+    select(sentence_id, text, year)
   
-  hansard_named_temporal_events <- string_replace(hansard_named_temporal_events, find, replace)
+  keywords_value <- keywords_csv$entity # change instances of entity to keyword 
+  
+  hansard_named_temporal_events <- tibble()
+  for(i in 1:length(keywords_value)) {
+    keyword <- keywords_value[i]
+    
+    filtered_hansard <- hansard_c19 %>%
+      filter(str_detect(text, regex(keyword, ignore_case = TRUE))) %>%
+      rename(entity = text)
+    
+    hansard_named_temporal_events <- bind_rows(hansard_named_temporal_events, filtered_hansard) } 
+  return(hansard_named_temporal_events) }
+
+
+ocr_handler <- function(dataframe, keywords_csv, find = 0, replace = 0) {
+  
+  hansard_named_temporal_events <- subset_data(dataframe, keywords_csv)
+  
+  if(is.character(find) & is.character(replace)) {
+    hansard_named_temporal_events <- string_replace(hansard_named_temporal_events, find, replace) }
   
   interval <- 10
-  temporal_events_w_decade <- hansard_named_temporal_events %>%
-    mutate(decade = year - year %% interval)
+  temporal_events_w_period <- hansard_named_temporal_events %>%
+    mutate(period = year - year %% interval)
   
-  decades <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900")
+  if(interval == 10) {
+    periods <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900") }
+  if(interval == 1) {
+    periods <- 1800:1910 }  # (I should not get a different summarization between these, check and then delete unecessary code!)
   
-  out <- ocr_handler(decades, temporal_events_w_decade)
+  total <- detect_with_ocr_handler(periods, temporal_events_w_period)
   
-  out <- clean_export(out)
+  counted_entities <- count_entities(total)
   
-  return(out) }
+  export <- clean_export(counted_entities)
+  
+  write_csv(export, paste0(format(Sys.time(), "_%Y%m%d"), ".csv")) 
+  
+  return(export) }
 
- # this code should have summarize at the end 
+test <- ocr_handler(a, b)
+
+find <- c("russian war", "great southern and western line", "great northern bill", "china war", "scottish code", "affghan war", "afghanistan war", "ashantee", "transvaal war", "kafir", "english constitution", "franco german war", "franco - german war", "german war", "british constitution")
+replace <- c("crimean war", "great southern and western railway company", "great northern railway", "chinese war", "scotch code", "afghan war", "afghan war", "ashanti", "boer war", "kaffir", "magna carta", "franco-german war", "franco-german war", "franco-german war", "magna carta") 
 
 
-write_csv(out, "entity_count.csv")
