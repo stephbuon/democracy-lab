@@ -31,8 +31,8 @@ if(named_temporal_events_subset == TRUE) {
         
          write_csv(hansard_named_temporal_events, "~/hansard_c19_temporal_events_sentences.csv") } }
 
-find <- c("russian war", "great southern and western line", "great northern bill", "china war", "scottish code", "affghan war", "afghanistan war", "ashantee", "transvaal war", "kafir", "english constitution", "franco german war", "franco - german war", "german war", "british constitution", "the great charter", "civil war of england", "magna charta")
-replace <- c("crimean war", "great southern and western railway company", "great northern railway", "chinese war", "scotch code", "afghan war", "afghan war", "ashanti", "boer war", "kaffir", "magna carta", "franco-german war", "franco-german war", "franco-german war", "magna carta", "magna carta", "english civil war", "magna carta") 
+find <- c("russian war", "great southern and western line", "great northern bill", "china war", "scottish code", "affghan war", "afghanistan war", "ashantee", "transvaal war", "kafir", "english constitution", "franco german war", "franco - german war", "german war", "british constitution", "the great charter", "civil war of england", "magna charta", "rebellion of 1641", "civil war of 1641", "massacres of 1641", "our own civil war")
+replace <- c("crimean war", "great southern and western railway company", "great northern railway", "chinese war", "scotch code", "afghan war", "afghan war", "ashanti", "boer war", "kaffir", "magna carta", "franco-german war", "franco-german war", "franco-german war", "magna carta", "magna carta", "english civil war", "magna carta", "english civil war", "english civil war", "english civil war", "english civil war") 
 
 for(i in seq_along(find)) {
   hansard_named_temporal_events$entity <- str_replace_all(hansard_named_temporal_events$entity, regex(find[[i]], ignore_case = TRUE), regex(replace[[i]], ignore_case = TRUE)) }
