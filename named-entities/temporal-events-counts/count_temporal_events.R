@@ -7,6 +7,7 @@ library(tidytext)
 named_temporal_events_subset <- FALSE
 
 entity_date_dictionary <- read_csv("~/entity_date_dictionary.csv") 
+all_entities <- read_csv("~/all_enties_dictionary.csv")
 
 if(named_temporal_events_subset == TRUE) {
   hansard_named_temporal_events <- read_csv("~/hansard_c19_temporal_events_sentences.csv") } else {
@@ -17,7 +18,7 @@ if(named_temporal_events_subset == TRUE) {
         hansard_c19 <- read_csv("~/hansard_justnine_w_year.csv") %>%
           select(sentence_id, text, year)
         
-        keywords_value <- entity_date_dictionary$entity
+        keywords_value <- all_entities$entity
         
         hansard_named_temporal_events <- tibble()
         for(i in 1:length(keywords_value)) {
