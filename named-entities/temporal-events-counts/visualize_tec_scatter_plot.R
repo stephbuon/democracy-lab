@@ -3,7 +3,7 @@ library(ggrepel)
 library(tidyverse)
 library(viridis)
 
-countedevents <- read_csv("entity_count.csv")
+# countedevents <- read_csv("entity_count.csv") # put correct file path 
 subset <- countedevents %>% 
   filter(scholar_assigned_date > 1770) 
 
