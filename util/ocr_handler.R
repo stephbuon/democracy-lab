@@ -31,8 +31,10 @@ detect_with_ocr_handler <- function(periods, temporal_events_w_period) {
     period_of_interest <- temporal_events_w_period %>%
       filter(period == d)
     
-    # patterns_to_match <- keyword_date_dictionary$keyword add here
-    
+    keyword_date_dictionary <- read_csv(keywords_csv)
+    colnames(subset_csv)[1] <- "keyword" 
+    patterns_to_match <- keyword_date_dictionary$keyword
+        
     keyword_count <- tibble()
     for(i in 1:length(patterns_to_match)) {
       pattern <- patterns_to_match[i]
@@ -68,16 +70,14 @@ string_replace <- function(hansard_named_temporal_events, find, replace) {
   return(hansard_named_temporal_events) }
 
 
+
 subset_data <- function(dataframe, keywords_csv) {
+  dataframe <- read_csv(dataframe) # have a handler -- whether to read csv or use existing variable
+  subset_csv <- read_csv(subset_csv)
   
-  dataframe <- read_csv(dataframe)
-  keywords_csv <- read_csv(keywords_csv)
+  colnames(subset_csv)[1] <- "keyword" # just added 
   
-  # have something like rename first column to keyword
-  
-  colnames(keywords_csv)[1] <- "keyword" # just added 
-  
-  keywords_value <- keywords_csv$keyword
+  keywords_value <- subset_csv$keyword
   
   hansard_named_temporal_events <- tibble()
   for(i in 1:length(keywords_value)) {
@@ -91,9 +91,20 @@ subset_data <- function(dataframe, keywords_csv) {
   return(hansard_named_temporal_events) }
 
 
-ocr_handler <- function(dataframe, keywords_csv, find = 0, replace = 0) {
+format_data <- function(data) {
+  out <- data %>%
+  str_detect(data, ".csv|.tsv") # add something that indicates first column 
+  # if out is not none: do code 
+  # else, treat like variable 
+  # either way -- have rename column in here 
+  
+}
+
+
+ocr_handler <- function(dataframe, keywords_csv, subset_csv = 0, find = 0, replace = 0) {
   print("Searching for sentences that contain a keyword.")
-  hansard_named_temporal_events <- subset_data(dataframe, keywords_csv)
+  # if subset csv has an argument: 
+  hansard_named_temporal_events <- subset_data(dataframe, subset_csv) 
   
   print("Substituting strings.")
   if(is.character(find) & is.character(replace)) {
@@ -109,7 +120,7 @@ ocr_handler <- function(dataframe, keywords_csv, find = 0, replace = 0) {
     periods <- 1800:1910 }  # (I should not get a different summarization between these, check and then delete unecessary code!)
   
   print("Finding occurances of keywords with ocr handler.")
-  total <- detect_with_ocr_handler(periods, temporal_events_w_period)
+  total <- detect_with_ocr_handler(periods, temporal_events_w_period, keywords_csv)
   
   print("Counting keywords by period.")
   counted_entities <- count_entities(total)
