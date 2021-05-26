@@ -22,7 +22,38 @@ count_entities <- function(total) {
   return(counted_entities) }
 
 
-detect_with_ocr_handler <- function(periods, temporal_events_w_period) {
+patterns_to_match <- c("the")
+
+test <- read_csv("hansard_justnine_w_year.csv")
+
+test <- test %>%
+  sample_n(20)
+
+keyword_count <- tibble()
+for(i in 1:length(patterns_to_match)) {
+  pattern <- patterns_to_match[i]
+  
+  matches <- test %>%
+    filter(str_detect(text, regex(pattern, ignore_case = TRUE)))
+  
+  matches$occurances <- str_count(matches$text, regex(pattern, ignore_case = TRUE))
+  matches$text <- paste0(pattern)
+  print("this is matches")
+  print(matches)
+  keyword_count <- bind_rows(keyword_count, matches) }
+
+
+
+
+
+
+
+
+
+
+
+
+detect_with_ocr_handler <- function(periods, temporal_events_w_period, date_dictionary) {
   total <- tibble()
   
   for (i in 1:length(periods)) {
@@ -31,10 +62,10 @@ detect_with_ocr_handler <- function(periods, temporal_events_w_period) {
     period_of_interest <- temporal_events_w_period %>%
       filter(period == d)
     
-    keyword_date_dictionary <- read_csv(keywords_csv)
-    colnames(subset_csv)[1] <- "keyword" 
+    keyword_date_dictionary <- read_csv(date_dictionary)
+    colnames(keyword_date_dictionary)[1] <- "keyword" 
     patterns_to_match <- keyword_date_dictionary$keyword
-        
+    
     keyword_count <- tibble()
     for(i in 1:length(patterns_to_match)) {
       pattern <- patterns_to_match[i]
@@ -52,7 +83,7 @@ detect_with_ocr_handler <- function(periods, temporal_events_w_period) {
     keyword_count <- left_join(keyword_count, period_of_interest, on = "sentence_id")
     
     total <- bind_rows(total, keyword_count) }
-  
+
   total <- left_join(total, keyword_date_dictionary, on = "keyword")
   
   total <- total %>%
@@ -71,13 +102,9 @@ string_replace <- function(hansard_named_temporal_events, find, replace) {
 
 
 
-subset_data <- function(dataframe, keywords_csv) {
-  dataframe <- read_csv(dataframe) # have a handler -- whether to read csv or use existing variable
-  subset_csv <- read_csv(subset_csv)
-  
-  colnames(subset_csv)[1] <- "keyword" # just added 
-  
-  keywords_value <- subset_csv$keyword
+subset_data <- function(dataframe, subset_csv) {
+  dataframe <- read_entire_dataset(dataframe)
+  keywords_value <- read_dictionary(subset_csv)
   
   hansard_named_temporal_events <- tibble()
   for(i in 1:length(keywords_value)) {
@@ -91,22 +118,37 @@ subset_data <- function(dataframe, keywords_csv) {
   return(hansard_named_temporal_events) }
 
 
-format_data <- function(data) {
-  out <- data %>%
-  str_detect(data, ".csv|.tsv") # add something that indicates first column 
-  # if out is not none: do code 
-  # else, treat like variable 
-  # either way -- have rename column in here 
-  
-}
+read_entire_dataset <- function(name) {
+  boolean <- str_detect(name, ".csv|.tsv") 
+  if(boolean == TRUE) {
+    name <- read_csv(name) } else { }
+  return(name) }
 
 
-ocr_handler <- function(dataframe, keywords_csv, subset_csv = 0, find = 0, replace = 0) {
-  print("Searching for sentences that contain a keyword.")
-  # if subset csv has an argument: 
-  hansard_named_temporal_events <- subset_data(dataframe, subset_csv) 
+
+read_dictionary <- function(name) { # this should be properly handled 
+  boolean <- str_detect(name, ".csv|.tsv")
+  if(boolean == TRUE) {
+    name <- read_csv(name) }
   
-  print("Substituting strings.")
+  boolean_2 <- is.data.frame(name)
+  if(boolean_2 == TRUE) {
+    name <- name[,1] } else { }
+  return(name) }
+
+
+
+
+ocr_handler <- function(dataframe, date_dictionary, subset_csv = 0, find = 0, replace = 0) { # rename from csv to something more inclusive 
+  print("Using OCR handler to search for sentences containing a keyword.")
+  
+  print("Subsetting data.") # works
+  if(is.character(subset_csv)) {
+    print("registered character")
+    hansard_named_temporal_events <- subset_data(dataframe, subset_csv) }
+  
+  
+  print("Substituting strings.") # works
   if(is.character(find) & is.character(replace)) {
     hansard_named_temporal_events <- string_replace(hansard_named_temporal_events, find, replace) }
   
@@ -120,20 +162,30 @@ ocr_handler <- function(dataframe, keywords_csv, subset_csv = 0, find = 0, repla
     periods <- 1800:1910 }  # (I should not get a different summarization between these, check and then delete unecessary code!)
   
   print("Finding occurances of keywords with ocr handler.")
-  total <- detect_with_ocr_handler(periods, temporal_events_w_period, keywords_csv)
+  total <- detect_with_ocr_handler(periods, temporal_events_w_period, date_dictionary)
   
+  return(total) }
+
   print("Counting keywords by period.")
   counted_entities <- count_entities(total)
   
+  print(counted_entities)
+  
+  print("Cleaning counted  keywords for export.")
   export <- clean_export(counted_entities)
   
-  print("Writing entities count to csv.")
-  write_csv(export, paste0("entities_count", format(Sys.time(), "_%Y%m%d"), ".csv")) 
+  #print("Writing entities count to csv.")
+  #write_csv(export, paste0("entities_count", format(Sys.time(), "_%Y%m%d"), ".csv")) 
   
-  return(export) }
+  return(counted_entities) }
 
-test <- ocr_handler("hansard_justnine_w_year.csv", "entity_date_dictionary.csv")
 
-find <- c("russian war", "great southern and western line", "great northern bill", "china war", "scottish code", "affghan war", "afghanistan war", "ashantee", "transvaal war", "kafir", "english constitution", "franco german war", "franco - german war", "german war", "british constitution")
-replace <- c("crimean war", "great southern and western railway company", "great northern railway", "chinese war", "scotch code", "afghan war", "afghan war", "ashanti", "boer war", "kaffir", "magna carta", "franco-german war", "franco-german war", "franco-german war", "magna carta") 
+a <- ocr_handler(dataframe = "hansard_justnine_w_year.csv", date_dictionary = "entity_date_dictionary.csv", 
+                 subset_csv = "potato famine", find = "potato famine", replace = "potato_famine")
+
+
+# change subset_cv to subset_by 
+
+# make this so can handle just strings, too 
+# x <- data.frame("SN" = c("american war", "potato famine"))
 
