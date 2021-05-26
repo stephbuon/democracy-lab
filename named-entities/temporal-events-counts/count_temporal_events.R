@@ -7,7 +7,7 @@ library(tidytext)
 named_temporal_events_subset <- FALSE
 
 entity_date_dictionary <- read_csv("~/entity_date_dictionary.csv") 
-all_entities <- read_csv("~/all_enties_regex.csv")
+all_entities <- read_csv("~/all_entities_regex.csv")
 
 if(named_temporal_events_subset == TRUE) {
   hansard_named_temporal_events <- read_csv("~/hansard_c19_temporal_events_sentences.csv") } else {
