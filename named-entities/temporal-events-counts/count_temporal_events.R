@@ -7,7 +7,7 @@ library(tidytext)
 named_temporal_events_subset <- FALSE
 
 entity_date_dictionary <- read_csv("~/entity_date_dictionary.csv") 
-all_entities <- read_csv("~/all_enties_dictionary.csv")
+all_entities <- read_csv("~/all_enties_regex.csv")
 
 if(named_temporal_events_subset == TRUE) {
   hansard_named_temporal_events <- read_csv("~/hansard_c19_temporal_events_sentences.csv") } else {
@@ -32,8 +32,9 @@ if(named_temporal_events_subset == TRUE) {
         
          write_csv(hansard_named_temporal_events, "~/hansard_c19_temporal_events_sentences.csv") } }
 
-find <- c("russian war", "great southern and western line", "great northern bill", "china war", "scottish code", "affghan war", "afghanistan war", "ashantee", "transvaal war", "kafir", "english constitution", "franco german war", "franco - german war", "german war", "british constitution", "the great charter", "civil war of england", "magna charta", "rebellion of 1641", "civil war of 1641", "massacres of 1641", "our own civil war", "domesday survey", "indian mutiny", "navigation act", "war in south africa", "french revolutionary war", "motor(.*)car bill", "battle of vimiero", "battle of hastings", "cattle diseases bill", "diseases of animals act", "scottish code", "factories act", "revolution of france", "sea fisheries regulation bill", "english revolution", "anglo(.*)somali war", "chartist riot", "tithe riot", "bloody sunday", "lancashire famine", "cotton panic", "riot in trafalgar square", "manchester massacre", "anti(.*)corn law agitation", "chartist agitation", "chartist insurrection", "chartist outbreaks", "chartist meeting", "anti(.*)corn law association")
-replace <- c("crimean war", "great southern and western railway company", "great northern railway", "chinese war", "scotch code", "afghan war", "afghan war", "ashanti", "boer war", "kaffir", "magna carta", "franco-german war", "franco-german war", "franco-german war", "magna carta", "magna carta", "english civil war", "magna carta", "english civil war", "english civil war", "english civil war", "english civil war", "domesday book", "great revolt", "navigation laws", "boer war", "french revolution", "motor car act", "battle of vimiera", "norman conquest", "cattle diseases act", "cattle diseases act", "scottish education code", "ten hours bill", "french revolution", "sea fisheries regulation act", "glorious revolution", "somaliland war", "chartism", "tithe war", "trafalgar riot", "cotton famine", "cotton famine", "trafalgar riot", "peterloo", "anti-corn law league", "chartism", "chartism", "chartism", "chartism", "anti-corn law league") 
+find_replace <- read_csv("find_replace.csv")
+find <- find_replace$find
+replace <- find_replace$replace
 
 for(i in seq_along(find)) {
   hansard_named_temporal_events$entity <- str_replace_all(hansard_named_temporal_events$entity, regex(find[[i]], ignore_case = TRUE), regex(replace[[i]], ignore_case = TRUE)) }
@@ -104,6 +105,4 @@ a$entity <- str_to_title(a$entity)
 a <- a %>%
   rename(period = decade)
 
-write_csv(a, "~/entity_count_05242021.csv")
-
-
+write_csv(a, "~/entity_count_05262021.csv")
