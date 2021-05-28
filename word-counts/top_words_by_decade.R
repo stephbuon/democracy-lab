@@ -19,7 +19,7 @@ tidyhans %>%
   facet_wrap(~decade) +
   ggtitle("Top Words by Decade") +
   labs(x = "raw count", y = "word") +
-  theme(axis.text.x = element_text(angle = 90)) +
+  theme(axis.text.x = element_text(angle = 90)) #+
   #scale_x_continuous(labels = comma)
 
 setwd("~/")
