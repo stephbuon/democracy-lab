@@ -21,3 +21,7 @@ From inside the **democracy-lab** directory:
 git reset --hard
 git pull
 ```
+
+#### CRC Documentation on Nodes
+
+http://faculty.smu.edu/csc/documentation/usage.html
