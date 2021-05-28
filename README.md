@@ -22,6 +22,6 @@ git reset --hard
 git pull
 ```
 
-#### CRC Documentation on Nodes
+### CRC Documentation on Nodes
 
 http://faculty.smu.edu/csc/documentation/usage.html
