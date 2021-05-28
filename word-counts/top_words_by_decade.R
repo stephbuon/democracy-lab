@@ -4,15 +4,15 @@ library("lubridate")
 tidyhans <- read_csv("/scratch/group/pract-txt-mine/tokenized_hansard.csv")
 
 tidyhans <- tidyhans %>%
-  mutate(year = year(as.Date(hansard_sample$speechdate)))
+  mutate(year = year(as.Date(tidyhans$speechdate)))
 
-top_words_per_decade <- tidyhans %>%
+tidyhans <- tidyhans %>%
   mutate(decade = year - year %% 10) %>%
   group_by(decade) %>%
   summarize(n = n()) %>%
   top_n(5)
 
-top_words_per_decade %>%
+tidyhans %>%
   ggplot(aes(x = word, 
              y = n)) +
   geom_bar() +
