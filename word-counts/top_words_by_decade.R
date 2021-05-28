@@ -20,7 +20,8 @@ tidyhans %>%
   ggtitle("Top Words by Decade") +
   labs(x = "raw count", y = "word") +
   theme(axis.text.x = element_text(angle = 90)) +
-  scale_x_continuous(labels = comma)
+  #scale_x_continuous(labels = comma)
 
-setwd(~/)
+setwd("~/")
 ggsave("top_words_by_decade.pdf", h = 4, w = 6, units = "in", dpi = 500)
+
