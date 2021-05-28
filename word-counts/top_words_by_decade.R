@@ -1,4 +1,5 @@
 library("tidyverse")
+library("lubridate")
 
 tidyhans <- read_csv("/scratch/group/pract-txt-mine/tokenized_hansard.csv")
 
