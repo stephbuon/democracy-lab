@@ -8,6 +8,7 @@ See the Democracy Lab Wiki for information about:
 - [Running Code](https://github.com/stephbuon/democracy-lab/wiki/Running-Code)
 - [Reccomended Coding Practices](https://github.com/stephbuon/democracy-lab/wiki/Reccomended-Coding-Practices)
 - [Accessing Data](https://github.com/stephbuon/democracy-lab/wiki/Accessing-Data)
+- [Hansard Versions](https://github.com/stephbuon/democracy-lab/wiki/Hansard-Versions)
 - [Handling Deliverables](https://github.com/stephbuon/democracy-lab/wiki/Handling-Deliverables)
 
 ### Updating Local Directories
