@@ -31,8 +31,9 @@ ggplot(data = hansard) +
        y = "raw count") +
   scale_x_reordered() +
   facet_wrap(~ decade, scales = "free") + 
-  coord_flip() 
-
-
+  coord_flip() +
+  scale_y_continuous(labels = comma)
+  
+  
 setwd("~/")
 ggsave("top_words_by_decade.pdf", h = 4, w = 6, units = "in", dpi = 500)
