@@ -2,7 +2,6 @@ import os
 import gensim
 import pandas as pd
 
-
 def export_gensim_models(dir_path, n_cores):
     file_names = []
     cycle = 0
@@ -15,7 +14,7 @@ def export_gensim_models(dir_path, n_cores):
         
         imported_data = pd.read_csv(dir_path + fname)
         
-        sentences_df = parallelize_operation(imported_data, str_split_sentences, n)
+        sentences_df = parallelize_operation(imported_data, str_split_sentences, n_cores)
         
         sentences_df['sentence'] = sentences_df['sentence'].str.split()
         
