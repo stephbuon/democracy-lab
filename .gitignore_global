@@ -1,4 +1,7 @@
 *.out
 *_subsets
+
+__pycache__
+
 .DS_Store
 .ipynb_checkpoints
