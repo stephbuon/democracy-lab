@@ -1,4 +1,4 @@
 *.out
 *_subsets
 .DS_Store
-
+.ipynb_checkpoints
