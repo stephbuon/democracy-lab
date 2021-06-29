@@ -4,5 +4,5 @@ The utilities folder holds a variety of useful scripts and functions that are im
 
 | Dir | Description |
 | --- | --- |
-| **archive** | legacy versions kept as examples. |
-| **sbatch** | sbatch files for different jobs types. |
+| **archive/** | legacy versions kept as examples. |
+| **sbatch/** | sbatch files for different jobs types. |
