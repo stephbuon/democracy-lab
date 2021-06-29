@@ -1,8 +1,8 @@
 # Util Directory
 
-The utilities folder contains a variety of useful scripts, such as scripts that allow you to read data, test code, and perform various other tasks that (enter). 
+The utilities folder holds a variety of useful scripts and functions that are imported by a variety of other scripts. Here, utilities play a modular or interoperable role (i.e. reading in a data set, parallelizing an operation, etc.). 
 
 | Code | Description |
 | --- | --- |
-| **data-io/read_stanford_congress.py** | Aggregate the Stanford Congressional Records .txt files into a data frame |
-| **sbatch/serial_sbatch.sbatch** | Submit a serial sbatch job on SLURM |
+| **archive** | legacy versions kept as examples. |
+| **sbatch** | sbatch files for different jobs types. |
