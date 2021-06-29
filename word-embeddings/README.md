@@ -3,6 +3,7 @@
 | Folder | Description |
 | --- | --- |
 | **us-congress/congressional_data_word2vec.ipynb** | For making, exploring, and visualizing word embeddings in the US congressional records. |
+| **us-congress/originals** | The original code versions. |
 | **hansard/hansard_word2vec.ipynb** | For making, exploring, and visualizing word embeddings in the Hansard data. |
 
 Notes: 
