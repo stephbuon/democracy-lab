@@ -1,11 +1,9 @@
-workhorse-parallel-context-vectors.ipynb pulls from https://smu.app.box.com/folder/135631615557
+# Word Embeddings Directory
 
-congress_model-1890-2010
+| Folder | Description |
+| --- | --- |
+| **us-congress/congressional_data_word2vec.ipynb** | For making, exploring, and visualizing word embeddings in the US congressional records. |
+| **hansard/hansard_word2vec.ipynb** | For making, exploring, and visualizing word embeddings in the Hansard data. |
 
-
-This is all post-model code 
-
-
-The gensim Word2Vec model does not expect strings as its text examples (sentences), 
-but lists-of-tokens. Thus, it's up to your code to tokenize your text, 
-before passing it to Word2Vec. 
+Notes: 
+- The gensim Word2Vec model does not expect strings as its text input, but rather lists of tokens. Therefore, the coder must tokenize the text before passing it to Word2Vec. 
