@@ -1,5 +1,7 @@
 *.out
+
 *_subsets
+*_gensim_models
 
 __pycache__
 
