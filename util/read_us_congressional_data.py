@@ -66,4 +66,4 @@ def import_congressional_data(*args, **kwargs):
     
     return all_data
 
-congressional_data = import_congressional_data(clean_data = True)
+#congressional_data = import_congressional_data(clean_data = True)
