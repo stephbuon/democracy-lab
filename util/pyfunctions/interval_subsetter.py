@@ -13,6 +13,8 @@ def interval_subset(data, col_name, start, end, intv, fname):
     
     start = start
     end = end
+    
+    data = data.sort_values(by='year', ascending=True)
 
     while start <= end:
         start = start + intv
