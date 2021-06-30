@@ -1,6 +1,14 @@
 import os
+import sys
 import gensim
 import pandas as pd
+
+os.chdir('/users/sbuongiorno/')
+sys.path.append('../democracy-lab/util/pyfunctions/')
+
+from pyfunctions.parallelize_operation import parallelize_operation
+from pyfunctions.str_split_sentences import str_split_sentences
+
 
 def export_gensim_models(dir_path, n_cores):
     file_names = []
