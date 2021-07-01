@@ -20,7 +20,7 @@ def export_gensim_models(dir_path, n_cores):
     for fname in file_names:
         cycle = cycle + 1
         
-        imported_data = pd.read_csv(dir_path + fname)
+        imported_data = pd.read_csv(dir_path + fname, encoding = 'ISO-8859-1') # just added the encoding argument 
         
         sentences_df = parallelize_operation(imported_data, str_split_df_sentences, n_cores)
         
@@ -44,6 +44,42 @@ def export_gensim_models(dir_path, n_cores):
         
         congress_model.save(save_name + '_model')
     
+        
+class kw_context:
+    
+    def record_keyword_context(dir_path, keyword_): # if this works, I will update gensim_functions on gh 
+        keyword_context = []
+    
+        for fname in os.listdir(dir_path):
+            if '_model' in fname:
+                congress_model = gensim.models.Word2Vec.load(dir_path + fname)
+                if type(keyword_) == str:
+                    if keyword_ in congress_model.wv.vocab:
+                        keyword_context_period = congress_model.wv.most_similar(keyword_, topn = 1000)
+                        keyword_context.append(keyword_context_period)
+                    else:
+                        keyword_context.append([]) 
+                    
+                if type(keyword_) == list:
+                    for word in keyword_:
+                        if word in congress_model.wv.vocab:
+                            keyword_context_period = congress_model.wv.most_similar(word, topn = 1000)
+                            keyword_context.append(keyword_context_period)
+                        else:
+                            keyword_context.append([])
+                
+        return keyword_context
+
+
+    def record_keyword_dates(dir_path, keyword_):
+        keyword_dates = []
+    
+        for fname in os.listdir(dir_path):
+            if '_model' in fname:
+                year_range = re.findall('[0-9]+', fname)
+                keyword_dates.append(year_range)
+    
+        return keyword_dates
         
 def keyword_context(dir_path, keyword):
     keyword_context = []
