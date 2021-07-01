@@ -1,5 +1,18 @@
 import pandas as pd
 import re
+from nltk.stem import WordNetLemmatizer
+
+def lemmatizer(text):
+    lemmatizer = WordNetLemmatizer()
+    
+    return [lemmatizer.lemmatize(w) for w in text]
+
+
+def lemmatize_text(df):
+    df['speech'] = df['speech'].apply(lemmatize_text)
+    
+    return df
+
 
 def str_split_df_sentences(df):
     split_rule = r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"
@@ -14,3 +27,5 @@ def str_split_df_sentences(df):
     df['sentence'] = df['sentence'].str.replace('[^\w\s]','')
     
     return df
+
+
