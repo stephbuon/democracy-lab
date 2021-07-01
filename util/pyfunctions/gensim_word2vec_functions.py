@@ -8,7 +8,7 @@ sys.path.append('../democracy-lab/util/pyfunctions/')
 
 from pyfunctions.parallelize_operation import parallelize_operation
 from pyfunctions.str_functions import str_split_df_sentences
-
+from pyfunctions.str_functions import lemmatize_df_text
 
 def export_gensim_w2v_models(dir_path, n_cores):
     file_names = []
