@@ -10,7 +10,7 @@ from pyfunctions.parallelize_operation import parallelize_operation
 from pyfunctions.str_functions import str_split_df_sentences
 
 
-def export_gensim_models(dir_path, n_cores):
+def export_gensim_w2v_models(dir_path, n_cores):
     file_names = []
     cycle = 0
     
@@ -45,9 +45,9 @@ def export_gensim_models(dir_path, n_cores):
         congress_model.save(save_name + '_model')
     
         
-class kw_context:
+class w2v_embeddings:
     
-    def record_keyword_context(dir_path, keyword_): # if this works, I will update gensim_functions on gh 
+    def keyword_context(dir_path, keyword_): # if this works, I will update gensim_functions on gh 
         keyword_context = []
     
         for fname in os.listdir(dir_path):
@@ -71,7 +71,7 @@ class kw_context:
         return keyword_context
 
 
-    def record_keyword_dates(dir_path, keyword_):
+    def keyword_dates(dir_path, keyword_):
         keyword_dates = []
     
         for fname in os.listdir(dir_path):
