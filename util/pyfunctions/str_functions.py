@@ -10,8 +10,10 @@ def lemmatizer(text):
 
 def lemmatize_df_text(df):
     df['sentence'] = df['sentence'].apply(lemmatizer)
+    df['sentence'] = df['sentence'].astype(str)
     
     return df
+
 
 
 def str_split_df_sentences(df):
