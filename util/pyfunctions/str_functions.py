@@ -9,7 +9,7 @@ def lemmatizer(text):
 
 
 def lemmatize_df_text(df):
-    df['speech'] = df['speech'].apply(lemmatize_text)
+    df['speech'] = df['speech'].apply(lemmatize)
     
     return df
 
