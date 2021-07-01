@@ -22,7 +22,7 @@ def export_gensim_w2v_models(dir_path, n_cores):
         imported_data = pd.read_csv(dir_path + fname, encoding = 'ISO-8859-1') # just added the encoding argument 
         
         sentences_df = parallelize_operation(imported_data, str_split_df_sentences, n_cores)
-        sentences_df = parallelize_operation(sentences_id, lemmatize_df_text, n_cores)
+        sentences_df = parallelize_operation(sentences_df, lemmatize_df_text, n_cores)
         
         sentences_df['sentence'] = sentences_df['sentence'].str.split()
         
