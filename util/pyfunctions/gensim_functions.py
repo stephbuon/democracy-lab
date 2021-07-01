@@ -80,17 +80,5 @@ class kw_context:
                 keyword_dates.append(year_range)
     
         return keyword_dates
-        
-def keyword_context(dir_path, keyword):
-    keyword_context = []
     
-    for fname in os.listdir(dir_path):
-        if '_model' in fname:
-            congress_model = gensim.models.Word2Vec.load(dir_path + fname)
-            if keyword in congress_model.wv.vocab:
-                keyword_context_period = congress_model.wv.most_similar(keyword, topn = 1000)
-                keyword_context.append(keyword_context_period)
-            else:
-                continue
-                
-    return keyword_context
+    
