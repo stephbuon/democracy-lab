@@ -1,7 +1,7 @@
 import pandas as pd
 import re
 
-def str_split_df_sentences(df, remove_punctuation):
+def str_split_df_sentences(df):
     split_rule = r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"
     
     df['speech'] = df['speech'].apply(lambda x: re.split(split_rule, x))
