@@ -21,7 +21,6 @@ def str_split_df_sentences(df):
 
 def lemmatize_df_text(df):    
     df['sentence'] = df['sentence'].apply(lambda x: [token.lemma_ if 'PRON' not in token.lemma_ else token for token in nlp(x)])
-    df['sentence'] = df['sentence'].apply(lambda x: ' '.join(token for token in x))
+    df['sentence'] = df['sentence'].apply(lambda x: ' '.join(str(token) for token in x))
     
     return df
-
