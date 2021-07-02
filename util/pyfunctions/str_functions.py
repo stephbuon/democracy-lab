@@ -1,20 +1,6 @@
 import pandas as pd
 import re
-from nltk.stem import WordNetLemmatizer
-
-def lemmatizer(text):
-    lemmatizer = WordNetLemmatizer()
-    
-    return [lemmatizer.lemmatize(w) for w in text]
-
-
-def lemmatize_df_text(df):
-    df['sentence'] = df['sentence'].apply(lemmatizer)
-    df['sentence'] = df['sentence'].astype(str)
-    
-    return df
-
-
+from textblob import Word
 
 def str_split_df_sentences(df):
     split_rule = r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"
@@ -30,4 +16,12 @@ def str_split_df_sentences(df):
     
     return df
 
+
+def lemmatize_df_text(df):
+    df['sentence'] = df['sentence'].str.split()
+    df['sentence'] = df['sentence'].apply(lambda x: [Word(word) for word in x])
+    df['sentence'] = df['sentence'].apply(lambda x: [word.lemmatize() for word in x])
+    df['sentence'] = df['sentence'].apply(lambda x: ' '.join(word for word in x))
+    
+    return(df)
 
