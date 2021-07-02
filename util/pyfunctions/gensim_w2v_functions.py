@@ -5,7 +5,6 @@ import gensim
 import pandas as pd
 
 # w2v_visualize_scatter_plot
-%matplotlib inline
 from matplotlib import cm
 from numpy import linspace
 from adjustText import adjust_text
@@ -101,7 +100,7 @@ class w2v_visualize_scatter_plot:
         for period in periods:
             period_names.append(str(period) + '.0')
     
-    return period_names
+        return period_names
 
 
     def collect_text_values(keyword_context, period_names):
