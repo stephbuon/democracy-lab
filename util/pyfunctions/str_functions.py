@@ -19,18 +19,9 @@ def str_split_df_sentences(df):
     return df
 
 
-#def lemmatize_df_text(df): # from textblob import Word
-#    df['sentence'] = df['sentence'].str.split()
-#    df['sentence'] = df['sentence'].apply(lambda x: [Word(word) for word in x])
-#    df['sentence'] = df['sentence'].apply(lambda x: [word.lemmatize() for word in x])
-#    df['sentence'] = df['sentence'].apply(lambda x: ' '.join(word for word in x))
-    
-#    return(df)
-
 def lemmatize_df_text(df):    
-    #df['sentence'] = list(nlp.pipe(df['sentence']) # instead of this i do nlp(x)
-    df['sentence'] = df['sentence'].apply(lambda x: [token.lemma_ for token in nlp(x) if 'PRON' not in token.lemma_])
+    df['sentence'] = df['sentence'].apply(lambda x: [token.lemma_ if 'PRON' not in token.lemma_ else token for token in nlp(x)])
     df['sentence'] = df['sentence'].apply(lambda x: ' '.join(token for token in x))
     
-    return(df)
+    return df
 
