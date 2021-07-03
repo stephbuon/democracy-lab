@@ -26,4 +26,5 @@ def interval_subset(data, col_name, start, end, intv, fname):
             
             file_name = fname + descr + "_" + descr_2
             save_name = os.path.join(target_folder, file_name)
-            subset.to_csv(save_name + ".csv", index = False)
+            subset.to_csv(save_name + ".csv", index = False)#, encoding = 'utf-8')
+            
