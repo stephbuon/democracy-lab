@@ -18,6 +18,10 @@ from pyfunctions.parallelize_operation import parallelize_operation
 from pyfunctions.str_functions import str_split_df_sentences, lemmatize_df_text
 
 
+from pyfunctions.parallelize_operation import parallelize_operation
+from pyfunctions.str_functions import str_split_df_sentences, lemmatize_df_text
+
+
 def export_gensim_w2v_models(dir_path, n_cores):
     file_names = []
     cycle = 0
@@ -28,7 +32,8 @@ def export_gensim_w2v_models(dir_path, n_cores):
     for fname in file_names:
         cycle = cycle + 1
         
-        imported_data = pd.read_csv(dir_path + fname, encoding = 'ISO-8859-1') # just added the encoding argument 
+        #imported_data = pd.read_csv(dir_path + fname, encoding = 'ISO-8859-1') 
+        imported_data = pd.read_csv(open(dir_path + fname,'r'), encoding='utf-8', engine='c')
         
         sentences_df = parallelize_operation(imported_data, str_split_df_sentences, n_cores)
         sentences_df = parallelize_operation(sentences_df, lemmatize_df_text, n_cores)
@@ -56,7 +61,7 @@ def export_gensim_w2v_models(dir_path, n_cores):
         
 class w2v_embeddings:
     
-    def keyword_context(dir_path, keyword_): # if this works, I will update gensim_functions on gh 
+    def keyword_context(dir_path, keyword_):
         keyword_context = []
     
         for fname in os.listdir(dir_path):
@@ -167,4 +172,6 @@ class w2v_visualize_scatter_plot:
         plt.savefig('w2v_' + keyword + '.pdf' )#plt.savefig(keyword + '-over-time-' + str(startdate) + '-' + str(enddate) + '.pdf')
         plt.show()
         
+        
+
         
