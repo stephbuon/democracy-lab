@@ -18,10 +18,6 @@ from pyfunctions.parallelize_operation import parallelize_operation
 from pyfunctions.str_functions import str_split_df_sentences, lemmatize_df_text
 
 
-from pyfunctions.parallelize_operation import parallelize_operation
-from pyfunctions.str_functions import str_split_df_sentences, lemmatize_df_text
-
-
 def export_gensim_w2v_models(dir_path, n_cores):
     file_names = []
     cycle = 0
@@ -30,33 +26,41 @@ def export_gensim_w2v_models(dir_path, n_cores):
         file_names.append(fname)
         
     for fname in file_names:
-        cycle = cycle + 1
+        if not '.csv' in fname:
+            continue
         
-        #imported_data = pd.read_csv(dir_path + fname, encoding = 'ISO-8859-1') 
-        imported_data = pd.read_csv(open(dir_path + fname,'r'), encoding='utf-8', engine='c')
+        else:     
+            cycle = cycle + 1
+            
+            try:
+                imported_data = pd.read_csv(open(dir_path + fname,'r'), encoding='utf-8', engine='python', error_bad_lines = False)
+            except UnicodeDecodeError:
+                imported_data = pd.read_csv(dir_path + fname, encoding = 'ISO-8859-1', engine='c', error_bad_lines = False) 
+            
+            print(imported_data.head(5))
+            
+            sentences_df = parallelize_operation(imported_data, str_split_df_sentences, n_cores)
+            sentences_df = parallelize_operation(sentences_df, lemmatize_df_text, n_cores)
         
-        sentences_df = parallelize_operation(imported_data, str_split_df_sentences, n_cores)
-        sentences_df = parallelize_operation(sentences_df, lemmatize_df_text, n_cores)
+            sentences_df['sentence'] = sentences_df['sentence'].str.split()
         
-        sentences_df['sentence'] = sentences_df['sentence'].str.split()
+            period_model = gensim.models.Word2Vec(sentences = sentences_df['sentence'],
+                                                 workers = n_cores, 
+                                                 min_count = 20, # remove words stated less than 20 times
+                                                 size = 100) # size of neuralnet layers; default is 100 - go higher for larger corpora 
         
-        period_model = gensim.models.Word2Vec(sentences = sentences_df['sentence'],
-                                             workers = n_cores, 
-                                             min_count = 20, # remove words stated less than 20 times
-                                             size = 100) # size of neuralnet layers; default is 100 - go higher for larger corpora 
-        
-        extention_position = fname.index('.')
-        fname = fname[0:extention_position]
+            extention_position = fname.index('.')
+            fname = fname[0:extention_position]
                 
-        if cycle == 1:
-            congress_model = period_model
-        else:
-            congress_model.build_vocab(sentences_df['sentence'], update = True)
-            congress_model.train(sentences_df['sentence'], total_examples = period_model.corpus_count, epochs = period_model.epochs)
+            if cycle == 1:
+                congress_model = period_model
+            else:
+                congress_model.build_vocab(sentences_df['sentence'], update = True)
+                congress_model.train(sentences_df['sentence'], total_examples = period_model.corpus_count, epochs = period_model.epochs)
         
-        save_name = os.path.join(dir_path, fname)
+            save_name = os.path.join(dir_path, fname)
         
-        congress_model.save(save_name + '_model')
+            congress_model.save(save_name + '_model')
     
         
 class w2v_embeddings:
