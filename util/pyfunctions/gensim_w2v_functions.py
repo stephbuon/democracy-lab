@@ -37,7 +37,7 @@ def export_gensim_w2v_models(dir_path, n_cores):
             except UnicodeDecodeError:
                 imported_data = pd.read_csv(dir_path + fname, encoding = 'ISO-8859-1', engine='c', error_bad_lines = False) 
             
-            print(imported_data.head(5))
+            #print(imported_data.head(5))
             
             sentences_df = parallelize_operation(imported_data, str_split_df_sentences, n_cores)
             sentences_df = parallelize_operation(sentences_df, lemmatize_df_text, n_cores)
