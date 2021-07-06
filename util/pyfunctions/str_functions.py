@@ -4,7 +4,7 @@ import re
 import spacy
 nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
 
-
+# change hard coded ness! 
 def str_split_df_sentences(df): # returns a df with one sentence per row. 
     split_rule = r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"
     
