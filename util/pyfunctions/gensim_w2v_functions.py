@@ -47,7 +47,7 @@ def export_gensim_w2v_models(dir_path, n_cores):
             period_model = gensim.models.Word2Vec(sentences = sentences_df['sentence'],
                                                  workers = n_cores, 
                                                  min_count = 20, # remove words stated less than 20 times
-                                                 size = 100) # size of neuralnet layers; default is 100 - go higher for larger corpora 
+                                                 size = 100) # size of neural net layers; default is 100 - go higher for larger corpora 
         
             extention_position = fname.index('.')
             fname = fname[0:extention_position]
