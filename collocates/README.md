@@ -1,0 +1,1 @@
+M2 usage example: `srun -p htc -c 1 --mem=20G python Untitled2.py --data=hansard_justnine_w_year.csv --sep=, --col_name=text --keywords_list=propertywords_cleaned_for_collocates.csv --preprocess_spelling=True --fpath_replace_list=preprocess_propertywords.csv`
