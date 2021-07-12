@@ -1,3 +1,9 @@
+# jar_pickles.py concatenates the .pickle files in a folder, and exports the data to a .csv file. 
+# jar_pickles.py is a CLI program that takes three arguments: 1) the dir path, 2) the name of the export folder (will create one if it does not exist),
+# and 3) the name of the exported .csv file. 
+
+
+
 import os
 import pickle
 import pandas as pd
