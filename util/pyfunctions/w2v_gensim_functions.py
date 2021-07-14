@@ -18,7 +18,7 @@ from pyfunctions.parallelize_operation import parallelize_operation
 from pyfunctions.str_functions import str_split_df_sentences, lemmatize_df_text
 
 
-def export_gensim_w2v_models(dir_path, n_cores):
+def w2v_export_gensim_models(dir_path, n_cores):
     file_names = []
     cycle = 0
     
