@@ -5,7 +5,7 @@ setwd("~/triples_in_hansard")
 detect_keywords <- function(data, col_name, keywords_list, export_name) {
   hansard <- read_csv(data)
   #keywords <- read_csv(keywords_list) # read as a list 
-  keywords <- strsplit(readLines(keywords_list), ", ")
+  keywords <- strsplit(readLines(keywords_list), ", ") # is this working? IDK 
   
   temporal_sentences <- tibble()
   
