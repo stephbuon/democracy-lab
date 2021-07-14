@@ -9,4 +9,4 @@ module purge
 module load r/3.6.2
 
 hostname
-Rscript sentences_with_past_temporal_markers.R
+Rscript sentences_with_temporal_markers.R
