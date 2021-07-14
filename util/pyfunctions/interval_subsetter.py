@@ -2,8 +2,6 @@ import os
 import pandas as pd 
 
 def set_dir(data, fname): 
-    path = os.getcwd()
-    current_folder = os.path.basename(path)
     target_folder = fname + '_subsets'
     os.makedirs(target_folder, exist_ok=True)
     return target_folder
