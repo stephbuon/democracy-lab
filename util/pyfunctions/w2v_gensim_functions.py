@@ -74,25 +74,20 @@ def w2v_export_gensim_models(dir_path, n_cores):
 class w2v_embeddings:
     
     def keyword_context(dir_path, keyword_):
+        regex = re.compile(keyword_ + ('($|\s|\.)'))
+        
         keyword_context = []
     
         for fname in os.listdir(dir_path):
             if '_model' in fname:
                 congress_model = gensim.models.Word2Vec.load(dir_path + fname)
-                if type(keyword_) == str:
-                    if keyword_ in congress_model.wv.vocab:
+                
+                for item in congress_model.wv.key_to_index:
+                    if regex.match(item):
                         keyword_context_period = congress_model.wv.most_similar(keyword_, topn = 1000)
                         keyword_context.append(keyword_context_period)
-                    else:
-                        keyword_context.append([]) 
-                    
-                if type(keyword_) == list:
-                    for word in keyword_:
-                        if word in congress_model.wv.vocab:
-                            keyword_context_period = congress_model.wv.most_similar(word, topn = 1000)
-                            keyword_context.append(keyword_context_period)
-                        else:
-                            keyword_context.append([])
+                else:
+                    keyword_context.append([]) 
                 
         return keyword_context
 
@@ -143,47 +138,50 @@ class w2v_visualize_scatter_plot:
         return flat_list
     
     
-    def w2v_scatter_plot(period_names, keyword_context, flat_list): 
-        
+    def w2v_scatter_plot(period_names, keyword_context, flat_list, keyword): # add a kw argument for title -- like Hansard debates 
         colors = [ cm.gnuplot(x) for x in linspace(0, 1, len(flat_list)) ]
-        
-        plt.figure(figsize=(30,30), dpi = 400)
-        
-        texts = []
-        for i in range(0,len(period_names)): # cycle through period names                     
-            for j in range(10): # cycle through first ten words
-                if keyword_context[i]:
-                    xx = period_names[i] # on the x axis, plot the period name
-                    yy = [item[1] for item in keyword_context[i]][j] # on y, plot distance (how close the word is related to the keyword)
-            txt = [item[0] for item in keyword_context[i]][j] # grab the name of each collocated word
-            colorindex = flat_list.index(txt) # keep all dots for the same word the same color
-        
-            plt.scatter(
-                xx, #x axis
-                yy, # y axis
-                linewidth=1, 
-                color = colors[colorindex],
-                s = 300, # dot size
-                alpha=0.5)  # dot transparency
+    
+        plt.figure(figsize=(30, 30), dpi = 1000)
 
-            texts.append(plt.text(xx, yy, txt)) # make a label for each word
-            
-        adjust_text(texts, force_points=0.0001, force_text=0.0035, # helps with overlapping labels -- may take a minute to run
-                    expand_points=(1, 1), expand_text=(1, 1),
-                    arrowprops=dict(arrowstyle="-", color='black', lw=0.5))
+        texts = []
+
+        # plt.annotate only plots one label per iteration, so we have to use a for loop 
+        for i in range(0,len(period_names)):    # cycle through the period names                     
+            for j in range(10):     # cycle through the first ten words (you can change this variable)
+                if keyword_context[i]:
+                    xx = period_names[i]        # on the x axis, plot the period name
+                    yy = [item[1] for item in keyword_context[i]][j]         # on the y axis, plot the distance -- how closely the word is related to the keyword
+                    txt = [item[0] for item in keyword_context[i]][j]        # grab the name of each collocated word
+                    colorindex = flat_list.index(txt)                     # this command keeps all dots for the same word the same color
+        
+        
+                    plt.scatter(                                           # plot dots
+                        xx, #x axis
+                        yy, # y axis
+                        linewidth=1, 
+                        color = colors[colorindex],
+                        s = 300, # dot size
+                        alpha=0.5)  # dot transparency
+
+                    # make a label for each word
+                    texts.append(plt.text(xx, yy, txt))
+
+        # Code to help with overlapping labels -- may take a minute to run
+        adjust_text(texts, force_points=0.0001, force_text=0.0035, 
+                            expand_points=(2, 2), expand_text=(2, 2), # from 1, 1 
+                            arrowprops=dict(arrowstyle="-", color='black', lw=0.5))
 
 
         plt.xticks(rotation=90)
 
-
-        plt.title("What words were most associated with ''" + keyword + "' in the Hansard debates?", 
-                  fontsize=20, fontweight=0, color='Red')
+        # Add titles
+        plt.title("What words were most associated with ''" + keyword + "' in the Hansard debates?", fontsize=20, fontweight=0, color='Red')
         plt.xlabel("period")
         plt.ylabel("similarity to " + keyword)
 
-        plt.savefig('w2v_' + keyword + '.pdf' )#plt.savefig(keyword + '-over-time-' + str(startdate) + '-' + str(enddate) + '.pdf')
-        plt.show()
-        
-        
+        plt.savefig(keyword + '_' + period_names[1] + '_' + period_names[-1] +'.pdf')
 
+        plt.show()
+
+        
         
