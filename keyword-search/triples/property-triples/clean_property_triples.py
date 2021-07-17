@@ -13,13 +13,18 @@ def clean_property_triples(f_path, keywords_path):
     clean_hansard_triples = pd.DataFrame()
     for keyword in keywords_list:
         
-        regex_1 = re.compile(keyword + ('(-|$)'))
+        regex_1 = re.compile('-' + keyword + ('$'))
         filtered_hansard_triples = hansard_triples[hansard_triples['triple'].str.match(regex_1)]
         clean_hansard_triples = pd.concat([clean_hansard_triples, filtered_hansard_triples], axis=0)
         
-        regex_2 = re.compile('^' + keyword)
+        regex_2 = re.compile('^' + keyword + '-')
         filtered_hansard_triples = hansard_triples[hansard_triples['triple'].str.match(regex_2)]
         clean_hansard_triples = pd.concat([clean_hansard_triples, filtered_hansard_triples], axis=0)
+        
+        regex_3 = re.compile('-' + keyword + '-')
+        filtered_hansard_triples = hansard_triples[hansard_triples['triple'].str.match(regex_3)]
+        clean_hansard_triples = pd.concat([clean_hansard_triples, filtered_hansard_triples], axis=0)
+        
         
     return clean_hansard_triples
 
