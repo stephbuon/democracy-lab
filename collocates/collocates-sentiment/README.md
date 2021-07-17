@@ -1,16 +1,13 @@
 ### Usage
 
-| Required Arguments | Description |
-| --- | --- |
-| --data | Name of input data. |
-| `--sep` | Delimiter of input data. |
-| `--col_name` | Name of column from which collocates will be extracted. |
-| `--keywords_list` | List of keywords to guide collocate extraction |
+| Arguments | Description | Required |
+| --- | --- | --- |
+| `--data` | Name of input data. | True |
+| `--sep` | Delimiter of input data. | True |
+| `--col_name` | Name of column from which collocates will be extracted. | True |
+| `--keywords_list` | List of keywords to guide collocate extraction | True |
+| `--fpath_replace_list` | Name of input data. | False |
 
-| Optional Arguments | Description |
-| --- | --- |
-| `--fpath_replace_list` | Name of input data. |
-| `--fpath_replace_list` | Name of input data. |
 
 JUST HAVE `spelling_preprocessor` as the flag which takes the dir as an argument  
 
