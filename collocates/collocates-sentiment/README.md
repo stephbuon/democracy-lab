@@ -2,7 +2,7 @@
 
 | Required Arguments | Description |
 | --- | --- |
-| `--data` | Name of input data. |
+| --data | Name of input data. |
 | `--sep` | Delimiter of input data. |
 | `--col_name` | Name of column from which collocates will be extracted. |
 | `--keywords_list` | List of keywords to guide collocate extraction |
