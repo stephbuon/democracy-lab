@@ -10,36 +10,6 @@ property_triples$triple <- str_remove(property_triples$triple, "\"")
 property_triples <- property_triples %>%
   select(triple, year)
 
-# need to remove gather or whatever it is from dictionary
-property_triples <- property_triples %>%
-  filter(str_detect(triple, "magistrate-have-power", negate = T)) %>%
-  filter(str_detect(triple, "i-gather-from-speech", negate = T)) %>%
-  filter(str_detect(triple, "magistrate-have-right", negate = T)) %>%
-  filter(str_detect(triple, "magistrates-have-right", negate = T)) %>%
-  filter(str_detect(triple, "which-be-common", negate = T)) %>%
-  filter(str_detect(triple, "it-be-common", negate = T)) %>%
-  filter(str_detect(triple, "i-gather-what", negate = T)) %>%
-  filter(str_detect(triple, "i-gather-from-speech", negate = T)) %>%
-  filter(str_detect(triple, "magistrate", negate = T)) %>%
-  filter(str_detect(triple, "he-be-common", negate = T)) %>%
-  filter(str_detect(triple, "he-gather-from-speech", negate = T)) %>%
-  filter(str_detect(triple, "it-consolidate-law", negate = T)) %>%
-  filter(str_detect(triple, "property-be-to-which", negate = T)) %>%
-  filter(str_detect(triple, "which-affect-property", negate = T)) %>%
-  filter(str_detect(triple, "-which", negate = T)) %>%
-  filter(str_detect(triple, "-that", negate = T)) %>%
-  filter(str_detect(triple, "property-be-subject", negate = T)) %>%
-  filter(str_detect(triple, "property-have-duty", negate = T)) %>%
-  filter(str_detect(triple, "-be-able", negate = T)) %>%
-  filter(str_detect(triple, "-be-unable", negate = T)) %>%
-  filter(str_detect(triple, "^it-", negate = T)) %>%
-  filter(str_detect(triple, "he-ask-attorney", negate = T)) %>%
-  filter(str_detect(triple, "-be-willing", negate = T)) %>%
-  filter(str_detect(triple, "landlord-buy-tenant", negate = T))
-  
-
-
-
 interval <- 10
 
 property_triples <- property_triples %>%
