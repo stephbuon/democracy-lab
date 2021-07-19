@@ -69,3 +69,35 @@ class collocate_analysis:
                 all_collocates_df = pd.concat([all_collocates_df, collocates_df], axis=0)
 
         return all_collocates_df
+
+
+    def extract_grammatical_collocates(dic, keywords_list, **kwargs):
+    
+        if type(keywords_list) != list:
+            raise TypeError('keywords_list must be a list.')
+        
+        regex = re.compile('|'.join(keywords_list))
+    
+        all_collocates_df = pd.DataFrame()
+    
+        for key, value in dic.items():
+            year = key
+        
+            for sentence in value:
+                doc = nlp(sentence)
+            
+                collocates = []
+                for token in doc:
+                    if regex.match(token.text):
+                        if token.text != token.head.text:
+                            collocates.append(str(token.text) + ' ' + str(token.head.text))
+                
+                        for child in token.children:
+                            collocates.append(str(token.text) + ' ' + str(child))
+                        
+                collocates_df = pd.DataFrame(collocates, columns=['grammatical_collocates'])
+                collocates_df['year'] = year
+            
+                all_collocates_df = pd.concat([all_collocates_df, collocates_df], axis=0)
+
+        return all_collocates_df
