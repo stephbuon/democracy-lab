@@ -1,3 +1,11 @@
+import re
+import pandas as pd
+
+import spacy
+from spacy.symbols import nsubj, nsubjpass, dobj, pobj
+
+nlp = spacy.load('en_core_web_sm', disable=['ner'])
+
 class collocate_analysis:
 
     def import_data(fpath, sep, extraction_col, year_col, **kwargs): #col_name, **kwargs):
