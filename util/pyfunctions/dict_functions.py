@@ -1,3 +1,5 @@
+import re
+
 def dict_keyword_lookup(dic, keywords_list):
     filtered_dic = {}
     
