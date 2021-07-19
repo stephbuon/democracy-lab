@@ -1,14 +1,14 @@
 class collocate_analysis:
 
     def import_data(fpath, sep, extraction_col, year_col, **kwargs): #col_name, **kwargs):
-        find_replace = kwargs.get('preprocess_find_replace', None)
+        sub = kwargs.get('sub', None)
     
         data = pd.read_csv(fpath, sep=sep)
     
         data = data[[extraction_col, year_col]]
     
-        if find_replace is not None:
-            data = preprocess_df.find_replace(data, extraction_col, preprocess_find_replace)
+        if sub is not None:
+            data = preprocess_df.find_replace(data, extraction_col, sub)
    
         year = []
         text = []
