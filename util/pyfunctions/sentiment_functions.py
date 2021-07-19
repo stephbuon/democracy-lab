@@ -1,3 +1,12 @@
+import pandas as pd
+
+from afinn import Afinn
+from textblob import TextBlob
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from nltk.corpus import sentiwordnet as swn
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+
 def afinn_sentiment(text):
     return Afinn().score(text)
 
