@@ -20,7 +20,7 @@ def jar_dataframes(pickle_path):
     return pickle_jar
   
   
-  if __name__ == '__main__':
+if __name__ == '__main__':
     try:
         pickle_path = sys.argv[1]
     except IndexError:
