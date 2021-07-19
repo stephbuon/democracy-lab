@@ -40,7 +40,7 @@ class collocate_analysis:
         return year_text_dict
         
     
-    def extract_grammatical_collocates(dic, keywords_list, **kwargs):
+    def extract_nouns_and_modifiers(dic, keywords_list, **kwargs):
     
         if type(keywords_list) != list:
             raise TypeError('keywords_list must be a list.')
