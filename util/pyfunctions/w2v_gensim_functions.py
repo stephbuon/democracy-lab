@@ -84,7 +84,7 @@ class w2v_embeddings:
                 
                 for item in congress_model.wv.key_to_index:
                     if regex.match(item):
-                        keyword_context_period = congress_model.wv.most_similar(keyword_, topn = 1000)
+                        keyword_context_period = congress_model.wv.most_similar(keyword_, topn = 500)
                         keyword_context.append(keyword_context_period)
                 else:
                     keyword_context.append([]) 
