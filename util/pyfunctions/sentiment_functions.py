@@ -28,7 +28,7 @@ def sentiment_score_df(df, col_name):
 
 
 def export_sentiment_laden_text(df, col_name, export_path, export_fname):
-    scored = sentiment_score_df(nouns_modifiers, col_name)
+    scored = sentiment_score_df(df, col_name)
     scored['combined_score'] = scored['afinn'] + scored['textblob'] + scored['vader']
     scored = scored[scored['combined_score'] != 0.000000]
     
