@@ -31,4 +31,8 @@ def export_sentiment_laden_text(df, col_name, export_path, export_fname):
     scored = sentiment_score_df(nouns_modifiers, col_name)
     scored['combined_score'] = scored['afinn'] + scored['textblob'] + scored['vader']
     scored = scored[scored['combined_score'] != 0.000000]
+    
+    if not os.path.exists(export_path):
+        os.mkdir(export_path)
+    
     scored.to_csv(export_path + export_fname, index = False)
