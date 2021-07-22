@@ -25,3 +25,10 @@ def sentiment_score_df(df, col_name):
     df['vader'] = df[col_name].apply(vader_sentiment)
     df['vader'] = df['vader'].apply(lambda score_dict: score_dict['compound'])    
     return df
+
+
+def export_sentiment_laden_text(df, col_name, export_path, export_fname):
+    scored = sentiment_score_df(nouns_modifiers, col_name)
+    scored['combined_score'] = scored['afinn'] + scored['textblob'] + scored['vader']
+    scored = scored[scored['combined_score'] != 0.000000]
+    scored.to_csv(export_path + export_fname, index = False)
