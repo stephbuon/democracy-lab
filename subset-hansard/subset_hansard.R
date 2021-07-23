@@ -1,11 +1,9 @@
 library(tidyverse)
 library(lubridate)
 
-subset_hansard <- function(data, start, end, export_fpath) {
+subset_hansard <- function(data, first_year, last_year, export_fpath) {
 
   hansard <- read_tsv(data)
-  first_year = start
-  last_year = end
 
   hansard <- hansard %>%
     filter(year(speechdate) >= first_year) %>%
@@ -18,5 +16,4 @@ subset_hansard <- function(data, start, end, export_fpath) {
 
   write_csv(hansard, file.path(export_fpath, fname)) }
            
-           
- subset_hansard("/scratch/group/pract-txt-mine/data_sets/hansard/", 1800, 1910, "~/")
+subset_hansard("/scratch/group/pract-txt-mine/data_sets/hansard/", 1800, 1910, "~/")
