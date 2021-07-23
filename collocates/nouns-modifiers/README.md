@@ -1,4 +1,8 @@
-This folder contains code for ENTER. 
+This folder contains code to extract and analyze nouns and their modifiers. 
+
+#### Input
+
+(check if this is right: provided with a CSV file with a text field and a date field, enter.) 
 
 #### Output
 
