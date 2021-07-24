@@ -1,6 +1,6 @@
 import re
+import sys
 import pandas as pd
-
 
 def clean_property_triples(f_path, keywords_path):
     hansard_triples = pd.read_csv(f_path)
