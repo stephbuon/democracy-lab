@@ -1,25 +1,38 @@
+## Please note that by default the googleVis plot command
+## will open a browser window and requires Internet
+## connection to display the visualisation.
+
 library(tidyverse)
 library(googleVis)
 
-triples <- read_csv("~/posextractr/c19_hansard_debate_text_triples_07232021.csv")
+#triples <- read_csv("~/posextractr/c19_hansard_debate_text_triples_07232021.csv")
+triples <- read_csv("~/Downloads/landlord_have_power.csv")
 
-triples_out <- triples %>%
-  filter(str_detect(triple, "landlord-have-power"))
+#triples_out <- triples %>%
+#  filter(str_detect(triple, "landlord-have-power"))
 
-decade <- 10
+#decade <- 10
 
-triples_out <- triples_out %>%
-  mutate(decade = year - year %% decade, text)
+#triples_out <- triples_out %>%
+#  mutate(decade = year - year %% decade, text)
 
-triples_date <- triples_out %>%
-  filter(decade == 1820)
+triples_date <- triples %>%
+  filter(decade == 1890) %>%
+  select(text)
 
-triples_date <- triples_date %>%
-  select(text) 
+j = 5 # how many words constitute a phrase?
 
-triples_date <- triples_date %>%
-  rename(Phrase = text)
+out <- triples_date %>%
+  unnest_tokens(text, text, token = "ngrams", n = j)
 
-wt1 <- gvisWordTree(triples_date, textvar = "Phrase")
+out <- out %>%
+  filter(str_detect(text, "^landlord"))
 
-plot(wt1)
+#wt1 <- gvisWordTree(out, textvar = "text")
+#plot(wt1)
+
+wt2 <- gvisWordTree(out, textvar = "text",
+                    options = list(fontName = "Times-Roman",
+                                   wordtree = "{word: 'landlord'}"))
+plot(wt2)
+
