@@ -31,13 +31,7 @@ def w2v_export_gensim_models(dir_path, n_cores):
     cycle = 0
     
     for fname in os.listdir(dir_path):
-        file_names.append(fname)
-        
-    for fname in file_names:
-        if not '.csv' in fname:
-            continue
-        
-        else:     
+        if '.csv' in fname:
             cycle = cycle + 1
             
             try:
@@ -45,10 +39,12 @@ def w2v_export_gensim_models(dir_path, n_cores):
             except UnicodeDecodeError:
                 imported_data = pd.read_csv(dir_path + fname, encoding = 'ISO-8859-1', engine='c', error_bad_lines = False) 
             
-            #print(imported_data.head(5))
+            print(imported_data)
             
             sentences_df = parallelize_operation(imported_data, str_split_df_sentences, n_cores)
             sentences_df = parallelize_operation(sentences_df, lemmatize_df_text, n_cores)
+            
+            sentences_df['sentence'] = sentences_df['sentence'].str.split()
         
             sentences_df['sentence'] = sentences_df['sentence'].str.split()
         
@@ -56,6 +52,8 @@ def w2v_export_gensim_models(dir_path, n_cores):
                                                  workers = n_cores, 
                                                  min_count = 20, # remove words stated less than 20 times
                                                  size = 100) # size of neural net layers; default is 100 - go higher for larger corpora 
+            
+            print('Successfully generated period model.')
         
             extention_position = fname.index('.')
             fname = fname[0:extention_position]
