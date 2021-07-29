@@ -4,6 +4,7 @@
 
 library(tidyverse)
 library(googleVis)
+library(tidytext)
 
 #triples <- read_csv("~/posextractr/c19_hansard_debate_text_triples_07232021.csv")
 triples <- read_csv("~/Downloads/landlord_have_power.csv")
@@ -26,7 +27,7 @@ out <- triples_date %>%
   unnest_tokens(text, text, token = "ngrams", n = j)
 
 out <- out %>%
-  filter(str_detect(text, "^landlord"))
+  filter(str_detect(text, "power$"))
 
 #wt1 <- gvisWordTree(out, textvar = "text")
 #plot(wt1)
@@ -35,4 +36,3 @@ wt2 <- gvisWordTree(out, textvar = "text",
                     options = list(fontName = "Times-Roman",
                                    wordtree = "{word: 'landlord'}"))
 plot(wt2)
-
