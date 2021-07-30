@@ -2,7 +2,7 @@
 #SBATCH -J r
 #SBATCH -o sentences_with_temporal_markers.out
 #SBATCH -p standard-mem-s,standard-mem-m,standard-mem-l,medium-mem-1-s,medium-mem-1-m
-#SBATCH --mem=200G
+#SBATCH --mem=50G
 #SBATCH --exclusive
 
 module purge
