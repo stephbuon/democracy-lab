@@ -41,6 +41,8 @@ def w2v_export_gensim_models(dir_path, n_cores):
             
             print(imported_data)
             
+            imported_data['speech'] = imported_data['speech'].astype(str) 
+            
             sentences_df = parallelize_operation(imported_data, str_split_df_sentences, n_cores)
             sentences_df = parallelize_operation(sentences_df, lemmatize_df_text, n_cores)
             
