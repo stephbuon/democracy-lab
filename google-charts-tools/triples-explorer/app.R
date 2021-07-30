@@ -3,7 +3,6 @@ library(tidytext)
 library(googleVis)
 library(shiny)
 
-
 triples <- read_csv("landlord_have_power.csv")
 
 ui <- fluidPage(
@@ -11,13 +10,14 @@ ui <- fluidPage(
     titlePanel("Triples Explorer"),
     
     sidebarPanel(
-        selectInput("period", "Period:", 
-                    choices = c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900", "1910")),
-        selectInput("word", "Word:",
-                    choices = c("power", "landlord")),
-        selectInput("length", "Phrase Length:",
-                    choices = c("Full", "10", "25")),
-        width = 2),
+      helpText("Triple: \"landlord-have-power\""),
+      selectInput("period", "Period:", 
+                  choices = c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900", "1910")),
+      selectInput("word", "Word:",
+                  choices = c("power", "landlord")),
+      selectInput("length", "Phrase Length:",
+                  choices = c("Full", "10", "25")),
+      width = 2),
     
     mainPanel(htmlOutput("view")),
     width = 20)

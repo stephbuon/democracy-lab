@@ -1,0 +1,11 @@
+name: triples-explorer
+title: triples-explorer
+username:
+account: stephbuon
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4441222
+bundleId: 4873417
+url: https://stephbuon.shinyapps.io/triples-explorer/
+when: 1627678194.93752
+lastSyncTime: 1627678194.93754
