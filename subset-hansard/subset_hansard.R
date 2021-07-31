@@ -7,7 +7,7 @@ subset_hansard <- function(data, first_year, last_year, export_fpath) {
 
   # i need to fix this -- greater/less than or equal to doesn't wokr -- I also need to change speechdate to a diff col name
   hansard <- hansard %>%
-    filter(year(speechdate) >= first_year) %>%
+    filter(year(speechdate) >= first_year) %>% # i can probably also make this one filter statement 
     filter(year(speechdate) =< last_year)
   
   hansard <- hansard %>%
