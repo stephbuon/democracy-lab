@@ -1,8 +1,6 @@
 library(tidyverse)
 
-dir <- ("/scratch/group/pract-txt-mine/democracy-lab/adjective-noun-pairs-woman")
-
-hansard <- read_csv(file.path(dir, "hansard_1870_79_adjective_noun_pairs.csv"))
+hansard <- read_csv(file.path(dir, "/scratch/group/pract-txt-mine/democracy-lab/adjective-noun-pairs-woman/hansard_1870_79_adjective_noun_pairs.csv"))
 
 hansard$pair <- hansard$pair %>%
   tolower()
@@ -10,27 +8,30 @@ hansard$pair <- hansard$pair %>%
 hansard <- hansard %>%
   filter(str_detect(pair, "woman"))
 
-hansard <- hansard %>%
-  filter(str_detect(pair, "many", negate = TRUE)) %>%
-  filter(str_detect(pair, "such", negate = TRUE)) %>%
-  filter(str_detect(pair, "few", negate = TRUE)) %>%
-  filter(str_detect(pair, "other", negate = TRUE)) %>%
-  filter(str_detect(pair, "more", negate = TRUE)) 
 
-hansard <- hansard %>%
-  select(pair)
+remove_list <- c("many", "such", "few", "other", "more")
 
-hansard <- hansard %>%
+clean_hansard <- tibble()
+
+for(i in 1:length(remove_list)) {
+  
+  remove <- remove_list[i]
+  
+  filtered_hansard <- hansard %>%
+    filter(str_detect(triple, remove, negate = TRUE)) }
+
+clean_hansard <- clean_hansard %>%
+  select(pair) %>%
   count(pair)
 
-hansard <- hansard %>%
+top_pairs <- clean_hansard %>%
   arrange(desc(n)) %>%
   slice(seq_len(45)) 
 
-hansard$pair <- hansard$pair %>%
+top_pairs$pair <- top_pairs$pair %>%
   str_to_title()
 
-ggplot(data = hansard) +
+ggplot(data = top_pairs) +
   geom_col(aes(x = reorder(pair, n), 
                y = n),
            fill = "steel blue") +
