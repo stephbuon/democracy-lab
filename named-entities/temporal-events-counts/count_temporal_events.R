@@ -7,6 +7,7 @@ library(tidytext)
 named_temporal_events_subset <- FALSE
 
 entity_date_dictionary <- read_csv("~/entity_date_dictionary.csv") 
+entity_value <- entity_date_dictionary$entity 
 all_entities <- read_csv("~/all_entities_regex.csv")
 
 if(named_temporal_events_subset == TRUE) {
@@ -106,3 +107,17 @@ a <- a %>%
   rename(period = decade)
 
 write_csv(a, "~/entity_count_05262021.csv")
+
+### If I want to write to a word table
+
+counted_events <- read_csv("~/entity_count_05262021.csv")
+
+out <- counted_events %>%
+  group_by(entity, scholar_assigned_date) %>%
+  summarize(total = sum(occurances))
+
+# contents can be copied/pasted into a word doc
+# inside the word doc, the user can highlight the contents and go to table -> convert -> convert text to table 
+write.table(out, paste0(file = "entities_count_table_05242021.txt"), sep = ",", quote = FALSE, row.names = F)
+
+

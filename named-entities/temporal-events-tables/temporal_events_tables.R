@@ -76,10 +76,10 @@ temporal_events_w_decade <- hansard_named_temporal_events %>%
 
 
 if(select_events == TRUE) {
-  source("events_list.R") }
+  source("events_list.txt") }
 
 if(select_triples == TRUE) {
-  source("triples_list.R") }
+  source("triples_list.txt") }
 
 
 decades <- c("1800", "1810", "1820", "1830", "1840", "1850", "1860", "1870", "1880", "1890", "1900")

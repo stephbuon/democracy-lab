@@ -1,5 +1,8 @@
 # count entity debugging script
 
+# this code explores entity counts at different stages of the code, that way I can compare
+# counts and check that they remain consistent after joins. 
+
 library(tidyverse)
 
 keyword <- "crimean war"
