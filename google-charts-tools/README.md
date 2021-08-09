@@ -1,13 +1,15 @@
-Google Charts provides a suite of free tools for visualizing data. 
+# About Google Charts
 
+[Google Charts](https://developers.google.com/chart) is a suite of tools for visualizing data in a web framework. Google's version uses JavaScript, but various wrappers exist in other languages.
 
-https://developers.google.com/chart
+To make a wordtree: 
+- (original) [Google Wordtree Chart](https://react-google-charts.com/wordtree-chart)
+- (R wrapper) [gvisWordTree](https://rdrr.io/github/mages/googleVis/man/gvisWordTree.html)
+    - Note: the R wrapper is missing some functionality, like a suffix tree. 
 
+# Google Charts Tools Directory
 
-Enter
-
-https://react-google-charts.com/wordtree-chart
-
-In R, 
-
-https://rdrr.io/github/mages/googleVis/man/gvisWordTree.html
+| Folder | Description |
+| --- | --- |
+| **triples-explorer** | A shiny app for exploring the triple "landlord-have-power." |
+| **word_tree_loop.R** | Loop for generating lots of word trees |
