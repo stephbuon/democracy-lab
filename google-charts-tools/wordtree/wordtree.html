@@ -2,8 +2,10 @@
   <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
+      
       google.charts.load('current', {packages:['wordtree']});
       google.charts.setOnLoadCallback(drawSimpleNodeChart);
+      
       function drawSimpleNodeChart() {
         var data = google.visualization.arrayToDataTable(
           [ ['Phrases'],
@@ -23,7 +25,8 @@
         var wordtree = new google.visualization.WordTree(document.getElementById('wordtree_double'));
         wordtree.draw(data, options);
       }
-    </script>
+   
+   </script>
   </head>
   <body>
     <div id="wordtree_double" style="width: 4000px; height: 1000px;"></div>
