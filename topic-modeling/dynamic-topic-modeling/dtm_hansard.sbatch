@@ -10,4 +10,4 @@
 module purge
 module load python/3
 
-python3 hansard_dtm.py
+python3 dtm_hansard.py
