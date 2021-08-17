@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      
+      google.charts.load('current', {packages:['wordtree']});
+      google.charts.setOnLoadCallback(drawSimpleNodeChart);
+      
+      function drawSimpleNodeChart() {
+        var data = google.visualization.arrayToDataTable(
+          [ ['Phrases'],
+          ['The landlord was not to get his rent, but would have power to re-enter.'],
+// ['It  absurd to say that landlords should have the power of evicting without being prepared for resistance on the part of the evicted persons, which would sometimes take the form of agrarian crime and outrage. I have shown also that it is totally inaccurate to say that the landlord has no power of going into Court, because, in the matter of tenant right, which he can check in no other way, this Bill authorizes him to go into the Court. Surely the landlord ought also to have equal power to take his tenant into Court, and show that his rent was just and moderate.'],
+          ]
+        );
+
+        var options = {
+          wordtree: {
+            format: 'implicit',
+            maxFontSize: 1,
+            type: 'double',
+            word: 'landlord'
+          }
+        };
+
+        var wordtree = new google.visualization.WordTree(document.getElementById('wordtree_double'));
+        wordtree.draw(data, options);
+      }
+   
+   </script>
+  </head>
+  <body>
+    <div id="wordtree_double" style="width: 4000px; height: 1000px;"></div>
+  </body>
+</html>
