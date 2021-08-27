@@ -2,6 +2,8 @@ import pandas as pd
 from gensim import corpora, models, similarities
 
 # TODO: add code to remove stopwords
+# also: add astype(str).str.lower()
+# subset = clean_strings(subset, topic_model) # add thsi, too -- clean_strings is defined in the dtm version 
 
 def model_topics(dataframe, col_name):
     data = pd.read_csv(dataframe)
