@@ -5,3 +5,6 @@ interval_subset(hansard, 'year', 1800, 1920, 10, 'hansard_justnine_decades')
 
 cd to that directory 
 run all the code.
+
+
+counts two key words per row of debate text
