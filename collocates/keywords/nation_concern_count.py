@@ -41,7 +41,10 @@ def read_kw_list(kw):
 
 def data_process(df, nations, concerns):
     for nation in nations:
+        nation = nation.lower()
+        
         for concern in concerns:
+            concern = concern.lower()
 
             print('Working on ' + nation + ' and ' + concern)
         
