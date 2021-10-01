@@ -49,16 +49,19 @@ def data_process(df, nations, concerns):
             print('Working on ' + nation + ' and ' + concern)
         
             df['bool'] = df['debate'].apply(cooccurance_count, args = (nation, concern))
-            total = df['bool'].sum()
+            if df['bool'].isin([1]):
+                df['bool'] = df['bool'] + df['group_count']
+                total = df['bool'].sum()
 
-            decade = df.iloc[0]['decade']
 
-            save_path = '/users/sbuongiorno'
-            file_name = 'nation_concern_count_' + str(decade) + '.txt'
+                decade = df.iloc[0]['decade']
+
+                save_path = '/users/sbuongiorno'
+                file_name = 'nation_concern_count_' + str(decade) + '.txt'
             
-            export_file = os.path.join(save_path, file_name)
+                export_file = os.path.join(save_path, file_name)
 
-            if total != 0:
+                #if total != 0:
                 with open(export_file, 'a') as f:
                     f.write(nation + ',' + concern + ',' + str(total) + '\n')
                     f.close()
