@@ -8,4 +8,4 @@
 module purge 
 module load python/3
 
-python hansard_justnine_w_year.csv nation_concern_count.py nations.csv concerns.csv
+python nation_concern_count.py hansard_justnine_w_year.csv nations.csv concerns.csv
