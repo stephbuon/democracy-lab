@@ -50,7 +50,8 @@ def data_process(df, nations, concerns):
             print('Working on ' + nation + ' and ' + concern)
         
             df['bool'] = df['debate'].apply(cooccurance_count, args = (nation, concern))
-            if df['bool'].isin([1]):
+            
+            if 1 in df['bool']:
                 df['bool'] = df['bool'] + df['group_count']
                 total = df['bool'].sum()
 
