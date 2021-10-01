@@ -50,23 +50,23 @@ def data_process(df, nations, concerns):
             print('Working on ' + nation + ' and ' + concern)
         
             df['bool'] = df['debate'].apply(cooccurance_count, args = (nation, concern))
+
+            for index, row in df.iterrows():
+                if 1 in df['bool']:
+                    df['bool'] = df['bool'] + df['group_count']
+                    total = df['bool'].sum()
+
+                    decade = df.iloc[0]['decade']
+
+                    save_path = '/users/sbuongiorno'
+                    file_name = 'nation_concern_count_' + str(decade) + '.txt'
             
-            if 1 in df['bool']:
-                df['bool'] = df['bool'] + df['group_count']
-                total = df['bool'].sum()
+                    export_file = os.path.join(save_path, file_name)
 
-
-                decade = df.iloc[0]['decade']
-
-                save_path = '/users/sbuongiorno'
-                file_name = 'nation_concern_count_' + str(decade) + '.txt'
-            
-                export_file = os.path.join(save_path, file_name)
-
-                #if total != 0:
-                with open(export_file, 'a') as f:
-                    f.write(nation + ',' + concern + ',' + str(total) + '\n')
-                    f.close()
+                    #if total != 0:
+                    with open(export_file, 'a') as f:
+                        f.write(nation + ',' + concern + ',' + str(total) + '\n')
+                        f.close()
 
 
 if __name__ == '__main__':
@@ -99,3 +99,4 @@ if __name__ == '__main__':
     kw2 = read_kw_list(input_kw2)
 
     data_process(df, kw1, kw2)
+
