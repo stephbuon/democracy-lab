@@ -21,7 +21,7 @@ def cooccurance_count(row, nation, concern):
     count = 0
 
     if (re.search(nation, row)) and (re.search(concern, row)):
-        print('Found coocurance: ' + nation + ' and ' + concern)
+        print('Found coocurance: ' + str(nation) + ' and ' + str(concern))
         count += 1
     else:
         count = count
