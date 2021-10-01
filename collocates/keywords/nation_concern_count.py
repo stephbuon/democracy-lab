@@ -17,7 +17,7 @@ def cooccurance_count(row, nation, concern):
 
     count = 0
 
-    if re.search(nation, row): # more effiant than "and"
+    if re.search(nation, row): 
         if re.search(concern, row):
             print('Found coocurance: ' + str(nation) + ' and ' + str(concern))
             count += 1
@@ -48,14 +48,17 @@ def data_process(df, nations, concerns):
         for concern in concerns:
             concern = concern.lower()
 
-            print('Working on ' + nation + ' and ' + concern)
+            #print('Working on ' + nation + ' and ' + concern)
         
             df['bool'] = df['debate'].apply(cooccurance_count, args = (nation, concern))
+            df['bool'] = df['bool'].astype(str)
 
             for index, row in df.iterrows():
-                if 1 in df['bool']:
-                    df['bool'] = df['bool'] + df['group_count']
-                    total = df['bool'].sum()
+                if '1' in row['bool']:
+                    print(row['bool'])
+                    #row['bool'] = row['bool'] + row['group_count']
+                    total = row['group_count']#.sum()                  
+                    print(total)
 
                     decade = df.iloc[0]['decade']
 
