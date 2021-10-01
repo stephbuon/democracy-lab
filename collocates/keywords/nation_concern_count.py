@@ -11,9 +11,6 @@ import pandas as pd
 
 
 def cooccurance_count(row, nation, concern):
-
-    row = str(row)
-    row = row.lower()
     
     nation = re.compile(r'\b%s\b' % nation, re.I)
     concern = re.compile(r'\b%s\b' % concern, re.I)
@@ -40,6 +37,10 @@ def read_kw_list(kw):
 
 
 def data_process(df, nations, concerns):
+    
+    df['debate'] = df['debate'].str.lower()
+    df['debate'] = df['debate'].astype(str)
+    
     for nation in nations:
         nation = nation.lower()
         
