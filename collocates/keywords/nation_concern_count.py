@@ -52,7 +52,7 @@ def data_process(df, nations, concerns):
     
     for nation in nations:
         
-        df['bool'] = df['debate'].apply(cooccurance_count, args = (nation, concerns))
+        df['bool'] = df['debate'].apply(cooccurance_count, args = (nation, concerns, decade))
         df['bool'] = df['bool'].astype(str)
 
 
