@@ -21,7 +21,7 @@ def cooccurance_count(row, nation, concerns, decade):
                 print('Found coocurance: ' + str(nation) + ' and ' + str(concern))
                 
                 save_path = '/users/sbuongiorno'
-                file_name = 'nation_concern_count_' + str(decade) + '.txt'
+                file_name = 'nation_concern_count_' + str(decade) + '.csv'
             
                 export_file = os.path.join(save_path, file_name)
 
