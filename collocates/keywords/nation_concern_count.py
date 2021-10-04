@@ -4,28 +4,33 @@ import os
 import csv
 import pandas as pd
 
-def cooccurance_count(row, nations, concerns):
+def cooccurance_count(row, nation, concerns, decade):
     
-    for nation in nations:
-        count = 0
+    count = 0 
+    
+    nation = nation.lower()
+    nation_regex = re.compile(r'\b%s\b' % nation, re.I)
         
-        nation = nation.lower()
-        nation = re.compile(r'\b%s\b' % nation, re.I)
-        
-        if re.search(nation, row): 
+    if re.search(nation_regex, row): 
             
-            for concern in concerns:
-                concern = concern.lower()
-                concern = re.compile(r'\b%s\b' % concern, re.I)
+        for concern in concerns:
+            concern = concern.lower()
+            concern_regex = re.compile(r'\b%s\b' % concern, re.I)
 
-                if re.search(concern, row):
-                    print('Found coocurance: ' + str(nation) + ' and ' + str(concern))
-                    count += 1
-        else:
-            count = count
+            if re.search(concern_regex, row):
+                print('Found coocurance: ' + str(nation) + ' and ' + str(concern))
                 
-    return count
+                save_path = '/users/sbuongiorno'
+                file_name = 'nation_concern_count_' + str(decade) + '.txt'
+            
+                export_file = os.path.join(save_path, file_name)
 
+                with open(export_file, 'a') as f:
+                    f.write(nation + ',' + concern + ',' + str(total) + '\n')
+                    f.close()
+    else:
+        pass
+    
 
 def read_kw_list(kw):
     kw_list = []
@@ -40,30 +45,15 @@ def read_kw_list(kw):
 
 def data_process(df, nations, concerns):
     
+    decade = df.iloc[0]['decade']
+    
     df['debate'] = df['debate'].str.lower()
     df['debate'] = df['debate'].astype(str)
+    
+    for nation in nations:
         
-    df['bool'] = df['debate'].apply(cooccurance_count, args = (nations, concerns))
-    df['bool'] = df['bool'].astype(str)
-
-    for index, row in df.iterrows():
-        if '1' in row['bool']:
-            print(row['bool'])
-                    #row['bool'] = row['bool'] + row['group_count']
-            total = row['group_count']#.sum()                  
-            print(total)
-
-            decade = df.iloc[0]['decade']
-
-            save_path = '/users/sbuongiorno'
-            file_name = 'nation_concern_count_' + str(decade) + '.txt'
-            
-            export_file = os.path.join(save_path, file_name)
-
-                    #if total != 0:
-            with open(export_file, 'a') as f:
-                f.write(nation + ',' + concern + ',' + str(total) + '\n')
-                f.close()
+        df['bool'] = df['debate'].apply(cooccurance_count, args = (nation, concerns))
+        df['bool'] = df['bool'].astype(str)
 
 
 if __name__ == '__main__':
