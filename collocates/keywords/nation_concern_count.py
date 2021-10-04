@@ -26,7 +26,7 @@ def cooccurance_count(row, nation, concerns, decade):
                 export_file = os.path.join(save_path, file_name)
 
                 with open(export_file, 'a') as f:
-                    f.write(nation + ',' + concern + ',' + str(total) + '\n')
+                    f.write(nation + ',' + concern + ',' + str(1) + '\n')
                     f.close()
     else:
         pass
