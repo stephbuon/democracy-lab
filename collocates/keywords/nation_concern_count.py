@@ -7,6 +7,7 @@ import pandas as pd
 def cooccurance_count(row, nation, concerns, decade):
     
     count = 0 
+    cycle = 0
     
     nation = nation.lower()
     nation_regex = re.compile(r'\b%s\b' % nation, re.I)
@@ -25,8 +26,10 @@ def cooccurance_count(row, nation, concerns, decade):
             
                 export_file = os.path.join(save_path, file_name)
 
+                cycle = cycle + 1
+
                 with open(export_file, 'a') as f:
-                    f.write(nation + ',' + concern + ',' + str(1) + '\n')
+                    f.write(nation + ',' + concern + ',' + str(1) + ',' + 'id_' + str(cycle) + '\n')
                     f.close()
     else:
         pass
@@ -85,4 +88,3 @@ if __name__ == '__main__':
     kw2 = read_kw_list(input_kw2)
 
     data_process(df, kw1, kw2)
-
