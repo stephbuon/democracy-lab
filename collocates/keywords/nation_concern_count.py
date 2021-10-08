@@ -54,7 +54,8 @@ def data_process(df, nations, concerns):
         sentence_id = row['sentence_id']
 
         for nation in nations:
-            row['debate'].apply(cooccurance_count, args = (nation, concerns, decade, sentence_id))
+            #row['debate'].apply(cooccurance_count, args = (nation, concerns, decade, sentence_id))
+            cooccurance_count(row['debate'], nation, concerns, decade, sentence_id)
 
 
 if __name__ == '__main__':
