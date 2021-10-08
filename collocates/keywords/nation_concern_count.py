@@ -4,7 +4,7 @@ import os
 import csv
 import pandas as pd
 
-def cooccurance_count(row, nation, concerns, decade):
+def cooccurance_count(row, nation, concerns, decade, sentence_id):
     
     count = 0 
     
@@ -19,6 +19,8 @@ def cooccurance_count(row, nation, concerns, decade):
 
             if re.search(concern_regex, row):
                 if nation != concern:
+                    global searched
+                    searched.append(nation)
                     print('Found coocurance: ' + str(nation) + ' and ' + str(concern))
                 
                     save_path = '/users/sbuongiorno'
@@ -27,7 +29,7 @@ def cooccurance_count(row, nation, concerns, decade):
                     export_file = os.path.join(save_path, file_name)
 
                     with open(export_file, 'a') as f:
-                        f.write(nation + ',' + concern + ',' + str(1) + '\n')
+                        f.write(nation + ',' + concern + ',' + str(1) + ',' + str(sentence_id) + '\n')
                         f.close()
                 
     
@@ -49,10 +51,12 @@ def data_process(df, nations, concerns):
     
     df['debate'] = df['debate'].str.lower()
     df['debate'] = df['debate'].astype(str)
-    
-    for nation in nations:
 
-        df['debate'].apply(cooccurance_count, args = (nation, concerns, decade))
+    for index, row in df.iterrows():
+        sentence_id = row['sentence_id']
+
+        for nation in nations:
+            df['debate'].apply(cooccurance_count, args = (nation, concerns, decade, sentence_id))
 
 
 if __name__ == '__main__':
