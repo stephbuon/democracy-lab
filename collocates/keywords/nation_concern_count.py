@@ -19,8 +19,6 @@ def cooccurance_count(row, nation, concerns, decade, sentence_id):
 
             if re.search(concern_regex, row):
                 if nation != concern:
-                    global searched
-                    searched.append(nation)
                     print('Found coocurance: ' + str(nation) + ' and ' + str(concern))
                 
                     save_path = '/users/sbuongiorno'
