@@ -4,7 +4,7 @@ import os
 import csv
 import pandas as pd
 
-def cooccurance_count(row, nation, concerns, decade, sentence_id):
+def cooccurance_count(row, nation, concerns, decade, debate_id):
     
     count = 0 
     
@@ -27,7 +27,7 @@ def cooccurance_count(row, nation, concerns, decade, sentence_id):
                     export_file = os.path.join(save_path, file_name)
 
                     with open(export_file, 'a') as f:
-                        f.write(nation + ',' + concern + ',' + str(1) + ',' + str(sentence_id) + '\n')
+                        f.write(nation + ',' + concern + ',' + str(1) + ',' + str(debate_id) + '\n')
                         f.close()
                 
     
@@ -51,11 +51,11 @@ def data_process(df, nations, concerns):
     df['debate'] = df['debate'].astype(str)
 
     for index, row in df.iterrows():
-        sentence_id = row['sentence_id']
+        debate_id = row['debate_id']
 
         for nation in nations:
-            #row['debate'].apply(cooccurance_count, args = (nation, concerns, decade, sentence_id))
-            cooccurance_count(row['debate'], nation, concerns, decade, sentence_id)
+            #row['debate'].apply(cooccurance_count, args = (nation, concerns, decade, debate_id))
+            cooccurance_count(row['debate'], nation, concerns, decade, debate_id)
 
 
 if __name__ == '__main__':
