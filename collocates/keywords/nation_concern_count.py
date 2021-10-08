@@ -7,7 +7,6 @@ import pandas as pd
 def cooccurance_count(row, nation, concerns, decade):
     
     count = 0 
-    cycle = 0
     
     nation = nation.lower()
     nation_regex = re.compile(r'\b%s\b' % nation, re.I)
@@ -19,20 +18,18 @@ def cooccurance_count(row, nation, concerns, decade):
             concern_regex = re.compile(r'\b%s\b' % concern, re.I)
 
             if re.search(concern_regex, row):
-                print('Found coocurance: ' + str(nation) + ' and ' + str(concern))
+                if nation != concern:
+                    print('Found coocurance: ' + str(nation) + ' and ' + str(concern))
                 
-                save_path = '/users/sbuongiorno'
-                file_name = 'nation_concern_count_' + str(decade) + '.csv'
+                    save_path = '/users/sbuongiorno'
+                    file_name = 'nation_concern_count_' + str(decade) + '.csv'
             
-                export_file = os.path.join(save_path, file_name)
+                    export_file = os.path.join(save_path, file_name)
 
-                cycle = cycle + 1
-
-                with open(export_file, 'a') as f:
-                    f.write(nation + ',' + concern + ',' + str(1) + ',' + 'id_' + str(cycle) + '\n')
-                    f.close()
-    else:
-        pass
+                    with open(export_file, 'a') as f:
+                        f.write(nation + ',' + concern + ',' + str(1) + '\n')
+                        f.close()
+                
     
 
 def read_kw_list(kw):
@@ -54,7 +51,7 @@ def data_process(df, nations, concerns):
     df['debate'] = df['debate'].astype(str)
     
     for nation in nations:
-        
+
         df['debate'].apply(cooccurance_count, args = (nation, concerns, decade))
 
 
