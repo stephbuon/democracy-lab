@@ -40,7 +40,7 @@ class collocate_analysis:
         return year_text_dict
         
     
-    def extract_nouns_and_modifiers(dic, keywords_list, **kwargs):
+    def extract_nouns_and_modifiers(dic, keywords_list):
     
         if type(keywords_list) != list:
             raise TypeError('keywords_list must be a list.')
@@ -69,9 +69,12 @@ class collocate_analysis:
                 all_collocates_df = pd.concat([all_collocates_df, collocates_df], axis=0)
 
         return all_collocates_df
-
-
-    def extract_grammatical_collocates(dic, keywords_list, **kwargs):
+    
+    
+    
+    # Extract all direct grammatical collocates (parents and children) of keywords
+    # Arguments: dic = ENTER, keywords_list = ENTER
+    def extract_grammatical_collocates(dic, keywords_list):
     
         if type(keywords_list) != list:
             raise TypeError('keywords_list must be a list.')

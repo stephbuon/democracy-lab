@@ -12,7 +12,7 @@ def interval_subset(data, col_name, start, end, intv, fname):
     start = start
     end = end
     
-    data = data.sort_values(by='year', ascending=True)
+    data = data.sort_values(by=col_name, ascending=True)
 
     while start <= end:
         start = start + intv
@@ -24,5 +24,9 @@ def interval_subset(data, col_name, start, end, intv, fname):
             
             file_name = fname + descr + "_" + descr_2
             save_name = os.path.join(target_folder, file_name)
-            subset.to_csv(save_name + ".csv", index = False)#, encoding = 'utf-8')
+            subset.to_csv(save_name + ".csv", index = False)
             
+            
+# example
+# hansard = pd.read_csv('/scratch/group/pract-txt-mine/sbuongiorno/clean_tokenized_hansard.csv')
+# interval_subset(hansard, 'ngram_order', 1800, 1920, 10, '/scratch/group/pract-txt-mine/sbuongiorno/hansard_decades_text2vec')
