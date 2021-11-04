@@ -1,1 +1,1 @@
-Provided with hansard** as input, export_entities.py will traverse the ENTER columns, and export a .csv file with just ENTER 
+export the same df but with a named entities column
