@@ -2,7 +2,7 @@ import pandas as pd
 import re
 
 import spacy
-nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
+nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner', 'tagger'])
 
 # change hard coded ness! 
 def str_split_df_sentences(df): # returns a df with one sentence per row. 

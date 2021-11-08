@@ -8,16 +8,22 @@ import pandas as pd
 
 
 def jar_dataframes(pickle_path):
-    pickle_jar = pd.DataFrame()
+    # Growing a DF is SLOW 
+    #pickle_jar = pd.DataFrame()
     
-    for fname in os.listdir(pickle_path):
-        if '.pickle' in fname:
-            handler = open(pickle_path + fname, 'rb')
-            py_object = pickle.load(handler)
+    #for fname in os.listdir(pickle_path):
+    #    if '.pickle' in fname:
+    #        handler = open(pickle_path + fname, 'rb')
+    #       py_object = pickle.load(handler)
         
-            pickle_jar = pd.concat([pickle_jar, py_object], axis=0)
+    #        pickle_jar = pd.concat([pickle_jar, py_object], axis=0)
+    # Do this instead: 
     
-    return pickle_jar
+    handler = [open(pickle_path + fname, 'rb') for fname in os.listdir(pickle_path) if '.pickle' in fname]
+    py_object = [pickle.load(file) for file in handler]
+    pd.concat(py_object).to_csv(pickle_path + export_fname)
+    
+    #return pickle_jar
   
   
 if __name__ == '__main__':
@@ -26,13 +32,13 @@ if __name__ == '__main__':
     except IndexError:
         exit('No file named ' + sys.argv[1])
         
-    export_folder = sys.argv[2]
+    #export_folder = sys.argv[2]
     
-    export_fname = sys.argv[3]
+    export_fname = sys.argv[2]
 
     if not os.path.exists(export_folder):
         os.mkdir(export_folder)
         
-    dataframes = jar_dataframes(pickle_path)
+    dataframes = jar_dataframes(pickle_path, export_fname)
     
-    dataframes.to_csv(export_fname, index=False)
+    #dataframes.to_csv(export_fname, index=False)

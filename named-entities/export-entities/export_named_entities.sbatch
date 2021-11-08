@@ -9,7 +9,7 @@
 module purge
 module load python
 
-input_file="stanford_congressional_data.csv"
+input_file="clean_stanford_congressional_data.csv"
 py_script="export_named_entities.py"
 
 work_directory="${SLURM_JOB_NAME}_${SLURM_ARRAY_JOB_ID}"
