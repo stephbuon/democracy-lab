@@ -17,16 +17,16 @@ def export_named_entities(data, arg1):
     data['sentence'] = data['sentence'].astype(str)
     data['parsed_text'] = list(nlp.pipe(data['sentence']))
     data['named_entities'] = data['parsed_text'].apply(extract_named_entity)
-    data['named_entity_cat'] = data['parsed_text'].apply(extract_named_entity_category)
+    #data['named_entity_category'] = data['parsed_text'].apply(extract_named_entity_category)
 
-    #data = data[data.astype(str)['named_entities'] != '[]']
+    #data = data[data['named_entities'].map(bool)]
 
     if not data.empty:
-        handle = open(arg1 + '.pickle', 'wb')
+        handle = open(os.path.basename(arg1) + '.pickle', 'wb')
         pickle.dump(data, handle)
         print('Finished and saved pickle')
     else:
-        ('Finish and no pickled data produced')
+        print('Finish and no pickled data produced')
         exit()
 
 arg1 = sys.argv[1]

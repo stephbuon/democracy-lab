@@ -1,19 +1,20 @@
 #!/bin/bash
-#SBATCH -J export_named_entities
-#SBATCH -o export_named_entities_%A-%a.out
+#SBATCH -J NER
+#SBATCH -o NER_%A-%a.out
 #SBATCH --array=1-19999
 #SBATCH -c 1
 #SBATCH --mem=6G
-#SBATCH -p htc,standard-mem-s,standard-mem-m,standard-mem-l,medium-mem-1-s,medium-mem-2,medium-mem-1-m,high-mem-1,high-mem-2
+#SBATCH -t 0-2
+#SBATCH -p htc,standard-mem-s
 
 module purge
-module load python
+module load python/3
 
-input_file="clean_stanford_congressional_data.csv"
-py_script="export_named_entities.py"
+input_file="clean_data.csv"
+py_script="tag_ner_5.py"
 
 work_directory="${SLURM_JOB_NAME}_${SLURM_ARRAY_JOB_ID}"
-csv_chunk=$(printf "csv_chunk.%05d" ${SLURM_ARRAY_TASK_ID})
+csv_chunk=$(printf "/dev/shm/csv_chunk.%d.%05d" ${SLURM_ARRAY_JOB_ID} ${SLURM_ARRAY_TASK_ID})
 if [ ${SLURM_ARRAY_TASK_ID} -eq ${SLURM_ARRAY_TASK_MIN} ]; then
     mkdir -p ${work_directory}
     cd ${work_directory}
@@ -33,3 +34,5 @@ cat csv_header \
     > ${csv_chunk}
 
 python ${py_script} ${csv_chunk}
+
+rm ${csv_chunk}
