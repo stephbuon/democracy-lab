@@ -15,15 +15,15 @@ for(c in category_list){
   #regex <- "(?=\\().*?(?<=\\))"
   regex <- paste0("(?=\\(", c, ").*?(?<=\\))")
   
-  df$clean_NE <- str_extract_all(df$named_entities, regex)
+  filtered_df$clean_NE <- str_extract_all(filtered_df$named_entities, regex)
   
-  df <- df %>% 
+  filtered_df <- filtered_df %>% 
     mutate(clean_NE = map_chr(clean_NE, toString))
   
-  df <- df %>% 
-    filter(!clean_NE == "")
+  filtered_df <- filtered_df %>% 
+    filter(clean_NE != "")
   
-  df <- df %>%
-    select(-named_entities)
+  #df <- df %>%
+  #  select(-named_entities)
   
   write_csv(filtered_df, paste0("/scratch/group/history/hist_3368-jguldi/stanford_congressional_records_named_entities_", c, ".csv")) }
