@@ -1,6 +1,7 @@
 library(tidyverse)
 
-df <- read_csv("/scratch/group/pract-txt-mine/sbuongiorno/NER_22730187/concat_data.csv")
+#df <- read_csv("/scratch/group/pract-txt-mine/sbuongiorno/NER_22730187/concat_data.csv")
+df <- read_csv("~/test_NER.csv")
 
 df <- df %>%
   filter(named_entities != "[]")
@@ -13,8 +14,7 @@ for(c in category_list){
     filter(str_detect(named_entities, c))
   
   #regex <- "(?=\\().*?(?<=\\))"
-  regex <- paste0("(?=\\(", c, ").*?(?<=\\))")
-  
+  regex <- paste0("[^']+(?=',\\s*'",c,"'\\))")
   filtered_df$clean_NE <- str_extract_all(filtered_df$named_entities, regex)
   
   filtered_df <- filtered_df %>% 
@@ -23,7 +23,7 @@ for(c in category_list){
   filtered_df <- filtered_df %>% 
     filter(clean_NE != "")
   
-  #df <- df %>%
-  #  select(-named_entities)
+  filtered_df <- filtered_df %>%
+    select(-named_entities)
   
   write_csv(filtered_df, paste0("/scratch/group/history/hist_3368-jguldi/stanford_congressional_records_named_entities_", c, ".csv")) }
