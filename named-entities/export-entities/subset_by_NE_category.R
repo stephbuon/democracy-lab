@@ -24,6 +24,6 @@ for(c in category_list){
     filter(clean_NE != "")
   
   filtered_df <- filtered_df %>%
-    select(-named_entities)
+    select(-named_entities, -parsed_text)
   
   write_csv(filtered_df, paste0("/scratch/group/history/hist_3368-jguldi/stanford_congressional_records_named_entities_", c, ".csv")) }
