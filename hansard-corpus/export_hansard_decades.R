@@ -9,9 +9,6 @@ export_split_data <- function(input_dir, export_name) {
   hansard_corpus <- hansard_corpus %>%
     rename(bigram = ngrams)
   
-  hansard_corpus <- hansard_corpus %>%
-    select(ngrams)
-  
   decades <- c(1800, 1810, 1820, 1830, 1840, 1850, 1860, 1870, 1880, 1890, 1900, 1910)
   
   for(d in decades) {
