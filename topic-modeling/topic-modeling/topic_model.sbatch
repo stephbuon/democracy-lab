@@ -9,4 +9,6 @@
 module purge
 module load python/3
 
+export TMPDIR=${JOB_SCRATCH}
+
 python topic_model.py --cores ${SLURM_CPUS_PER_TASK}
