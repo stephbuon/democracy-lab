@@ -4,7 +4,7 @@
 #SBATCH -p standard-mem-m,standard-mem-l,medium-mem-2,medium-mem-1-m,medium-m-1-l
 #SBATCH --mem=150G
 #SBATCH --exclusive
-#SBATCH -c, --cpus-per-task=32
+#SBATCH --cpus-per-task=32
 
 module purge
 module load python/3
