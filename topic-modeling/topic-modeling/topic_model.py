@@ -2,7 +2,7 @@ import re
 import csv
 import pandas as pd
 import pickle
-import os
+import os, sys
 
 from collections import Counter
 
@@ -86,13 +86,7 @@ class load_model_component:
         import_folder = path + 'lda_topic_model_' + target_folder + '/'
         return gensim.models.ldamodel.LdaModel.load(import_folder + target_folder + '_model.gensim')
 
-
-n_topics = 100
-path = '/scratch/group/pract-txt-mine/sbuongiorno/hansard_decades/'
-
-decades = ['1800', '1810', '1820', '1830', '1840', '1850', '1860', '1870', '1880', '1890', '1900']
-
-for decade in decades:
+def run(n_topics, path, decade, w):
     target_folder = decade
 
     for fname in os.listdir(path):
@@ -104,7 +98,7 @@ for decade in decades:
             data = topic_model.clean_data(data)
             dictionary = topic_model.dictionary(data)
             corpus = topic_model.corpus(data)
-            ldamodel = topic_model.lda_topic_model(data, dictionary, corpus, n_topics = n_topics, w = 32, save_model = True)
+            ldamodel = topic_model.lda_topic_model(data, dictionary, corpus, n_topics = n_topics, w, save_model = True)
             
             dictionary = load_model_component.dictionary()
             corpus = load_model_component.corpus()
@@ -123,3 +117,11 @@ for decade in decades:
             df = pd.DataFrame(out, columns=['word', 'topic_id', 'importance', 'word_count'])        
             export_folder = path + 'lda_topic_model_' + target_folder + '/'
             df.to_csv(export_folder + target_folder + '_topics_' + str(n_topics) + '.csv')
+
+ if __name__ == "__main__":
+    n_topics = sys.argv[0]
+    path     = sys.argv[1]
+    decade   = int(sys.argv[2])
+    w        = int(sys.argv[3])
+    run(n_topics, path, decade, w)
+ 
