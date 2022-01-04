@@ -119,11 +119,9 @@ def run(n_topics, path, decade, w):
             df.to_csv(export_folder + target_folder + '_topics_' + str(n_topics) + '.csv')
 
 if __name__ == "__main__":
-    n_topics = sys.argv[0]
-    path     = sys.argv[1]
-    decade   = sys.argv[2]
-    w        = sys.argv[3]
-    #decade   = int(sys.argv[2])
-    #w        = int(sys.argv[3])
+    n_topics = int(sys.argv[1])
+    path     = sys.argv[2]
+    decade   = int(sys.argv[3])
+    w        = int(sys.argv[4])
     run(n_topics, path, decade, w)
  
