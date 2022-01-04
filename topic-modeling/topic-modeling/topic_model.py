@@ -118,7 +118,7 @@ def run(n_topics, path, decade, w):
             export_folder = path + 'lda_topic_model_' + target_folder + '/'
             df.to_csv(export_folder + target_folder + '_topics_' + str(n_topics) + '.csv')
 
- if __name__ == "__main__":
+if __name__ == "__main__":
     n_topics = sys.argv[0]
     path     = sys.argv[1]
     decade   = int(sys.argv[2])
