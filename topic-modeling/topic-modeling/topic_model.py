@@ -121,7 +121,9 @@ def run(n_topics, path, decade, w):
 if __name__ == "__main__":
     n_topics = sys.argv[0]
     path     = sys.argv[1]
-    decade   = int(sys.argv[2])
-    w        = int(sys.argv[3])
+    decade   = sys.argv[2]
+    w        = sys.argv[3]
+    #decade   = int(sys.argv[2])
+    #w        = int(sys.argv[3])
     run(n_topics, path, decade, w)
  
