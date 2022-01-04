@@ -57,7 +57,7 @@ class topic_model:
         lda_model.save(export_folder + target_folder + '_model.gensim')
 
 
-    def lda_topic_model(legco_data, dictionary, corpus, n_topics, w, save_model):
+    def lda_topic_model(dictionary, corpus, n_topics, w, save_model, target_folder):
         
         lda_model = gensim.models.LdaMulticore(corpus, num_topics = n_topics, id2word=dictionary, workers = w, passes=15)
 
@@ -69,20 +69,20 @@ class topic_model:
     def dictionary(data):
         return corpora.Dictionary(data)
 
-    def corpus(data):
+    def corpus(data, dictionary):
         return [dictionary.doc2bow(text) for text in data]
 
 class load_model_component:
 
-    def dictionary():
+    def dictionary(target_folder):
         import_folder = path + 'lda_topic_model_' + target_folder + '/'
         return gensim.corpora.Dictionary.load(import_folder + target_folder + '_dictionary.gensim')
 
-    def corpus():
+    def corpus(target_folder):
         import_folder = path + 'lda_topic_model_' + target_folder + '/'
         return pickle.load(open(import_folder + target_folder + '_corpus.pkl', 'rb'))
 
-    def lda_model():
+    def lda_model(target_folder):
         import_folder = path + 'lda_topic_model_' + target_folder + '/'
         return gensim.models.ldamodel.LdaModel.load(import_folder + target_folder + '_model.gensim')
 
@@ -97,12 +97,12 @@ def run(n_topics, path, decade, w):
             # stopwords = topic_model.import_stopwords()
             data = topic_model.clean_data(data)
             dictionary = topic_model.dictionary(data)
-            corpus = topic_model.corpus(data)
-            ldamodel = topic_model.lda_topic_model(data, dictionary, corpus, n_topics = n_topics, w, save_model = True)
+            corpus = topic_model.corpus(data, dictionary, target_folder)
+            ldamodel = topic_model.lda_topic_model(data, dictionary, corpus, n_topics = n_topics, w = w, save_model = True, target_folder = target_folder)
             
-            dictionary = load_model_component.dictionary()
-            corpus = load_model_component.corpus()
-            ldamodel = load_model_component.lda_model()
+            dictionary = load_model_component.dictionary(target_folder)
+            corpus = load_model_component.corpus(target_folder)
+            ldamodel = load_model_component.lda_model(target_folder)
             
             topics = ldamodel.show_topics(formatted=False, num_topics = 30)
             
