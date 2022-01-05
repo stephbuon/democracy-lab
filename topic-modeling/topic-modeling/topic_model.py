@@ -97,7 +97,7 @@ def run(n_topics, path, decade, w):
             # stopwords = topic_model.import_stopwords()
             data = topic_model.clean_data(data)
             dictionary = topic_model.dictionary(data)
-            corpus = topic_model.corpus(data, dictionary, target_folder)
+            corpus = topic_model.corpus(data, dictionary)
             ldamodel = topic_model.lda_topic_model(data, dictionary, corpus, n_topics = n_topics, w = w, save_model = True, target_folder = target_folder)
             
             dictionary = load_model_component.dictionary(target_folder)
