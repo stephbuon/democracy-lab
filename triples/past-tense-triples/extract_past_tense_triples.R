@@ -24,3 +24,18 @@ for(i in 1:length(keywords_value)) {
 # add these irregular verbs: https://www.ecenglish.com/learnenglish/lessons/irregular-verb-list
 
 write_csv(past_tense_triples, "~/past_tense_triples_08192021.csv")
+
+
+#library(tidyverse)
+
+#triples <- read_csv("")
+
+#out <- triples %>%
+#  filter(str_detect("[]-[]ed-*"))
+
+#out_2 <- triples %>%
+#  filter(str_detect("[]-will-[]ed-*"))
+
+# merge the two data sets
+
+# export data sets 
