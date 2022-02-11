@@ -97,8 +97,9 @@ def run(n_topics, path, decade, w):
             # stopwords = topic_model.import_stopwords()
             data = topic_model.clean_data(data)
             dictionary = topic_model.dictionary(data)
-            corpus = topic_model.corpus(data, dictionary, target_folder)
-            ldamodel = topic_model.lda_topic_model(data, dictionary, corpus, n_topics = n_topics, w = w, save_model = True, target_folder = target_folder)
+            corpus = topic_model.corpus(data, dictionary)
+            print(n_topics)
+            ldamodel = topic_model.lda_topic_model(dictionary, corpus, n_topics, w, True, target_folder)
             
             dictionary = load_model_component.dictionary(target_folder)
             corpus = load_model_component.corpus(target_folder)
@@ -119,9 +120,8 @@ def run(n_topics, path, decade, w):
             df.to_csv(export_folder + target_folder + '_topics_' + str(n_topics) + '.csv')
 
 if __name__ == "__main__":
-    n_topics = sys.argv[0]
-    path     = sys.argv[1]
-    decade   = sys.argv[2] # got rid of int()
-    w        = sys.argv[3] # got rid of int()
+    n_topics = sys.argv[1]
+    path     = sys.argv[2]
+    decade   = sys.argv[3]
+    w        = int(sys.argv[4])
     run(n_topics, path, decade, w)
- 

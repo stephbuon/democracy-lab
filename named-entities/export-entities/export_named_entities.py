@@ -6,7 +6,8 @@ import spacy
 nlp = spacy.load('en_core_web_sm', disable=['parser', 'lemmatizer', 'tagger'])
 
 def extract_named_entity(sentence):
-    return [str(entity.text) for entity in sentence.ents]   
+    return [str(entity.text) for entity in sentence.ents]
+    # If I want to return tuples (entity.text, entity.label) instead:
     # return [(entity.text, entity.label_) for entity in sentence.ents]   
     
 def extract_named_entity_category(sentence):
@@ -29,8 +30,19 @@ def export_named_entities(data, arg1):
         print('Finish and no pickled data produced')
         exit()
 
-arg1 = sys.argv[1]
-data = pd.read_csv(arg1)
-export_named_entities(data, arg1)
+#arg1 = sys.argv[1]
+#data = pd.read_csv(arg1)
+#export_named_entities(data, arg1)
 
+if __name__ == '__main__':
+    try:
+        input_file = sys.argv[1]
+        extraction_col = sys.argv[2]
+        
+    except IndexError:
+        exit('Requires 2 arguments: input csv file name and extraction column name.')
+        
+    data = pd.read_csv(input_file)
+    
+    export_named_entities(data, arg2, arg1)
 
