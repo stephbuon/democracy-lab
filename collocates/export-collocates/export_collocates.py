@@ -50,10 +50,13 @@ class collocate_analysis:
     
     def import_keywords(keywords):
         if keywords is not None:
-            with open(keywords, newline = '') as f:
-                parsed_keywords = [line.strip() for line in f]
+            file_ext = ['.csv', '.tsv', '.xlsx', '.txt']
+            
+            if any(ext in keywords for ext in file_ext):
+                with open(keywords, newline = '') as f:
+                    keywords = [line.strip() for line in f]
                 
-                return parsed_keywords
+            return keywords
     
     
     def make_regex(keywords_list):
@@ -227,7 +230,7 @@ if __name__ == '__main__':
         year_col = 'year'
         keywords = 'friend'
         
-    data = main(input_file, extraction_col, year_col, keywords)
+    data = main(input_file, extraction_col, year_col, keywords = keywords)
     
     if not data.empty:
         path = Path(input_file)
