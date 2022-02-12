@@ -9,7 +9,7 @@ See the Democracy Lab Wiki for information about:
 - [Version Control Practices](https://github.com/stephbuon/democracy-lab/wiki/Version-Control-Practices)
 - [Running Code](https://github.com/stephbuon/democracy-lab/wiki/Running-Code)
 - [Submitting SBATCH Jobs on M2](https://github.com/stephbuon/democracy-lab/wiki/Submitting-SBATCH-Jobs-on-M2)
-- [Reccomended Coding Practices](https://github.com/stephbuon/democracy-lab/wiki/Reccomended-Coding-Practices)
+- [Recomended Coding Practices](https://github.com/stephbuon/democracy-lab/wiki/Reccomended-Coding-Practices)
 - [Accessing Data](https://github.com/stephbuon/democracy-lab/wiki/Accessing-Data)
 - [Hansard Versions](https://github.com/stephbuon/democracy-lab/wiki/Hansard-Versions)
 - [Handling Deliverables](https://github.com/stephbuon/democracy-lab/wiki/Handling-Deliverables)
