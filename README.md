@@ -17,7 +17,7 @@ See the Democracy Lab Wiki for information about:
 ### Updating Local Directories
 
 #### Initial Clone 
-`git clone https://github.com/stephbuon/democracy-lab.git --recursive`
+`git clone https://github.com/stephbuon/democracy-lab.git`
 
 #### Subsequent Updates
 From inside the **democracy-lab** directory:
