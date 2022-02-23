@@ -7,6 +7,7 @@ df <- df %>%
   filter(named_entities != "[]")
 
 category_list <- c("GPE", "LAW", "PERSON", "LOC", "DATE", "ORG", "EVENT")
+#category_list <- c("NORP", "FAC", "PRODUCT", "WORK_OF_ART", "LANGUAGE", "TIME", "PERCENT", "MONEY", "QUANTITY", "ORDINAL", "CARDINAL")
 
 for(c in category_list){
   

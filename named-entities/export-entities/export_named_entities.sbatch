@@ -11,7 +11,7 @@ module purge
 module load python/3
 
 input_file="clean_data.csv"
-py_script="tag_ner_5.py"
+py_script="export_named_entities.py"
 
 work_directory="${SLURM_JOB_NAME}_${SLURM_ARRAY_JOB_ID}"
 csv_chunk=$(printf "/dev/shm/csv_chunk.%d.%05d" ${SLURM_ARRAY_JOB_ID} ${SLURM_ARRAY_TASK_ID})
