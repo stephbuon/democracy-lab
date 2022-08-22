@@ -233,14 +233,14 @@ if __name__ == '__main__':
     data = main(input_file, extraction_col, year_col, keywords = keywords)
     
     if not data.empty:
-        #path = Path(input_file)
+        path = Path(input_file)
         
-        export_fname = str(path).split('/')[-1]
-        export_fname = os.path.splitext(export_fname)[0]
+        #export_fname = str(path).split('/')[-1]
+        #export_fname = os.path.splitext(export_fname)[0]
 
         #handle = open(str(path.parent) + '/' + export_fname + '.pickle', 'wb')
         
-        handle = open(str('/users/sbuongiorno/' + export_fname + '.pickle', 'wb'))
+        handle = open(str('/users/sbuongiorno/' + path + '.pickle', 'wb'))
 
         pickle.dump(data, handle)
         print('Exported data as {}'.format(handle))
