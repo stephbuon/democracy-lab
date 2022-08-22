@@ -211,7 +211,13 @@ def main(input_file, extraction_col, year_col, **kwargs):
 if __name__ == '__main__':
     debug = True
     
-    if debug == False:
+    if debug == True:
+        input_file = '/users/sbuongiorno/hansard_samples/full_hansard_sample.csv'
+        extraction_col = 'text'
+        year_col = 'year'
+        keywords = 'friend'
+            
+    else:
         try:
             input_file = sys.argv[1]
             extraction_col = sys.argv[2]
@@ -223,12 +229,6 @@ if __name__ == '__main__':
             keywords = sys.argv[4]
         except:
             keywords = None
-            
-    else:
-        input_file = '/users/sbuongiorno/hansard_samples/full_hansard_sample.csv'
-        extraction_col = 'text'
-        year_col = 'year'
-        keywords = 'friend'
         
     data = main(input_file, extraction_col, year_col, keywords = keywords)
     
