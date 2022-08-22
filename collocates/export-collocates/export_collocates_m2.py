@@ -1,3 +1,4 @@
+
 from pathlib import Path
 
 import sys
@@ -28,10 +29,10 @@ class collocate_analysis:
    
         year = []
         text = []
-
+        
         for index, row in data.iterrows():
-            year.append(row['year'])
-            text.append(row['text'])
+            year.append(row[year_col])
+            text.append(row[extraction_col])
         
         year_text_list = list(zip(year, text))
         
@@ -195,7 +196,7 @@ def main(input_file, extraction_col, year_col, **kwargs):
     keywords = kwargs.get('keywords', None)
     
     data = collocate_analysis.import_data(input_file, ',', extraction_col=extraction_col, year_col=year_col)#, sub='/users/sbuongiorno/preprocess_propertywords.csv')
-    
+        
     keywords = collocate_analysis.import_keywords(keywords)
     
     data = dict_keyword_lookup(data, keywords) # filter for setnences that contain 
