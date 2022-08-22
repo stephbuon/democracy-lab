@@ -10,7 +10,7 @@ module purge
 module load python
 
 input_file="hansard_justnine_w_year.csv"
-py_script="collocates_sentiment.py"
+py_script="extract_collocates.py"
 
 work_directory="${SLURM_JOB_NAME}_${SLURM_ARRAY_JOB_ID}"
 csv_chunk=$(printf "csv_chunk.%05d" ${SLURM_ARRAY_TASK_ID})
