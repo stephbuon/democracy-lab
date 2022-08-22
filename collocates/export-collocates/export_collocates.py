@@ -97,7 +97,7 @@ class collocate_analysis:
             year = key
         
             for sentence in value:
-                doc = nlp(sentence)
+                doc = nlp(str(sentence))
             
                 collocates = []
                 for token in doc:
@@ -124,7 +124,7 @@ class collocate_analysis:
             year = key
         
             for sentence in value:
-                doc = nlp(sentence)
+                doc = nlp(str(sentence))
             
                 collocates = []
                 for token in doc:
