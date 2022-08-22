@@ -9,7 +9,7 @@
 module purge
 module load python
 
-input_file="/scratch/group/pract-txt-mine/sbuongiorno/congress_app_data_dated.csv"
+input_file="congress_app_data_dated.csv"
 py_script="congress_collocates.py"
 
 work_directory="${SLURM_JOB_NAME}_${SLURM_ARRAY_JOB_ID}"
