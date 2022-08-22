@@ -13,7 +13,7 @@ input_file="congress_app_data.csv"
 py_script="extract_collocates.py"
 
 work_directory="${SLURM_JOB_NAME}_${SLURM_ARRAY_JOB_ID}"
-csv_chunk=$(printf "csv_chunk.%05d" ${SLURM_ARRAY_TASK_ID})
+csv_chunk=$(printf "/dev/shm/csv_chunk.%d.%05d" ${SLURM_ARRAY_JOB_ID} ${SLURM_ARRAY_TASK_ID})
 if [ ${SLURM_ARRAY_TASK_ID} -eq ${SLURM_ARRAY_TASK_MIN} ]; then
     mkdir -p ${work_directory}
     cd ${work_directory}
@@ -33,3 +33,5 @@ cat csv_header \
     > ${csv_chunk}
 
 python ${py_script} ${csv_chunk}
+
+rm ${csv_chunk}
