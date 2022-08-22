@@ -240,7 +240,7 @@ if __name__ == '__main__':
 
         #handle = open(str(path.parent) + '/' + export_fname + '.pickle', 'wb')
         
-        handle = open(str('/users/sbuongiorno/' + str(input_file) + '.pickle', 'wb'))
+        handle = open(str('/users/sbuongiorno/' + input_file + '.pickle', 'wb'))
 
         pickle.dump(data, handle)
         print('Exported data as {}'.format(handle))
