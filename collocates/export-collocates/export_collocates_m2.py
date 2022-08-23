@@ -220,6 +220,7 @@ if __name__ == '__main__':
     else:
         try:
             input_file = sys.argv[1]
+            job_id = sys.argv[2]
             extraction_col = 'sentence'
             year_col = 'year'
         except IndexError:
@@ -237,6 +238,7 @@ if __name__ == '__main__':
         
         export_fname = str(path).split('/')[-1]
         export_fname = os.path.splitext(export_fname)[0]
+        export_fname = export_fname + str(job_id)
 
         #handle = open(str(path.parent) + '/' + export_fname + '.pickle', 'wb')
         
