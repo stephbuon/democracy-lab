@@ -32,6 +32,6 @@ cat csv_header \
             csv_no_header.csv) \
     > ${csv_chunk}
 
-python ${py_script} ${csv_chunk}
+python ${py_script} ${csv_chunk} ${SLURM_ARRAY_JOB_ID}
 
 rm ${csv_chunk}
