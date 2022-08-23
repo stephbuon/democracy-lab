@@ -238,7 +238,7 @@ if __name__ == '__main__':
         
         export_fname = str(path).split('/')[-1]
         export_fname = os.path.splitext(export_fname)[0]
-        export_fname = export_fname + str(job_id)
+        export_fname = export_fname + '_' + str(job_id)
 
         #handle = open(str(path.parent) + '/' + export_fname + '.pickle', 'wb')
         
