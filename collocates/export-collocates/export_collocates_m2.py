@@ -104,7 +104,8 @@ class collocate_analysis:
                     if token.dep == nsubj or nsubjpass or dobj or pobj:
                         for child in token.children:
                             if child.dep_ == 'amod':
-                                collocates.append(str(token.text) + ' ' + str(child))
+                                collocates.append(str(child) + ' ' + str(token.text))
+                                #collocates.append(str(token.text) + ' ' + str(child))
                         
                 collocates_df = collocate_analysis.make_collocates_df(collocates, year, regex)
             
@@ -129,7 +130,8 @@ class collocate_analysis:
                 collocates = []
                 for token in doc:
                     if token.text != token.head.text:
-                        collocates.append(str(token.text) + ' ' + str(token.head.text))
+                        #collocates.append(str(token.text) + ' ' + str(token.head.text))
+                        collocates.append(str(token.head.text) + ' ' + str(token.text))
                 
                     for child in token.children:
                         collocates.append(str(token.text) + ' ' + str(child))
@@ -200,7 +202,7 @@ def main(input_file, extraction_col, year_col, **kwargs):
     
     data = dict_keyword_lookup(data, keywords) # filter for setnences that contain 
     
-    data = collocate_analysis.extract_grammatical_collocates(data, keywords_list=keywords)
+    data = collocate_analysis.extract_nouns_and_modifiers(data, keywords_list=keywords)
     
     data = sentiment_score_df(data, 'grammatical_collocates')
     
