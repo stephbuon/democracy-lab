@@ -1,4 +1,3 @@
-
 #!/bin/bash
 #SBATCH -J NER
 #SBATCH -o NER_%A-%a.out
