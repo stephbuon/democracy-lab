@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import sys
 import os
 import pickle
@@ -9,6 +7,14 @@ import pandas as pd
 
 import spacy
 from spacy.symbols import nsubj, nsubjpass, dobj, pobj
+
+from pathlib import Path
+
+from afinn import Afinn
+from textblob import TextBlob
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from nltk.corpus import sentiwordnet as swn
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 nlp = spacy.load('en_core_web_sm', disable=['ner'])
 
@@ -166,12 +172,6 @@ def dict_keyword_lookup(dic, keywords_list):
 
 import pandas as pd
 
-from afinn import Afinn
-from textblob import TextBlob
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from nltk.corpus import sentiwordnet as swn
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
 def afinn_sentiment(text):
     return Afinn().score(text)
 
@@ -208,30 +208,20 @@ def main(input_file, extraction_col, year_col, **kwargs):
     
     return data
 
-#python name.py full_hansard_sample text year keywords
-
 if __name__ == '__main__':
-    debug = False
     
-    if debug == True:
-        input_file = '/users/sbuongiorno/hansard_samples/full_hansard_sample.csv'
-        extraction_col = 'text'
+    try:
+        input_file = sys.argv[1]
+        job_id = sys.argv[2]
+        extraction_col = 'sentence'
         year_col = 'year'
-        keywords = 'friend'
+    except IndexError:
+        exit('Missing input file argument')
             
-    else:
-        try:
-            input_file = sys.argv[1]
-            job_id = sys.argv[2]
-            extraction_col = 'sentence'
-            year_col = 'year'
-        except IndexError:
-            exit('Missing input file argument')
-            
-        try:
-            keywords = sys.argv[4]
-        except:
-            keywords = None
+    try:
+        keywords = sys.argv[4]
+    except:
+        keywords = None
         
     data = main(input_file, extraction_col, year_col, keywords = keywords)
     
