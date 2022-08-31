@@ -2,6 +2,8 @@ import glob
 import pickle
 import pandas as pd
 
+# not growing a df in memory, growing it on disk 
+
 path = "/users/rkalescky/testing/users/sbuongiorno/05_spacy_parallel"
 pkls = glob.glob("{}/csv_chunk*.pickle".format(path))
 
