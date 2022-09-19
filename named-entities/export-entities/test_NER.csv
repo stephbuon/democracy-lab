@@ -1,8 +1,0 @@
-,speech_id,sentence,date,speaker,file,parsed_text,named_entities
-0,950094636,Let me state that the one sure way we can make it easy for Castro to continue to gain converts in Latin America is if we continue to support regimes of the ilk of the Somoza family,19770623,Mr. OBEY,06231977.txt,Let me state that the one sure way we can make it easy for Castro to continue to gain converts in Latin America is if we continue to support regimes of the ilk of the Somoza family,"[('one', 'CARDINAL'), ('Castro', 'PERSON'), ('Latin America', 'LOC'), ('Somoza', 'PERSON')]"
-1,950094636,That is how we encourage the growth of communism,19770623,Mr. OBEY,06231977.txt,That is how we encourage the growth of communism,[]
-2,950094636,That is how we discourage the growth of democracy in Latin America,19770623,Mr. OBEY,06231977.txt,That is how we discourage the growth of democracy in Latin America,"[('Latin America', 'LOC'), ('Anty', 'LOC')]"
-3,950094636,Mr Chairman,19770623,Mr. OBEY,06231977.txt,Mr Chairman,[]
-4,950094636,given the speeches I have made lately about the press,19770623,Mr. OBEY,06231977.txt,given the speeches I have made lately about the press,[]
-5,950094636,I am not one,19770623,Mr. OBEY,06231977.txt,I am not one,[]
-6,950094636,I suppose,19770623,Mr. OBEY,06231977.txt,I suppose,[]
