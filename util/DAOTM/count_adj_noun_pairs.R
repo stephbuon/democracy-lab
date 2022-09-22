@@ -35,16 +35,26 @@ for(d in decades) {
   adjective_noun_pairs$adj_noun_pair <- str_to_lower(adjective_noun_pairs$adj_noun_pair)  
   
   adjective_noun_pairs$adj_noun_pair <- str_replace(adjective_noun_pairs$adj_noun_pair, "women", "woman")
-
+  
   adjective_noun_pairs <- adjective_noun_pairs %>% 
-    filter(str_detect(adj_noun_pair, "ignorant(.*)woman$"))
-
+    filter(str_detect(adj_noun_pair, regex("ignorant(.*)woman")))
+  
   adjective_noun_pairs <- adjective_noun_pairs %>% 
     count(adj_noun_pair) %>%
     mutate(decade = paste(d))
   
   out <- bind_rows(out, adjective_noun_pairs)
-  }
+}
+
+k <- out 
+
+dput(k)
+
+ignorant_woman_df <- structure(list(adj_noun_pair = c("ignorant woman", "ignorant woman", 
+                                      "ignorant woman", "ignorant womanhood", "ignorant woman", "ignorant woman", 
+                                      "ignorant woman"), n = c(1L, 2L, 2L, 1L, 2L, 1L, 3L), decade = c("1830", 
+                                                                                                       "1840", "1870", "1870", "1880", "1890", "1900")), row.names = c(NA, 
+                                                                                                                                                                       -7L), class = "data.frame")
 
 ggplot(out, 
        aes(x = decade, y = n, group = 1)) +
