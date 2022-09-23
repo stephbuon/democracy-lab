@@ -1,4 +1,3 @@
-
 # if you do not already have posextractr installed, you will need to install it:
 # require(devtools)
 # install_github("stephbuon/posextractr")
@@ -9,6 +8,9 @@ library(posextractr)
 library(reticulate)
 
 posextract_initialize()
+
+#key_adjective <- "Wretched"
+key_adjective <- ""
 
 hansard <- fread("/home/stephbuon/data/hansard_justnine_w_year.csv") 
 
@@ -41,7 +43,7 @@ for(d in decades) {
   adjective_noun_pairs$adj_noun_pair <- str_replace(adjective_noun_pairs$adj_noun_pair, "woman's", "woman")
   
   adjective_noun_pairs <- adjective_noun_pairs %>% 
-    filter(str_detect(adj_noun_pair, regex("ignorant(.*)woman")))
+    filter(str_detect(adj_noun_pair, regex(paste0(key_adjective, "(.*)woman"), ignore_case = T)))
   
   adjective_noun_pairs <- adjective_noun_pairs %>% 
     count(adj_noun_pair) %>%
@@ -50,12 +52,14 @@ for(d in decades) {
   out <- bind_rows(out, adjective_noun_pairs)
 }
 
-ignorant_woman_df <- dput(out)
 
+ignorant_woman_df <- dput(out)
+  
+  
 ggplot(out, 
        aes(x = decade, y = n, group = 1)) +
   geom_line() + 
-  ggtitle("Count of the Adjective \"Ignorant\" Modifying Lemma \"Woman\"") 
+  ggtitle(paste0("Count of the Adjective \"", key_adjective, "\" Modifying Lemma \"Woman\""))
 
 ggsave("plot.png", dpi=700)
 
@@ -63,7 +67,7 @@ ggplot(out,
        aes(x = decade, y = n, group = 1)) +
   geom_line() + 
   geom_point() +
-  ggtitle("Count of the Adjective \"Ignorant\" Modifying Lemma \"Woman\"") 
+  ggtitle(paste0("Count of the Adjective \"", key_adjective, "\" Modifying Lemma \"Woman\""))
 
 ggsave("plot_w_dots.png", dpi=700)
 
@@ -71,6 +75,6 @@ ggplot(out,
        aes(x = decade, y = n, group = 1)) +
   geom_point() +
   geom_smooth() +
-  ggtitle("Count of the Adjective \"Ignorant\" Modifying Lemma \"Woman\"") 
+  ggtitle(paste0("Count of the Adjective \"", key_adjective, "\" Modifying Lemma \"Woman\""))
 
 ggsave("plot_w_smooth.png", dpi=700)
