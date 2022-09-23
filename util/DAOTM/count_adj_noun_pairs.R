@@ -10,7 +10,7 @@ library(reticulate)
 posextract_initialize()
 
 #key_adjective <- "Wretched"
-key_adjective <- ""
+key_adjective <- "" # does not work as expected
 
 hansard <- fread("/home/stephbuon/data/hansard_justnine_w_year.csv") 
 
@@ -43,7 +43,8 @@ for(d in decades) {
   adjective_noun_pairs$adj_noun_pair <- str_replace(adjective_noun_pairs$adj_noun_pair, "woman's", "woman")
   
   adjective_noun_pairs <- adjective_noun_pairs %>% 
-    filter(str_detect(adj_noun_pair, regex(paste0(key_adjective, "(.*)woman"), ignore_case = T)))
+    #filter(str_detect(adj_noun_pair, regex(paste0(key_adjective, "(.*)woman"), ignore_case = T))) 
+    filter(str_detect(adj_noun_pair, "(.*)woman"))
   
   adjective_noun_pairs <- adjective_noun_pairs %>% 
     count(adj_noun_pair) %>%
