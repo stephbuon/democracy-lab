@@ -35,6 +35,10 @@ for(d in decades) {
   adjective_noun_pairs$adj_noun_pair <- str_to_lower(adjective_noun_pairs$adj_noun_pair)  
   
   adjective_noun_pairs$adj_noun_pair <- str_replace(adjective_noun_pairs$adj_noun_pair, "women", "woman")
+  adjective_noun_pairs$adj_noun_pair <- str_replace(adjective_noun_pairs$adj_noun_pair, "womens'", "woman")
+  adjective_noun_pairs$adj_noun_pair <- str_replace(adjective_noun_pairs$adj_noun_pair, "women's", "woman")
+  adjective_noun_pairs$adj_noun_pair <- str_replace(adjective_noun_pairs$adj_noun_pair, "womans'", "woman")
+  adjective_noun_pairs$adj_noun_pair <- str_replace(adjective_noun_pairs$adj_noun_pair, "woman's", "woman")
   
   adjective_noun_pairs <- adjective_noun_pairs %>% 
     filter(str_detect(adj_noun_pair, regex("ignorant(.*)woman")))
